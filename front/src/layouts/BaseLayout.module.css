@@ -1,0 +1,27 @@
+.wrapper {
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    background-color: #eaeaea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.appWrapper {
+    width: 100%;
+    max-width: 500px;
+    min-height: 100vh;
+    height: 100%;
+    background-color: #fff;
+    position: relative;
+}
+
+.appContainer {
+    width: calc(100% - 24px);
+    height: 100%;
+    min-height: 100vh;
+    position: relative;
+    margin: 0 auto;
+    padding-top: 60px;
+}
