@@ -1,0 +1,31 @@
+.input {
+    border: 1px solid #E7E7E7;
+    height: 50px;
+    padding: 15px 13px;
+    color: #222222;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.input::placeholder {
+    color: var(--font-grey, #929294);
+}
+
+.one {
+    border-radius: 4px;
+    width: 100%;
+}
+
+.top {
+    border-radius: 4px 4px 0px 0px;
+    border-bottom: 0;
+}
+
+.mid {
+    border-radius: 0;
+    border-bottom: 0;
+}
+
+.bottom {
+    border-radius: 0px 0px 4px 4px;
+}
