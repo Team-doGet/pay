@@ -1,0 +1,34 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    color: #39C4FF;
+}
+
+.text {
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+
+    &>span {
+        font-size: 14px;
+        font-weight: 500;
+        margin-right: 3px;
+    }
+}
+
+.required {
+    color: var(--main, #39C4FF);
+}
+
+.option {
+    color: var(--font-grey, #929294);
+}

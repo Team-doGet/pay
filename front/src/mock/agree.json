@@ -1,0 +1,17 @@
+[
+    {
+        "title": "이용약관",
+        "type": "required",
+        "isChecked": false
+    },
+    {
+        "title": "개인정보 수집 및 이용",
+        "type": "required",
+        "isChecked": false
+    },
+    {
+        "title": "이벤트・혜택 정보 수신",
+        "type": "option",
+        "isChecked": false
+    }
+]

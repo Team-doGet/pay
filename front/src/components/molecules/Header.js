@@ -1,23 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import appHeader from './AppHeader.module.css';
+import Header_ from './Header.module.css';
 
-const AppHeader = ({ title, isBack, targetUrl = -1 }) => {
+const Header = ({ title, isBack, targetUrl = -1 }) => {
     const navigate = useNavigate();
 
     return (
-        <div className={appHeader.titleHeader}>
+        <div className={Header_.wrapper}>
             {isBack && (
                 <img
-                    className={appHeader.historyBackImg}
+                    className={Header_.button}
                     onClick={() => navigate(targetUrl, { replace: true })}
                     src="/assets/img/common/backBtn.svg"
                     alt=""
                 />
             )}
-            <span className={appHeader.titleText}>{title}</span>
+            <span className={Header_.text}>{title}</span>
         </div>
     );
 };
 
-export default AppHeader;
+export default Header;

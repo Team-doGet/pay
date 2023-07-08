@@ -1,20 +1,23 @@
-.titleHeader {
+.wrapper {
     width: 100%;
+    max-width: 500px;
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    left: 0;
     top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 97;
 }
 
-.titleText {
+.text {
     font-size: 16px;
     font-weight: 700;
 }
 
-.historyBackImg {
+.button {
     cursor: pointer;
     position: absolute;
     left: 13px;

@@ -6,6 +6,8 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    border: none;
+    background: none;
 }
 
 a {
@@ -14,4 +16,8 @@ a {
 
 input:focus {
     outline: none;
+}
+
+button {
+    cursor: pointer;
 }
