@@ -1,7 +1,7 @@
 .darkBg {
     width: 100vw;
     max-width: 500px;
-    height: 100vh;
+    height: 100%;
     background: rgba(0, 0, 0, 0.50);
     position: absolute;
     z-index: 99;
