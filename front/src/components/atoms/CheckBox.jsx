@@ -1,6 +1,6 @@
 import React from 'react';
 import { RiCheckboxFill, RiCheckboxBlankLine } from 'react-icons/ri';
-import checkBox from './css/CheckBox.module.css';
+import checkBox from './CheckBox.module.css';
 
 const CheckBox = ({ checked, setChecked, type = '', children }) => {
     return (

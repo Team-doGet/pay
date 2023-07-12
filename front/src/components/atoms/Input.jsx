@@ -1,7 +1,7 @@
 import React from 'react';
-import input from './css/Input.module.css';
+import input from './Input.module.css';
 
-const Input = ({ location, type, name, inputs, setInputsState, placholder }) => {
+const Input = ({ location, type, name, inputs, setInputsState, placeholder }) => {
     return (
         <input
             className={`${input.input} ${input[`${location}`]}`}
@@ -14,7 +14,7 @@ const Input = ({ location, type, name, inputs, setInputsState, placholder }) => 
                     [name]: value,
                 });
             }}
-            placeholder={placholder}
+            placeholder={placeholder}
         ></input>
     );
 };
