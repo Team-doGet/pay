@@ -1,6 +1,6 @@
 import 'normalize.css';
 import { BrowserRouter } from 'react-router-dom';
-import Router from './router';
+import Router from './router/index';
 
 function App() {
     return (

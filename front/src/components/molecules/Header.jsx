@@ -11,7 +11,7 @@ const Header = ({ title, isBack, targetUrl = -1 }) => {
                 <img
                     className={Header_.button}
                     onClick={() => navigate(targetUrl, { replace: true })}
-                    src="/assets/img/common/backBtn.svg"
+                    src={`${process.env.PUBLIC_URL}/assets/img/common/backBtn.svg`}
                     alt=""
                 />
             )}
