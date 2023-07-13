@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.imgContainer {
+    margin-bottom: calc(var(--vh, 1vh) * 4);
+    margin-top: calc(var(--vh, 1vh) * 19);
+    text-align: center;
+
+    &>img {
+        margin-bottom: calc(var(--vh, 1vh) * 1);
+    }
+
+    &>h4 {
+        color: var(--main, #39C4FF);
+        font-size: 20px;
+        font-weight: 500;
+    }
+}
+
+.contentContainer {
+    text-align: center;
+
+    &>p {
+        color: var(--font-grey, #929294);
+        margin-bottom: calc(var(--vh, 1vh) * 1);
+        font-size: 16px;
+        font-weight: 500;
+    }
+}
