@@ -1,12 +1,13 @@
 import React from 'react';
 import { useRoutes } from 'react-router-dom';
-import BaseLayout from '../layouts/BaseLayout';
 import ComponentsTest from '../components/ComponentsTest';
 import SimplePassword from '../components/organisms/SimplePassword';
 import Header from '../components/molecules/Header';
 import TotalLayout from '../layouts/TotalLayout';
 import LoginPage from '../pages/LoginPage';
-import JoinInfoPage from '../pages/JoinInfoPage';
+import JoinInfoPage from '../pages/join/JoinInfoPage';
+import JoinSuccessPage from '../pages/join/JoinSuccessPage';
+import ResultPage from '../pages/result/ResultPage';
 
 const Router = () => {
     const routes = [
@@ -16,7 +17,7 @@ const Router = () => {
             children: [
                 {
                     path: '',
-                    element: [<Header title="정보입력" isBack={true} />, <ComponentsTest />],
+                    element: [<Header title="컴포넌트 테스트" isBack={true} />, <ComponentsTest />],
                 },
             ],
         },
@@ -45,6 +46,20 @@ const Router = () => {
                 {
                     path: 'info',
                     element: [<Header title="정보입력" isBack={true} />, <JoinInfoPage />],
+                },
+                {
+                    path: 'success',
+                    element: [<Header title="회원가입 완료" isBack={true} />, <JoinSuccessPage />],
+                },
+            ],
+        },
+        {
+            path: '/result',
+            element: <TotalLayout />,
+            children: [
+                {
+                    path: '',
+                    element: [<ResultPage />],
                 },
             ],
         },
