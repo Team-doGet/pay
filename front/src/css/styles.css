@@ -1,7 +1,7 @@
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
 * {
-    font-family: "Spoqa Han Sans Neo", "sans-serif";
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
     box-sizing: border-box;
     list-style: none;
     padding: 0;
@@ -12,6 +12,17 @@
 
 a {
     text-decoration: none;
+}
+
+a {
+    color: #353535;
+    text-decoration: none;
+    outline: none;
+}
+a:hover,
+a:active {
+    text-decoration: none;
+    color: #353535;
 }
 
 input:focus {
