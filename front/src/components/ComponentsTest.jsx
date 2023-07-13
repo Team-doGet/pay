@@ -4,7 +4,7 @@ import Button from './atoms/Button';
 import CheckBox from './atoms/CheckBox';
 import agreeData from '../mock/agree.json';
 import Input from './atoms/Input';
-import Modal from './Modal/Modal';
+import Modal from './etc/Modal/Modal';
 import Header from './molecules/Header';
 import { useNavigate } from 'react-router';
 

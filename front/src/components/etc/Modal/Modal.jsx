@@ -1,6 +1,6 @@
 import React from 'react';
 import modal from './Modal.module.css';
-import Button from '../atoms/Button';
+import Button from '../../atoms/Button';
 
 const Modal = ({ title, content, cancel = false, handler, setShowModal }) => {
     return (
