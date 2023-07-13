@@ -1,0 +1,10 @@
+.container {
+    position: absolute;
+    width: 100%;
+    bottom: 15px;
+}
+
+.twoContainer {
+    display: flex;
+    gap: 4%;
+}
