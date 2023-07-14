@@ -10,6 +10,11 @@ import JoinSuccessPage from '../pages/join/JoinSuccessPage';
 import ResultPage from '../pages/result/ResultPage';
 import ErrorPage from '../pages/ErrorPage';
 import JoinAgreePage from '../pages/join/JoinAgreePage';
+import ChargePage from '../pages/pay/ChargePage';
+import WithdrawPage from '../pages/pay/WithdrawPage';
+import PayPage from '../pages/pay/PayPage';
+import TransferPage from '../pages/pay/TransferPage';
+import CollectPage from '../pages/pay/CollectPage';
 
 const Router = () => {
     const routes = [
@@ -52,6 +57,32 @@ const Router = () => {
                 {
                     path: 'success',
                     element: [<Header title="회원가입 완료" isBack={true} />, <JoinSuccessPage />],
+                },
+            ],
+        },
+        {
+            path: '/pay',
+            element: <TotalLayout />,
+            children: [
+                {
+                    path: 'charge',
+                    element: [<Header title="충전하기" isBack={true} />, <ChargePage />],
+                },
+                {
+                    path: 'withdraw',
+                    element: [<Header title="인출하기" isBack={true} />, <WithdrawPage />],
+                },
+                {
+                    path: 'pay',
+                    element: [<Header title="결제" isBack={true} targetUrl={'/'} />, <PayPage />],
+                },
+                {
+                    path: 'transfer',
+                    element: [<Header title="송금" isBack={true} targetUrl={'/'} />, <TransferPage />],
+                },
+                {
+                    path: 'collect',
+                    element: [<Header title="수금" isBack={true} />, <CollectPage />],
                 },
             ],
         },
