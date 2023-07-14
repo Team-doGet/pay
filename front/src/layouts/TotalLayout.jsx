@@ -1,15 +1,20 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import BaseLayout from './BaseLayout';
-import Header from '../components/molecules/Header';
+import { modalState } from '../states/modalState';
+import { useRecoilValue } from 'recoil';
+import Modal from '../components/etc/Modal/Modal';
 
-const TotalLayout = ({ isHeader, title, isBack, targetUrl }) => {
+const TotalLayout = () => {
+    const { show } = useRecoilValue(modalState);
+
     return (
         <>
-            {/* {isHeader && <Header title={title} isBack={isBack} targetUrl={targetUrl && targetUrl} />} */}
             <BaseLayout>
                 <Outlet />
             </BaseLayout>
+
+            {show && <Modal />}
         </>
     );
 };
