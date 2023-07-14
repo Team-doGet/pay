@@ -1,0 +1,90 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-top: 30px;
+}
+
+.title {
+    color: var(--font-black, #222);
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.shopContainer {}
+
+.shopInfo {
+    display: flex;
+    align-items: center;
+}
+
+.shopInfo>svg {
+    margin-right: 12px;
+}
+
+.shopInfo>span {}
+
+.amountContainer {}
+
+.amountContainer>h4 {}
+
+.amountContainer>div {
+    margin-bottom: 5px;
+}
+
+.amountContainer>div>input {
+    width: 100%;
+    border-bottom: 2px solid #39C4FF;
+    padding-bottom: 4px;
+    font-size: 16px;
+}
+
+.amountContainer>p {
+    color: var(--font-black, #222);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.msgContainer {}
+
+.msgContainer>h4 {}
+
+.msgContainer>div {}
+
+.noticeContainer>h4 {}
+
+.noticeContainer>div {}
+
+.noticeContainer>div>p {
+    color: var(--font-grey, #929294);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.btnContainer {
+
+    position: absolute;
+    width: 100%;
+    bottom: 15px;
+    height: 50px;
+}
+
+.btnContainer>button {
+    border-radius: 4px;
+    background: var(--main, #39C4FF);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btnContainer>button>svg {}
+
+.btnContainer>button>span {
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 400;
+}
