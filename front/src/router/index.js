@@ -9,6 +9,7 @@ import JoinInfoPage from '../pages/join/JoinInfoPage';
 import JoinSuccessPage from '../pages/join/JoinSuccessPage';
 import ResultPage from '../pages/result/ResultPage';
 import ErrorPage from '../pages/ErrorPage';
+import JoinAgreePage from '../pages/join/JoinAgreePage';
 
 const Router = () => {
     const routes = [
@@ -42,7 +43,7 @@ const Router = () => {
             children: [
                 {
                     path: 'agree',
-                    element: <SimplePassword />,
+                    element: [<Header title="약관 동의" isBack={true} />, <JoinAgreePage />],
                 },
                 {
                     path: 'info',
