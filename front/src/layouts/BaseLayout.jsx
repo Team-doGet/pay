@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
 import Base from './BaseLayout.module.css';
 import useViewHeight from '../hooks/useViewHeight';
-import { Outlet } from 'react-router-dom';
 
 const BaseLayout = ({ children }) => {
     useViewHeight();
