@@ -1,0 +1,23 @@
+.logoContainer {
+    margin-top: calc(var(--vh, 1vh) * 20);
+    display: flex;
+    justify-content: center;
+}
+
+.content {
+    padding-top: calc(var(--vh, 1vh) * 5);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: calc(var(--vh, 1vh) * 43);
+    color: var(--font-black, #222);
+    font-family: Noto Sans KR;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.content > p {
+}
