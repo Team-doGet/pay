@@ -8,11 +8,12 @@ import LoginPage from '../pages/LoginPage';
 import JoinInfoPage from '../pages/join/JoinInfoPage';
 import JoinSuccessPage from '../pages/join/JoinSuccessPage';
 import ResultPage from '../pages/result/ResultPage';
+import ErrorPage from '../pages/ErrorPage';
 
 const Router = () => {
     const routes = [
         {
-            path: '/components',
+            path: '/',
             element: <TotalLayout />,
             children: [
                 {
@@ -60,6 +61,16 @@ const Router = () => {
                 {
                     path: '',
                     element: [<ResultPage />],
+                },
+            ],
+        },
+        {
+            path: '/error',
+            element: <TotalLayout />,
+            children: [
+                {
+                    path: '',
+                    element: [<Header title="에러" isBack={false} />, <ErrorPage />],
                 },
             ],
         },
