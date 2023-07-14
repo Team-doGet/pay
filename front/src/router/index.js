@@ -15,6 +15,9 @@ import WithdrawPage from '../pages/pay/WithdrawPage';
 import PayPage from '../pages/pay/PayPage';
 import TransferPage from '../pages/pay/TransferPage';
 import CollectPage from '../pages/pay/CollectPage';
+import AccountAddAgreePage from '../pages/account/AccountAddAgreePage';
+import AccountAddInfoPage from '../pages/account/AccountAddInfoPage';
+import AccountAddAuthPage from '../pages/account/AccountAddAuthPage';
 
 const Router = () => {
     const routes = [
@@ -103,6 +106,24 @@ const Router = () => {
                 {
                     path: '',
                     element: [<Header title="에러" isBack={false} />, <ErrorPage />],
+                },
+            ],
+        },
+        {
+            path: '/account',
+            element: <TotalLayout />,
+            children: [
+                {
+                    path: 'add/agree',
+                    element: [<Header title="약관 동의" isBack={true} />, <AccountAddAgreePage />],
+                },
+                {
+                    path: 'add/info',
+                    element: [<Header title="간편결제 계좌 연결" isBack={true} />, <AccountAddInfoPage />],
+                },
+                {
+                    path: 'add/auth',
+                    element: [<Header title="계좌로 본인 인증" isBack={false} />, <AccountAddAuthPage />],
                 },
             ],
         },

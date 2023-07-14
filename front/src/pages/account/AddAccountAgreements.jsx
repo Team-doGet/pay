@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import CheckBox from '../../atoms/CheckBox';
-import joinAgreeData from '../../../mock/joinAgree.json';
-import Agreement from './Agreements.module.css';
+import CheckBox from '../../components/atoms/CheckBox';
+import addAcountAgreeData from '../../mock/accountAgree.json';
+import Agreement from '../../components/molecules/agree/Agreements.module.css';
 
-const Agreements = () => {
+const AddAccountAgreements = () => {
     const [checked, setChecked] = useState([]);
     const [isAllChecked, SetIsAllChecked] = useState(false);
 
@@ -19,7 +19,7 @@ const Agreements = () => {
     };
 
     useEffect(() => {
-        setChecked(joinAgreeData);
+        setChecked(addAcountAgreeData);
     }, []);
 
     const allCheckBoxHandler = () => {
@@ -48,4 +48,4 @@ const Agreements = () => {
     );
 };
 
-export default Agreements;
+export default AddAccountAgreements;

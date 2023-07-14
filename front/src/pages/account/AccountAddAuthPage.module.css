@@ -1,0 +1,44 @@
+.one {
+    color: var(--font-black, #222);
+    font-family: Noto Sans KR;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.input {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.blue {
+    color: var(--main, #39c4ff);
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.two {
+    color: var(--font-black, #222);
+    font-family: Noto Sans KR;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.bottom {
+    display: flex;
+    justify-content: flex-end;
+    color: #ff3f3f;
+    font-family: Noto Sans KR;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
