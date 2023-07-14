@@ -1,0 +1,35 @@
+.topInputContainer {
+    padding-top: 56px;
+}
+
+.topInputContainer > div > input {
+    width: 100%;
+}
+.bottomInputContainer > div > input {
+    width: 100%;
+}
+
+.inputWithButton > div {
+    display: flex;
+}
+.inputWithButton > div > input {
+    width: 80%;
+}
+.inputWithButton > div > div {
+    width: 20%;
+}
+
+.bottomInputContainer {
+    padding-top: 30px;
+}
+
+.p_Color {
+    padding-top: 10px;
+    color: red;
+}
+
+.bottomButton {
+    bottom: 15px;
+    position: fixed;
+    width: 100%;
+}

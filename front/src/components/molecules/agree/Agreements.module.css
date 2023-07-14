@@ -1,0 +1,22 @@
+.allCheck {
+    padding-top: 30px;
+}
+.aboveCheckBox {
+    margin-top: 30px;
+}
+.content {
+    margin-bottom: 30px;
+    margin-top: 12px;
+}
+.content > textarea {
+    width: 100%;
+    resize: none;
+    border-radius: 4px;
+    border: 1px solid #e7e7e7;
+    padding: 12px;
+    height: 101px;
+}
+
+.content > textarea:focus {
+    outline: none;
+}
