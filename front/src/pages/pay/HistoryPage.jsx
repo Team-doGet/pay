@@ -19,7 +19,7 @@ const HistoryPage = () => {
                         <button>인출</button>
                     </div>
                 </div>
-                <div className={History_.historyContiner}>
+                <div className={History_.historyContainer}>
                     <div className={History_.filterButtonContainer}>
                         <button
                             className={History_.filterButton}

@@ -1,0 +1,88 @@
+.container {}
+
+.accountContainer {
+    margin-bottom: 1rem;
+}
+
+.accountList {}
+
+.accountWrapper {
+    padding: 0.7rem 0.77rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #929294;
+}
+
+.accountInfoContainer {}
+
+.accountInfoContainer>p {
+    color: #000;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.bankInfo {
+    display: flex;
+    gap: 0.62rem;
+    margin-bottom: 0.4rem;
+}
+
+.bankInfo>p {
+    color: var(--font-grey, #929294);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.bankInfo>img {
+    width: 0.9375rem;
+    height: 0.9375rem;
+}
+
+.accountConfigButton {
+    display: flex;
+    gap: 0.7rem;
+    align-items: center;
+}
+
+.accountConfigButton>button {
+    height: 1.875rem;
+    width: 4rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 0.25rem;
+}
+
+.accountDelete {
+    background: var(--main, #39C4FF);
+    color: #FFF;
+}
+
+.mainAccount {
+    border: 1px solid var(--main, #39C4FF);
+    background: var(--sub, #FFF);
+    color: var(--main, #39C4FF);
+}
+
+.accountAddContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.accountAddButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.accountAddButton>svg {}
+
+.accountAddButton>span {
+    color: var(--main, #39C4FF);
+    font-family: Noto Sans KR;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}

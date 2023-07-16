@@ -1,0 +1,152 @@
+.container {}
+
+.headerContainer {
+    display: flex;
+    height: 80px;
+    justify-content: space-between;
+}
+
+.headerContainer>button {
+    color: var(--font-black, #222);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.logoContainer {}
+
+.logoContainer>svg {
+    width: 80px;
+    height: 80px;
+}
+
+.moneyContainer {
+    height: 160px;
+    background: var(--main, #39C4FF);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.moneyContainer>h4 {
+    color: var(--sub, #FFF);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.moneyContainer>p {
+    color: var(--sub, #FFF);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-top: 1.63rem;
+    margin-bottom: 1.25rem;
+}
+
+.moneyButtonContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.moneyButtonContainer>button {
+    color: #FFF;
+    font-size: 1rem;
+    font-weight: 700;
+    width: 10.3125rem;
+    height: 2.5rem;
+    background: rgba(0, 0, 0, 0.50);
+}
+
+.moneyButtonContainer>button:first-of-type {
+    border-radius: 5px 0px 0px 5px;
+}
+
+.moneyButtonContainer>button:last-of-type {
+    border-radius: 0px 5px 5px 0px;
+}
+
+.menuContainer {
+    margin-top: 2.4rem;
+    margin-bottom: 3rem;
+}
+
+.menuList {
+    display: flex;
+    justify-content: space-between;
+}
+
+.menuWrapper {}
+
+.menuButton {}
+
+.menuButton>img {}
+
+.menuButton>p {
+    color: var(--font-black, #222);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 0.3rem;
+}
+
+.historyContainer {}
+
+.contahistoryContaineriner {}
+
+.historyHeader {
+    width: 22.875rem;
+    height: 3.125rem;
+    background: var(--main, #39C4FF);
+    color: var(--sub, #FFF);
+    font-size: 1.125rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+}
+
+
+
+.historyBox {}
+
+.historyList {}
+
+.historyWrapper {
+    border-bottom: 1px solid #D2D2D2;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.histroyContent {
+    display: flex;
+    gap: 20px;
+}
+
+.histroyContent>p:first-of-type {
+    color: var(--font-grey, #929294);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.histroyContent>p:last-of-type {
+    color: var(--font-black, #222);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.historyAmount {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.historyAmount>p:first-of-type {
+    color: var(--font-black, #222);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.historyAmount>p:last-of-type {
+    color: var(--font-grey, #929294);
+    font-size: 16px;
+    font-weight: 400;
+}

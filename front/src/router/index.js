@@ -19,6 +19,8 @@ import AccountAddAgreePage from '../pages/account/AccountAddAgreePage';
 import AccountAddInfoPage from '../pages/account/AccountAddInfoPage';
 import AccountAddAuthPage from '../pages/account/AccountAddAuthPage';
 import HistoryPage from '../pages/pay/HistoryPage';
+import AccountConfigPage from '../pages/account/AccountConfigPage';
+import MainPage from '../pages/MainPage';
 
 const Router = () => {
     const routes = [
@@ -28,13 +30,9 @@ const Router = () => {
             children: [
                 {
                     path: '',
-                    element: [<Header title="컴포넌트 테스트" isBack={true} />, <ComponentsTest />],
+                    element: [<MainPage />],
                 },
             ],
-        },
-        {
-            path: '/simple',
-            element: <SimplePassword />,
         },
         {
             path: '/login',
@@ -95,6 +93,43 @@ const Router = () => {
             ],
         },
         {
+            path: '/account',
+            children: [
+                {
+                    path: 'add',
+                    element: <TotalLayout />,
+                    children: [
+                        {
+                            path: 'agree',
+                            element: [<Header title="약관 동의" isBack={true} />, <AccountAddAgreePage />],
+                        },
+                        {
+                            path: 'info',
+                            element: [<Header title="간편결제 계좌 연결" isBack={true} />, <AccountAddInfoPage />],
+                        },
+                        {
+                            path: 'auth',
+                            element: [<Header title="계좌로 본인 인증" isBack={false} />, <AccountAddAuthPage />],
+                        },
+                    ],
+                },
+                {
+                    path: 'config',
+                    element: <TotalLayout />,
+                    children: [
+                        {
+                            path: '',
+                            element: [<Header title="계좌" isBack={true} />, <AccountConfigPage />],
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            path: '/simple',
+            element: <SimplePassword />,
+        },
+        {
             path: '/result',
             element: <TotalLayout />,
             children: [
@@ -115,20 +150,12 @@ const Router = () => {
             ],
         },
         {
-            path: '/account',
+            path: '/components',
             element: <TotalLayout />,
             children: [
                 {
-                    path: 'add/agree',
-                    element: [<Header title="약관 동의" isBack={true} />, <AccountAddAgreePage />],
-                },
-                {
-                    path: 'add/info',
-                    element: [<Header title="간편결제 계좌 연결" isBack={true} />, <AccountAddInfoPage />],
-                },
-                {
-                    path: 'add/auth',
-                    element: [<Header title="계좌로 본인 인증" isBack={false} />, <AccountAddAuthPage />],
+                    path: '',
+                    element: [<Header title="컴포넌트 테스트" isBack={true} />, <ComponentsTest />],
                 },
             ],
         },
