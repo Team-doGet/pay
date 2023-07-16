@@ -18,6 +18,7 @@ import CollectPage from '../pages/pay/CollectPage';
 import AccountAddAgreePage from '../pages/account/AccountAddAgreePage';
 import AccountAddInfoPage from '../pages/account/AccountAddInfoPage';
 import AccountAddAuthPage from '../pages/account/AccountAddAuthPage';
+import HistoryPage from '../pages/pay/HistoryPage';
 
 const Router = () => {
     const routes = [
@@ -86,6 +87,10 @@ const Router = () => {
                 {
                     path: 'collect',
                     element: [<Header title="수금" isBack={true} />, <CollectPage />],
+                },
+                {
+                    path: 'history',
+                    element: [<Header title="거래내역" isBack={true} />, <HistoryPage />],
                 },
             ],
         },
