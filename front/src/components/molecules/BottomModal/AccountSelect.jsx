@@ -3,9 +3,11 @@ import BottomModalLayout from '../../../layouts/BottomModalLayout';
 import { accountSelectState } from '../../../states/accountSelectState';
 import { useRecoilState } from 'recoil';
 import AccountSelect_ from './AccountSelect.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const AccountSelect = () => {
     const [accountSelect, setAccountSelect] = useRecoilState(accountSelectState);
+    const navigate = useNavigate();
 
     return (
         <BottomModalLayout>
@@ -32,7 +34,7 @@ const AccountSelect = () => {
                 </div>
             </div>
             <div className={AccountSelect_.acceptButton}>
-                <button>계좌 등록</button>
+                <button onClick={() => navigate('/account/add/agree')}>계좌 등록</button>
             </div>
         </BottomModalLayout>
     );
