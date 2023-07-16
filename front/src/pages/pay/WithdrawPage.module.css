@@ -11,16 +11,32 @@
     font-weight: 500;
     line-height: normal;
 }
-
-.p > p {
-    margin-top: 10px;
-    margin-left: 5px;
+.title {
     color: var(--font-black, #222);
-    font-family: Noto Sans KR;
-    font-size: 12px;
-    font-style: normal;
+    font-size: 18px;
     font-weight: 500;
-    line-height: normal;
+    margin-bottom: 10px;
+}
+
+.amountContainer {
+    margin-top: 20px;
+}
+
+.amountContainer > div {
+    margin-bottom: 5px;
+}
+
+.amountContainer > div > input {
+    width: 100%;
+    border-bottom: 2px solid #39c4ff;
+    padding-bottom: 4px;
+    font-size: 16px;
+}
+
+.amountContainer > p {
+    color: var(--font-black, #222);
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .bottom {

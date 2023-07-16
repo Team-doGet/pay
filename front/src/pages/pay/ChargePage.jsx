@@ -20,16 +20,13 @@ const ChargePage = () => {
             <div className={Charge.top}>
                 <p>금액 설정은 만원 단위로 가능합니다.</p>
             </div>
-            <div>
-                <Input
-                    location="one"
-                    type="number"
-                    name="amount"
-                    inputs={inputAmount}
-                    setInputsState={setInputAmount}
-                    placeholder="충전 금액"
-                ></Input>
-                <p>페이머니 : 10,512원</p>
+
+            <div className={Charge.amountContainer}>
+                <h4 className={Charge.title}>충전금액</h4>
+                <div>
+                    <input type="number" placeholder="금액을 입력해주세요." />
+                </div>
+                <p>페이머니 : 10,000원</p>
             </div>
             <div className={Charge.bottom} onClick={() => setAccountSelect({ ...accountSelect, show: true })}>
                 <div className={Charge.sub}>출금 계좌</div>

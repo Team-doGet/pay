@@ -20,16 +20,12 @@ const WithdrawPage = () => {
             <div className={Withdraw.top}>
                 <p>금액 설정은 만원 단위로 가능합니다.</p>
             </div>
-            <div className={Withdraw.p}>
-                <Input
-                    location="one"
-                    type="number"
-                    name="amount"
-                    inputs={inputAmount}
-                    setInputsState={setInputAmount}
-                    placeholder="인출 금액"
-                ></Input>
-                <p>페이머니 : 10,512원</p>
+            <div className={Withdraw.amountContainer}>
+                <h4 className={Withdraw.title}>인출금액</h4>
+                <div>
+                    <input type="number" placeholder="금액을 입력해주세요." />
+                </div>
+                <p>페이머니 : 10,000원</p>
             </div>
             <div className={Withdraw.bottom} onClick={() => setAccountSelect({ ...accountSelect, show: true })}>
                 <div className={Withdraw.sub}>인출 받을 계좌</div>
