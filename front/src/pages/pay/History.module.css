@@ -1,0 +1,110 @@
+.conatiner {}
+
+.payContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+
+.payMoney {}
+
+.payMoney>h4 {
+    color: #000;
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.payButtonsContainer {
+    display: flex;
+    gap: 15px;
+}
+
+.payButtonsContainer>button {
+    width: 105px;
+    height: 50px;
+    border-radius: 4px;
+    background: var(--main, #39C4FF);
+    color: #FFF;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.historyContiner {}
+
+.filterButtonContainer {
+    position: relative;
+    height: 50px;
+    border-top: 1px solid #D2D2D2;
+    border-bottom: 1px solid #D2D2D2;
+}
+
+.filterButton {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: absolute;
+    right: 0;
+    padding: 15px 5px;
+    height: 100%;
+}
+
+.filterButton>p {
+    color: var(--font-grey, #929294);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.filterButton>svg {}
+
+.historyBox {}
+
+.historyList {}
+
+.historyWrapper {
+    border-bottom: 1px solid #D2D2D2;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.histroyContent {
+    display: flex;
+    gap: 20px;
+}
+
+.histroyContent>p:first-of-type {
+    color: var(--font-grey, #929294);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.histroyContent>p:last-of-type {
+    color: var(--font-black, #222);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.historyAmount {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.historyAmount>p:first-of-type {
+    color: var(--font-black, #222);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.historyAmount>p:last-of-type {
+    color: var(--font-grey, #929294);
+    font-size: 16px;
+    font-weight: 400;
+}

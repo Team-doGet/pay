@@ -3,9 +3,13 @@ import Input from '../../components/atoms/Input';
 import BottomButtons from '../../components/molecules/common/BottomButtons';
 import { useNavigate } from 'react-router-dom';
 import Withdraw from './WithdrawPage.module.css';
+import AccountSelect from '../../components/molecules/BottomModal/AccountSelect';
+import { useRecoilState } from 'recoil';
+import { accountSelectState } from '../../states/accountSelectState';
 
 const WithdrawPage = () => {
     const navigate = useNavigate();
+    const [accountSelect, setAccountSelect] = useRecoilState(accountSelectState);
 
     const [inputAmount, setInputAmount] = useState({
         amount: '',
@@ -19,7 +23,7 @@ const WithdrawPage = () => {
             <div className={Withdraw.p}>
                 <Input
                     location="one"
-                    type="text"
+                    type="number"
                     name="amount"
                     inputs={inputAmount}
                     setInputsState={setInputAmount}
@@ -27,7 +31,7 @@ const WithdrawPage = () => {
                 ></Input>
                 <p>페이머니 : 10,512원</p>
             </div>
-            <div className={Withdraw.bottom}>
+            <div className={Withdraw.bottom} onClick={() => setAccountSelect({ ...accountSelect, show: true })}>
                 <div className={Withdraw.sub}>인출 받을 계좌</div>
                 <div className={Withdraw.select}>
                     <div>IBK기업 234*****3234</div>
@@ -37,6 +41,7 @@ const WithdrawPage = () => {
                 </div>
             </div>
             <BottomButtons childrens={['인출하기']} handlers={[() => navigate('/withdraw/simplePassword')]} />
+            {accountSelect.show && <AccountSelect />}
         </>
     );
 };
