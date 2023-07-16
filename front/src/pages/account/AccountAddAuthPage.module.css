@@ -5,12 +5,15 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    margin-top: 1.81rem;
+    margin-bottom: 1.81rem;
+}
+
+.input {
     margin-top: 10px;
     margin-bottom: 10px;
-}
-.input {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    border-radius: 0.25rem;
+    border: 1px solid var(--main, #39C4FF);
 }
 
 .blue {
@@ -19,7 +22,7 @@
     font-family: Noto Sans KR;
     font-size: 18px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     line-height: normal;
 }
 
@@ -41,4 +44,43 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+}
+
+.examContainer {
+    display: flex;
+    border-radius: 0.25rem;
+    border: 1px solid #CCC;
+    background: #F4F4F4;
+    gap: 6.84rem;
+    padding: 0.5rem;
+    margin-top: 0.62rem;
+}
+
+.examTitle {
+    color: var(--font-grey, #929294);
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.examNameContainer {}
+
+.examNameContainer>p {}
+
+.examNameContainer>div {
+    display: flex;
+    gap: 0.53rem;
+    align-items: center;
+    margin-top: 0.19rem;
+}
+
+.examNameContainer>div>p {}
+
+.examNameContainer>div>svg {}
+
+.examAmountContainer {}
+
+.examAmountContainer>p:first-of-type {}
+
+.examAmountContainer>p:last-of-type {
+    margin-top: 0.19rem;
 }

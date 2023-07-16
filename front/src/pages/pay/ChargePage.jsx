@@ -3,9 +3,13 @@ import Input from '../../components/atoms/Input';
 import BottomButtons from '../../components/molecules/common/BottomButtons';
 import { useNavigate } from 'react-router-dom';
 import Charge from './ChargePage.module.css';
+import AccountSelect from '../../components/molecules/BottomModal/AccountSelect';
+import { accountSelectState } from '../../states/accountSelectState';
+import { useRecoilState } from 'recoil';
 
 const ChargePage = () => {
     const navigate = useNavigate();
+    const [accountSelect, setAccountSelect] = useRecoilState(accountSelectState);
 
     const [inputAmount, setInputAmount] = useState({
         amount: '',
@@ -19,14 +23,15 @@ const ChargePage = () => {
             <div>
                 <Input
                     location="one"
-                    type="text"
+                    type="number"
                     name="amount"
                     inputs={inputAmount}
                     setInputsState={setInputAmount}
                     placeholder="충전 금액"
                 ></Input>
+                <p>페이머니 : 10,512원</p>
             </div>
-            <div className={Charge.bottom}>
+            <div className={Charge.bottom} onClick={() => setAccountSelect({ ...accountSelect, show: true })}>
                 <div className={Charge.sub}>출금 계좌</div>
                 <div className={Charge.select}>
                     <div>IBK기업 234*****3234</div>
@@ -36,6 +41,7 @@ const ChargePage = () => {
                 </div>
             </div>
             <BottomButtons childrens={['충전하기']} handlers={[() => navigate('/charge/simplePassword')]} />
+            {accountSelect.show && <AccountSelect />}
         </>
     );
 };
