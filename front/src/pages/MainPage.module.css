@@ -44,13 +44,14 @@
 .moneyButtonContainer {
     display: flex;
     justify-content: space-between;
+    gap: 5%;
 }
 
 .moneyButtonContainer>button {
     color: #FFF;
     font-size: 1rem;
     font-weight: 700;
-    width: 10.3125rem;
+    width: 100%;
     height: 2.5rem;
     background: rgba(0, 0, 0, 0.50);
 }
@@ -70,7 +71,9 @@
 
 .menuList {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 1.5rem;
 }
 
 .menuWrapper {}
@@ -91,7 +94,6 @@
 .contahistoryContaineriner {}
 
 .historyHeader {
-    width: 22.875rem;
     height: 3.125rem;
     background: var(--main, #39C4FF);
     color: var(--sub, #FFF);
@@ -149,4 +151,19 @@
     color: var(--font-grey, #929294);
     font-size: 16px;
     font-weight: 400;
+}
+
+@media(max-width: 360px) {
+    .menuList {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 2.7rem;
+    }
+
+    .menuWrapper {
+        width: 30%;
+        display: flex;
+        justify-content: center;
+    }
 }
