@@ -6,7 +6,7 @@
 .icon {
     width: 24px;
     height: 24px;
-    color: #39C4FF;
+    color: #39c4ff;
 }
 
 .text {
@@ -17,16 +17,15 @@
     margin-left: 5px;
     display: flex;
     align-items: center;
-
-    &>span {
-        font-size: 14px;
-        font-weight: 500;
-        margin-right: 3px;
-    }
+}
+.text > span {
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 3px;
 }
 
 .required {
-    color: var(--main, #39C4FF);
+    color: var(--main, #39c4ff);
 }
 
 .option {

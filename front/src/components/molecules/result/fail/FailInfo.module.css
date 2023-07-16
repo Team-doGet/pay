@@ -8,25 +8,23 @@
     margin-bottom: calc(var(--vh, 1vh) * 4);
     margin-top: calc(var(--vh, 1vh) * 19);
     text-align: center;
+}
+.imgContainer > img {
+    margin-bottom: calc(var(--vh, 1vh) * 1);
+}
 
-    &>img {
-        margin-bottom: calc(var(--vh, 1vh) * 1);
-    }
-
-    &>h4 {
-        color: var(--main, #39C4FF);
-        font-size: 20px;
-        font-weight: 500;
-    }
+.imgContainer > h4 {
+    color: var(--main, #39c4ff);
+    font-size: 20px;
+    font-weight: 500;
 }
 
 .contentContainer {
     text-align: center;
-
-    &>p {
-        color: var(--font-grey, #929294);
-        margin-bottom: calc(var(--vh, 1vh) * 1);
-        font-size: 16px;
-        font-weight: 500;
-    }
+}
+.contentContainer > p {
+    color: var(--font-grey, #929294);
+    margin-bottom: calc(var(--vh, 1vh) * 1);
+    font-size: 16px;
+    font-weight: 500;
 }
