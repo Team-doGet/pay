@@ -1,4 +1,5 @@
-.container {}
+.container {
+}
 
 .headerContainer {
     display: flex;
@@ -6,36 +7,37 @@
     justify-content: space-between;
 }
 
-.headerContainer>button {
+.headerContainer > button {
     color: var(--font-black, #222);
     font-size: 1rem;
     font-weight: 500;
 }
 
-.logoContainer {}
+.logoContainer {
+}
 
-.logoContainer>svg {
+.logoContainer > svg {
     width: 80px;
     height: 80px;
 }
 
 .moneyContainer {
     height: 160px;
-    background: var(--main, #39C4FF);
+    background: var(--main, #39c4ff);
     border-radius: 10px;
     padding: 1rem;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
 }
 
-.moneyContainer>h4 {
-    color: var(--sub, #FFF);
+.moneyContainer > h4 {
+    color: var(--sub, #fff);
     font-size: 1rem;
     font-weight: 700;
 }
 
-.moneyContainer>p {
-    color: var(--sub, #FFF);
-    font-size: 1.4rem;
+.moneyContainer > p {
+    color: var(--sub, #fff);
+    font-size: 1.6rem;
     font-weight: 700;
     margin-top: 1.63rem;
     margin-bottom: 1.25rem;
@@ -47,26 +49,27 @@
     gap: 5%;
 }
 
-.moneyButtonContainer>button {
-    color: #FFF;
+.moneyButtonContainer > button {
+    color: #fff;
     font-size: 1rem;
     font-weight: 700;
     width: 100%;
     height: 2.5rem;
-    background: rgba(0, 0, 0, 0.50);
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
 }
 
-.moneyButtonContainer>button:first-of-type {
+/* .moneyButtonContainer>button:first-of-type {
     border-radius: 5px 0px 0px 5px;
 }
 
 .moneyButtonContainer>button:last-of-type {
     border-radius: 0px 5px 5px 0px;
-}
+} */
 
 .menuContainer {
     margin-top: 2.4rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2.3rem;
 }
 
 .menuList {
@@ -76,27 +79,32 @@
     gap: 1.5rem;
 }
 
-.menuWrapper {}
+.menuWrapper {
+}
 
-.menuButton {}
+.menuButton {
+}
 
-.menuButton>img {}
+.menuButton > img {
+}
 
-.menuButton>p {
+.menuButton > p {
     color: var(--font-black, #222);
     font-size: 1rem;
     font-weight: 700;
     margin-top: 0.3rem;
 }
 
-.historyContainer {}
+.historyContainer {
+}
 
-.contahistoryContaineriner {}
+.contahistoryContaineriner {
+}
 
 .historyHeader {
-    height: 3.125rem;
-    background: var(--main, #39C4FF);
-    color: var(--sub, #FFF);
+    height: 2.8rem;
+    background: var(--main, #39c4ff);
+    color: var(--sub, #fff);
     font-size: 1.125rem;
     font-weight: 700;
     display: flex;
@@ -104,14 +112,14 @@
     padding: 0.75rem;
 }
 
+.historyBox {
+}
 
-
-.historyBox {}
-
-.historyList {}
+.historyList {
+}
 
 .historyWrapper {
-    border-bottom: 1px solid #D2D2D2;
+    border-bottom: 1px solid #d2d2d2;
     padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -122,13 +130,13 @@
     gap: 20px;
 }
 
-.histroyContent>p:first-of-type {
+.histroyContent > p:first-of-type {
     color: var(--font-grey, #929294);
     font-size: 16px;
     font-weight: 500;
 }
 
-.histroyContent>p:last-of-type {
+.histroyContent > p:last-of-type {
     color: var(--font-black, #222);
     font-size: 16px;
     font-weight: 400;
@@ -141,19 +149,19 @@
     gap: 10px;
 }
 
-.historyAmount>p:first-of-type {
+.historyAmount > p:first-of-type {
     color: var(--font-black, #222);
     font-size: 18px;
     font-weight: 700;
 }
 
-.historyAmount>p:last-of-type {
+.historyAmount > p:last-of-type {
     color: var(--font-grey, #929294);
     font-size: 16px;
     font-weight: 400;
 }
 
-@media(max-width: 360px) {
+@media (max-width: 360px) {
     .menuList {
         display: flex;
         justify-content: center;

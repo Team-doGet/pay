@@ -27,6 +27,7 @@ const WithdrawPage = () => {
                 </div>
                 <p>페이머니 : 10,000원</p>
             </div>
+            <h4 className={Withdraw.title1}>계좌선택</h4>
             <div className={Withdraw.bottom} onClick={() => setAccountSelect({ ...accountSelect, show: true })}>
                 <div className={Withdraw.sub}>인출 받을 계좌</div>
                 <div className={Withdraw.select}>
