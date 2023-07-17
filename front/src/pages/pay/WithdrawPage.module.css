@@ -38,9 +38,15 @@
     font-size: 14px;
     font-weight: 500;
 }
+.title1 {
+    color: var(--font-black, #222);
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 40px;
+}
 
 .bottom {
-    margin-top: 20px;
+    margin-top: 10px;
     border-radius: 4px;
     border: 1px solid #e7e7e7;
 }
