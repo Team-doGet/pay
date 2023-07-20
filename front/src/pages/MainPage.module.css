@@ -5,12 +5,14 @@
     display: flex;
     height: 80px;
     justify-content: space-between;
+    align-items: center;
 }
 
-.headerContainer > button {
+.headerContainer > div > button {
     color: var(--font-black, #222);
     font-size: 1rem;
     font-weight: 500;
+    margin-left: 10px;
 }
 
 .logoContainer {

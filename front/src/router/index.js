@@ -21,6 +21,7 @@ import AccountAddAuthPage from '../pages/account/AccountAddAuthPage';
 import HistoryPage from '../pages/pay/HistoryPage';
 import AccountConfigPage from '../pages/account/AccountConfigPage';
 import MainPage from '../pages/MainPage';
+import MyPage from '../pages/join/MyPage';
 
 const Router = () => {
     const routes = [
@@ -31,6 +32,10 @@ const Router = () => {
                 {
                     path: '',
                     element: [<MainPage />],
+                },
+                {
+                    path: 'mypage',
+                    element: [<MyPage />],
                 },
             ],
         },
