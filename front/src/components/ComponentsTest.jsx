@@ -9,8 +9,11 @@ import Header from './molecules/Header';
 import { useNavigate } from 'react-router';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { modalState } from '../states/modalState';
+import useAxios from '../hooks/useAxios';
+import axios from 'axios';
 
 const ComponentsTest = () => {
+    const api = useAxios();
     const navigate = useNavigate();
     const [modal, setModal] = useRecoilState(modalState);
     const resetModalState = useResetRecoilState(modalState);
@@ -30,6 +33,24 @@ const ComponentsTest = () => {
     useEffect(() => {
         console.log(userInfo);
     }, [userInfo]);
+
+    // body에 데이터 담아 POST 요청
+    const apiPostHandler = () => {
+        api.post('/user/login', {
+            name: 'test2',
+            age: 30,
+        })
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+    };
+
+    // 쿼리스트링 GET 요청
+    const apiGetHandler = () => {
+        const boardNum = 1;
+        api.get(`/board/${boardNum}`)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+    };
 
     const checkBoxHandler = idx => {
         setChecked(
@@ -123,6 +144,10 @@ const ComponentsTest = () => {
             {/* <Header title="컴포넌트 테스트" isBack={true}></Header> */}
             {/* <BaseLayout> */}
             {/* 버튼 */}
+            <Button width="full" type="main" handler={() => apiPostHandler()}>
+                API 요청
+            </Button>
+            <br />
             <Button width="full" type="main" handler={() => successPageHandler()}>
                 완료 페이지
             </Button>
