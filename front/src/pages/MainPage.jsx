@@ -29,7 +29,10 @@ const MainPage = () => {
                             />
                         </svg>
                     </div>
-                    <button>로그아웃</button>
+                    <div>
+                        <button onClick={() => navigate('/mypage')}>마이페이지</button>
+                        <button>로그아웃</button>
+                    </div>
                 </div>
                 <div className={Main_.moneyContainer}>
                     <h4>머니</h4>

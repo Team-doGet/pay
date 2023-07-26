@@ -28,6 +28,7 @@ const ChargePage = () => {
                 </div>
                 <p>페이머니 : 10,000원</p>
             </div>
+            <h4 className={Charge.title1}>계좌선택</h4>
             <div className={Charge.bottom} onClick={() => setAccountSelect({ ...accountSelect, show: true })}>
                 <div className={Charge.sub}>출금 계좌</div>
                 <div className={Charge.select}>
