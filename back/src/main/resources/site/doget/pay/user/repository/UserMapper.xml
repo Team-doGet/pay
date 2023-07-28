@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.doget.pay.user.repository.UserMapper">
+
+  <select id="findByEmail" resultType="site.doget.pay.security.jwt.User">
+    SELECT email_no, password_no
+    FROM user_master
+    WHERE email_no = #{emailNo}
+  </select>
+
+  <select id="getUserInfo" resultType="site.doget.pay.user.DTO.LoginResultDTO">
+    SELECT user_id, email_no, user_name, phone_no
+    FROM user_master
+    WHERE email_no = #{emailNo}
+  </select>
+
+<!--  <insert id="save" useGeneratedKeys="true" keyProperty="id">-->
+<!--    insert into user (name, age)-->
+<!--    values (#{name}, #{age})-->
+<!--  </insert>-->
+
+
+</mapper>
