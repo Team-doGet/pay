@@ -3,12 +3,18 @@ package site.doget.pay.pay.transfer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import site.doget.pay.pay.common.CommonFailResponse;
+import site.doget.pay.pay.common.CommonResponse;
+import site.doget.pay.pay.common.CommonSuccessResponse;
+import site.doget.pay.pay.transfer.DTO.TransferAccountDTO;
+import site.doget.pay.pay.transfer.DTO.TransferDTO;
 import site.doget.pay.pay.transfer.service.TransferService;
-import site.doget.pay.pay.transfer.transferDTO.TransferRequestBody;
-import site.doget.pay.pay.transfer.transferDTO.TransferResponseBody;
+import site.doget.pay.pay.transfer.DTO.TransferReqDTO;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/transfer")
@@ -17,56 +23,62 @@ public class TransferController {
     @Autowired
     TransferService transferService;
 
+    /**
+     * userId를 통해 pay 계좌의 전체 잔액을 return
+     *
+     * @param paramMap userId:String
+     */
     @GetMapping ("/*")
     @ResponseBody
-    public int payTransfer(@RequestParam String userId) {
-        System.out.println(userId);
+    public CommonResponse payTransferGet(@RequestParam Map<String, Object> paramMap) {
 
-        // userID로 전체 잔액 return
-        // transferService.getUserNo(userId);
+        Optional<Long> senderAccountAmount = transferService.getPayAccount((String) paramMap.get("userId"));
 
-        return 10000;
+        // 계좌 유무
+        if(senderAccountAmount.isEmpty()) {
+            return new CommonFailResponse("해당 사용자가 없습니다");
+        }
+        return new CommonSuccessResponse(new TransferAccountDTO(senderAccountAmount.get()));
     }
 
     @PostMapping("/*")
     @ResponseBody
-    public TransferResponseBody payTransfer(@RequestBody TransferRequestBody tbody) {
-        TransferResponseBody tResBody = new TransferResponseBody();
+    public CommonResponse payTransferPost(@RequestBody Map<String, Object> paramMap) {
+        TransferReqDTO tReqDTO = new TransferReqDTO(paramMap);
 
-        showRequestBody(tbody);
+        String receiverPhone = tReqDTO.getReceiver();
 
-        String nowTime = getNowTime();
-        System.out.println("nowTime = " + nowTime);
-
-        System.out.println("findUser(tbody.getReceiver()) = " + transferService.findUser(tbody.getReceiver()));
-        // receiver 회원 일치 존재 여부 확인 - 에러처리
-        if(transferService.findUser(tbody.getReceiver()) == 0) {
-            //receiver 정보 없음
-            tResBody.setStatus(400);
-            tResBody.setMessage("받는 사람 정보가 없다.");
+        // receiver 회원 일치 존재 여부 확인
+        if(transferService.findUserByPhone(receiverPhone).isEmpty()) {
+            return new CommonFailResponse("존재하지않는 받는 사람 정보입니다.");
         }
 
-        // sender 페이 계좌 조회 후 잔액부족 여부 검사 - 에러처리
-        transferService.isNomoney(tbody.getSender());
+        // sender 페이 계좌 조회 후 잔액부족 여부 검사
+        Optional<Long> senderAccountAmount = transferService.getPayAccount(tReqDTO.getSender());
+        if(senderAccountAmount.isEmpty()) {
+            return new CommonFailResponse("페이 계좌 정보가 없습니다.");
+            // service 단 에러처리 catch
+        }
+        else if(senderAccountAmount.get() - tReqDTO.getAmount() < 0) {
+            return new CommonFailResponse("잔액 부족입니다.");
+        }
 
-        // 둘 다 확인 후 sender에서 돈 빼고, 임시 변수에 저장 후 receiver에 송금
-        int tempBank = transferService.getMoney();
-        transferService.addMoney();
+        // sender 페이계좌에서 출금, receiver 페이계좌에 충전
+        Integer withDraw = transferService.withDrawPayAccount(tReqDTO);
+        Integer chargePay = transferService.chargePayAccount(tReqDTO);
 
-        // 성공시 성공코드와 결과 반환
+        // 실패 시, Rollback
+        if(withDraw == 0 || chargePay == 0) {
+            return new CommonFailResponse("송금, 충전과정에서 문제 발생");
+        }
 
-        return tResBody;
-    }
+        // 성공시 성공코드 201과 결과 반환
+        TransferDTO tDTO = new TransferDTO(tReqDTO.getAmount(), getNowTime(),tReqDTO.getReceiver());
 
-    private void showRequestBody(TransferRequestBody tbody) {
-        System.out.println("------------RequestBody Test-------------");
-        System.out.println("tbody sender = " + tbody.getSender());
-        System.out.println("tbody receiver = " + tbody.getReceiver());
-        System.out.println("tbody amount = " + tbody.getAmount());
-        System.out.println("tbody message = " + tbody.getMessage());
+        return new CommonSuccessResponse(tDTO);
     }
 
     private String getNowTime() {
-        return new SimpleDateFormat("yyyyMMdd").format(new Date());
+        return new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date());
     }
 }

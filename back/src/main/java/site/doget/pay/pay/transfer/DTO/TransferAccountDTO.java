@@ -6,6 +6,6 @@ import lombok.Setter;
 
 @Getter @Setter
 @AllArgsConstructor
-public class PayAccountDTO {
+public class TransferAccountDTO {
     private long balance;
 }

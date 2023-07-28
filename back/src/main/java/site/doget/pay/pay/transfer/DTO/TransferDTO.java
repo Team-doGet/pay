@@ -1,4 +1,4 @@
-package site.doget.pay.pay.transfer.transferDTO;
+package site.doget.pay.pay.transfer.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,8 +6,9 @@ import lombok.Setter;
 
 @Getter @Setter
 @AllArgsConstructor
-public class TransferData {
+public class TransferDTO {
 
-    private int amount;
+    private long amount;
     private String date;
+    private String receiver;
 }

@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="site.doget.pay.pay.transfer.repository.TransferMapper">
-    <select id="findUserByEmail" parameterType="java.lang.String" resultType="Integer">
-        SELECT count(*) FROM user_master WHERE email_no = #{receiver}
+    <select id="findUserByPhone" parameterType="java.lang.String" resultType="Integer">
+        SELECT user_id FROM user_master WHERE phone_no = #{receiver}
     </select>
+    <select id="getPayAccount" parameterType="java.lang.String" resultType="Long">
+        SELECT paymoney_balance FROM pay_description WHERE user_id = #{sender}
+    </select>
+    <update id="withDrawPayAccount" parameterType="site.doget.pay.pay.transfer.DTO.TransferReqDTO">
+        UPDATE pay_description SET paymoney_balance = paymoney_balance - #{amount} WHERE pay_id = #{sender}
+    </update>
+    <update id="chargePayAccount" parameterType="site.doget.pay.pay.transfer.DTO.TransferReqDTO">
+        UPDATE pay_description SET paymoney_balance = paymoney_balance + #{amount} WHERE pay_id = #{receiver}
+    </update>
 </mapper>
