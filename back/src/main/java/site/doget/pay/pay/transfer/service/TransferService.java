@@ -3,29 +3,33 @@ package site.doget.pay.pay.transfer.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.doget.pay.pay.transfer.repository.TransferRepository;
+import site.doget.pay.pay.transfer.DTO.TransferReqDTO;
+import site.doget.pay.pay.transfer.repository.TransferMapper;
+
+import java.util.Optional;
 
 @Transactional
 @Service
 public class TransferService {
 
     @Autowired
-    TransferRepository mainMapper;
+    TransferMapper transferMapper;
 
-    public int findUser(String receiver) {
-        return mainMapper.findUser(receiver);
+    public Optional<Integer> findUserByPhone(String receiver) {
+        return transferMapper.findUserByPhone(receiver);
     }
 
-    public boolean isNomoney(String sender) {
-        mainMapper.isNoMoney(sender);
-        return true;
+    public Optional<Long> getPayAccount(String sender) {
+        return transferMapper.getPayAccount(sender);
     }
 
-    public int getMoney() {
-        return 1000;
+    public Integer withDrawPayAccount(TransferReqDTO tReqDTO) {
+        return transferMapper.withDrawPayAccount(tReqDTO);
     }
 
-    public void addMoney() {
+    public Integer chargePayAccount(TransferReqDTO tReqDTO) {
+        tReqDTO.setReceiver(transferMapper.getPayAccount(tReqDTO.getSender()).toString());
+        return transferMapper.chargePayAccount(tReqDTO);
     }
 }
 // ref
