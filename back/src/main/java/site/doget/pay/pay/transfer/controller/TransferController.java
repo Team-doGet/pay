@@ -46,36 +46,32 @@ public class TransferController {
     public CommonResponse payTransferPost(@RequestBody Map<String, Object> paramMap) {
         TransferReqDTO tReqDTO = new TransferReqDTO(paramMap);
 
-        String receiverPhone = tReqDTO.getReceiver();
+            // receiver 회원 일치 존재 여부 확인
+            if(transferService.findUserByPhone(tReqDTO.getReceiver()).isEmpty()) {
+                return new CommonFailResponse("존재하지않는 받는 사람 정보입니다.");
+            }
 
-        // receiver 회원 일치 존재 여부 확인
-        if(transferService.findUserByPhone(receiverPhone).isEmpty()) {
-            return new CommonFailResponse("존재하지않는 받는 사람 정보입니다.");
-        }
+            // sender 페이 계좌 조회 후 잔액부족 여부 검사
+            Optional<Long> senderAccountAmount = transferService.getPayAccount(tReqDTO.getSender());
+            if(senderAccountAmount.isEmpty()) {
+                return new CommonFailResponse("페이 계좌 정보가 없습니다.");
+                // service 단 에러처리 catch
+            }
+            else if(senderAccountAmount.get() - tReqDTO.getAmount() < 0) {
+                return new CommonFailResponse("잔액 부족입니다.");
+            }
 
-        // sender 페이 계좌 조회 후 잔액부족 여부 검사
-        Optional<Long> senderAccountAmount = transferService.getPayAccount(tReqDTO.getSender());
-        if(senderAccountAmount.isEmpty()) {
-            return new CommonFailResponse("페이 계좌 정보가 없습니다.");
-            // service 단 에러처리 catch
-        }
-        else if(senderAccountAmount.get() - tReqDTO.getAmount() < 0) {
-            return new CommonFailResponse("잔액 부족입니다.");
-        }
-
-        // sender 페이계좌에서 출금, receiver 페이계좌에 충전
-        Integer withDraw = transferService.withDrawPayAccount(tReqDTO);
-        Integer chargePay = transferService.chargePayAccount(tReqDTO);
-
-        // 실패 시, Rollback
-        if(withDraw == 0 || chargePay == 0) {
+        try {
+            // sender 페이계좌에서 출금, receiver 페이계좌에 충전
+            transferService.payTransferService(tReqDTO);
+        } catch (Exception e) {
             return new CommonFailResponse("송금, 충전과정에서 문제 발생");
+        } finally {
+            // 성공시 성공코드 201과 결과 반환
+            TransferDTO tDTO = new TransferDTO(tReqDTO.getAmount(), getNowTime(),tReqDTO.getReceiver());
+
+            return new CommonSuccessResponse(tDTO);
         }
-
-        // 성공시 성공코드 201과 결과 반환
-        TransferDTO tDTO = new TransferDTO(tReqDTO.getAmount(), getNowTime(),tReqDTO.getReceiver());
-
-        return new CommonSuccessResponse(tDTO);
     }
 
     private String getNowTime() {
