@@ -57,7 +57,7 @@ const MainPage = () => {
                             </button>
                         </li>
                         <li className={Main_.menuWrapper}>
-                            <button className={Main_.menuButton}>
+                            <button className={Main_.menuButton} onClick={() => navigate('/pay/transfer')}>
                                 <img src={`${process.env.PUBLIC_URL}/assets/img/main/transfer.svg`} alt="" />
                                 <p>송・수금</p>
                             </button>

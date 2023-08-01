@@ -1,13 +1,94 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Transfer_ from './TransferPage.module.css';
 import Input from '../../components/atoms/Input';
+import useAxios from '../../hooks/useAxios';
+import { useNavigate } from 'react-router-dom';
 
 const TransferPage = () => {
+    const api = useAxios();
+    const navigate = useNavigate();
+
+    //userId = sessionStorage.getItem('userId');
+
+    const [payBalance, setPayBalance] = useState(0);
     const [transferInputs, setTransferInputs] = useState({
-        phone: '',
+        sender: '2',
+        receiver: '',
         amount: 0,
         messsage: '',
     });
+
+    const transferGet = async() => {
+        const res = await api.get(`/transfer/?userId=${transferInputs.sender}`, transferInputs);
+        
+        if(res.data.status === 200) {
+            setPayBalance(res.data.data.balance);
+        }
+        else {
+            setPayBalance(-1);
+        }
+    }
+
+    const transfer = async() => {
+        const res = await api.post(`/transfer/`, transferInputs);
+
+        if(res.data.status === 200) {
+            // 완료 페이지 전환
+            navigate('/result', { 
+                state: {
+                    headerTitle: '결제완료',
+                    flag: 'success',
+                    info: [
+                        {
+                            title: '페이머니 잔액',
+                            content: '10,000원',
+                        },
+                        {
+                            title: '출금계좌 잔액',
+                            content: '10,000원',
+                        },
+                        {
+                            title: '출금계좌',
+                            content: 'IBK기업 234****3234',
+                        },
+                    ],
+                    buttons: {
+                        childrens: ['홈으로', '페이 머니 내역'],
+                        targetUrl: ['/', '/pay/history'],
+                    },
+                }});
+            // successPageHandler 에서 땡겨서 만들기
+        }
+        else {
+            // 에러 페이지 전환
+            navigate('/result', {
+                state: {
+                    headerTitle: '결제실패',
+                    flag: 'fail',
+                    info: {
+                        title: '결제가 실패되었습니다.',
+                        contents: ['머니가 부족합니다.', '머니 확인 후 다시 결제해주세요.'],
+                    },
+                    buttons: {
+                        childrens: ['홈으로', '충전하기'],
+                        targetUrl: ['/', '/pay/charge'],
+                    },
+                },
+            });
+        }
+    }
+
+    useEffect(() => {
+        (async () => {
+            //await setTransferInputs({...transferInputs, sender:'3'});
+            await transferGet();
+        })();
+    }, [])
+
+    useEffect(()=> {
+        //transferGet();
+    }, [transferInputs])
+
     return (
         <>
             <div className={Transfer_.container}>
@@ -17,7 +98,7 @@ const TransferPage = () => {
                         <Input
                             location="one"
                             type="text"
-                            name="phone"
+                            name="receiver"
                             inputs={transferInputs}
                             setInputsState={setTransferInputs}
                             placeholder="휴대폰번호 ('-'를 제외하고 입력하세요.)"
@@ -30,9 +111,9 @@ const TransferPage = () => {
                         <span>・금액이 맞는지 확인하셨나요?</span>
                     </div>
                     <div className={Transfer_.amountInputContainer}>
-                        <input type="number" placeholder="금액을 입력해주세요." />
+                        <input type="number" value={transferInputs.amount} placeholder="금액을 입력해주세요." onChange={(e) => setTransferInputs({...transferInputs, amount: e.target.value})}/>
                     </div>
-                    <p>페이머니 : 10,000원</p>
+                    <p>페이머니 : {payBalance.toLocaleString()}원</p>
                 </div>
                 <div className={Transfer_.msgContainer}>
                     <h4 className={Transfer_.title}>메시지</h4>
@@ -53,7 +134,7 @@ const TransferPage = () => {
                 </div>
             </div>
             <div className={Transfer_.btnContainer}>
-                <button>
+                <button onClick={() => transfer()}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                         <path
                             fill-rule="evenodd"
@@ -62,7 +143,7 @@ const TransferPage = () => {
                             fill="white"
                         />
                     </svg>
-                    <span>Pay 결제</span>
+                    <span>Pay 송금</span>
                 </button>
             </div>
         </>
