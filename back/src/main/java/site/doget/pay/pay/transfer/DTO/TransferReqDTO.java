@@ -20,7 +20,7 @@ public class TransferReqDTO {
     public  TransferReqDTO(Map<String, Object> paramMap) {
         this.sender = (String) paramMap.get("sender");
         this.receiver = (String) paramMap.get("receiver");
-        this.amount = Long.valueOf((int) paramMap.get("amount"));
+        this.amount = Long.valueOf(String.valueOf(paramMap.get("amount")));
         this.message = (String) paramMap.get("message");
     }
 }

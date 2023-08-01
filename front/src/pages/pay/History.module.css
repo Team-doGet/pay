@@ -9,7 +9,10 @@
     padding-bottom: 30px;
 }
 
-.payMoney {}
+.payMoney > h3{
+    text-align: center;
+    padding-bottom: 10px;
+}
 
 .payMoney>h4 {
     color: #000;
