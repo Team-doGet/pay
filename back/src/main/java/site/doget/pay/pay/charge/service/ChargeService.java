@@ -1,21 +1,28 @@
 package site.doget.pay.pay.charge.service;
 
-    import org.springframework.beans.factory.annotation.Autowired;
-    import org.springframework.stereotype.Service;
-    import org.springframework.transaction.annotation.Transactional;
-    import site.doget.pay.pay.charge.repository.ChargeMapper;
-    import site.doget.pay.pay.common.CommonFailResponse;
-    import site.doget.pay.pay.common.CommonResponse;
-    import site.doget.pay.pay.common.CommonSuccessResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import site.doget.pay.openAPI.dto.MessageDTO;
+import site.doget.pay.openAPI.service.SmsService;
+import site.doget.pay.pay.charge.repository.ChargeMapper;
+import site.doget.pay.pay.common.CommonFailResponse;
+import site.doget.pay.pay.common.CommonResponse;
+import site.doget.pay.pay.common.CommonSuccessResponse;
 
-    import java.util.HashMap;
-    import java.util.Map;
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 @Transactional
 @Service
 public class ChargeService {
+    DecimalFormat formatter = new DecimalFormat("###,###");
 
     private final ChargeMapper chargeMapper;
+
+    @Autowired
+    private SmsService smsService;
 
     @Autowired
     public ChargeService(ChargeMapper chargeMapper) {
@@ -23,7 +30,7 @@ public class ChargeService {
     }
 
     @Transactional
-    public CommonResponse processCharge(int payId, long amount){
+    public CommonResponse processCharge(int payId, long amount) throws Exception {
         if (amount <= 0) {
             return new CommonFailResponse("0 보다 큰 금액을 입력해주세요");
         }
@@ -59,6 +66,9 @@ public class ChargeService {
 
             Map<String, Object> response = new HashMap<>();
             response.put("paymoneyBalance", paymoneyBalance);
+
+            smsService.sendSms(new MessageDTO("01092510383", "[doGet-Pay]\n충전이 정상적으로 완료되었습니다.\n충전 금액 : " + formatter.format(amount)
+                + "원\n\n잔액 : " + formatter.format(paymoneyBalance) + "원"));
 
             return new CommonSuccessResponse(response);
         }
