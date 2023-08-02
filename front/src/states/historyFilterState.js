@@ -7,7 +7,6 @@ const historyFilterState = atom({
         period: 1,
         type: 1,
         orderby: 1,
-        id: '',
     },
 });
 

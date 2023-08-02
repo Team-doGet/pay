@@ -12,11 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import site.doget.pay.WebConfig;
 import site.doget.pay.security.jwt.JwtAuthenticationFilter;
 import site.doget.pay.security.jwt.JwtTokenProvider;
 
@@ -30,24 +28,24 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .httpBasic().disable()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .cors().configurationSource(corsConfigurationSource()) // CORS 설정 추가
-            .and()
-            .authorizeRequests()  // 모든 기능 구현 후 살리기
+                .httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .cors().configurationSource(corsConfigurationSource()) // CORS 설정 추가
+                .and()
+                .authorizeRequests()  // 모든 기능 구현 후 살리기
                 .antMatchers("/users/login", "/users/test").permitAll()
                 .antMatchers("/transfer/**").hasRole("USER")
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
-            .and()
-            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-            //.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests     // 모든 기능 구현 후 제거
-            //    .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-            .headers((headers) -> headers
-                .addHeaderWriter(new XFrameOptionsHeaderWriter(
-                    XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)));
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                //.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests     // 모든 기능 구현 후 제거
+                //    .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+                .headers((headers) -> headers
+                        .addHeaderWriter(new XFrameOptionsHeaderWriter(
+                                XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)));
         return http.build();
     }
 

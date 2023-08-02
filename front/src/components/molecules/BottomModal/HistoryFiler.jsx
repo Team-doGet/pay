@@ -14,6 +14,8 @@ const HistoryFiler = () => {
 
     useEffect(()=> {
         setTempFilter(historyFilter);
+
+        
     }, []);
 
     return (
