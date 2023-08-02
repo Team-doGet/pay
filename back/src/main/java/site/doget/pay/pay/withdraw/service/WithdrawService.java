@@ -1,14 +1,14 @@
-package site.doget.pay.pay.charge.service;
+package site.doget.pay.pay.withdraw.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.doget.pay.openAPI.dto.MessageDTO;
 import site.doget.pay.openAPI.service.SmsService;
-import site.doget.pay.pay.charge.repository.ChargeMapper;
 import site.doget.pay.pay.common.CommonFailResponse;
 import site.doget.pay.pay.common.CommonResponse;
 import site.doget.pay.pay.common.CommonSuccessResponse;
+import site.doget.pay.pay.withdraw.repository.WithdrawMapper;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -16,26 +16,26 @@ import java.util.Map;
 
 @Transactional
 @Service
-public class ChargeService {
+public class WithdrawService {
     DecimalFormat formatter = new DecimalFormat("###,###");
 
-    private final ChargeMapper chargeMapper;
+    private final WithdrawMapper withdrawMapper;
 
     @Autowired
     private SmsService smsService;
 
     @Autowired
-    public ChargeService(ChargeMapper chargeMapper) {
-        this.chargeMapper = chargeMapper;
+    public WithdrawService(WithdrawMapper withdrawMapper) {
+        this.withdrawMapper = withdrawMapper;
     }
 
     @Transactional
-    public CommonResponse processCharge(int payId, long amount) throws Exception {
+    public CommonResponse processWithdraw(int payId, long amount) throws Exception {
         if (amount <= 0) {
             return new CommonFailResponse("0 보다 큰 금액을 입력해주세요");
         }
 
-        Map<String, Object> balances = chargeMapper.getPaymoneyAndAccountMoney(payId);
+        Map<String, Object> balances = withdrawMapper.getPaymoneyAndAccountMoney(payId);
         if (balances == null) {
             return new CommonFailResponse("등록된 계좌가 없습니다.");
         }
@@ -50,11 +50,11 @@ public class ChargeService {
             params.put("payId", payId);
             params.put("amount", amount);
 
-            paymoneyBalance += amount;
-            accountBalance -= amount;
+            paymoneyBalance -= amount;
+            accountBalance += amount;
 
-            chargePaymoney(params);
-            withdrawAccountMoney(params);
+            withdrawPaymoney(params);
+            chargeAccountMoney(params);
 
             params.put("accountNo", accountNo);
             params.put("payId", payId);
@@ -67,27 +67,28 @@ public class ChargeService {
             Map<String, Object> response = new HashMap<>();
             response.put("paymoneyBalance", paymoneyBalance);
 
-            smsService.sendSms(new MessageDTO("01092510383", "[doGet-Pay]\n충전이 정상적으로 완료되었습니다.\n충전 금액 : " + formatter.format(amount)
+            smsService.sendSms(new MessageDTO("01092510383", "[doGet-Pay]\n인출이 정상적으로 완료되었습니다.\n인출 금액 : " + formatter.format(amount)
                 + "원\n\n잔액 : " + formatter.format(paymoneyBalance) + "원"));
 
             return new CommonSuccessResponse(response);
         }
-        return new CommonFailResponse("잔액보다 충전 금액이 큽니다. 다시 확인해주세요.");
+
+        return new CommonFailResponse("잔액보다 인출 금액이 큽니다. 다시 확인해주세요.");
     }
 
     public Map<String, Object> getBalance(int payId) {
-        return chargeMapper.getPaymoneyAndAccountMoney(payId);
+        return withdrawMapper.getPaymoneyAndAccountMoney(payId);
     }
 
-    public Integer chargePaymoney(Map<String, Object> paramMap) {
-        return chargeMapper.chargePaymoney(paramMap);
+    public Integer withdrawPaymoney(Map<String, Object> paramMap) {
+        return withdrawMapper.withdrawPaymoney(paramMap);
     }
 
-    public Integer withdrawAccountMoney(Map<String, Object> paramMap) {
-        return chargeMapper.withdrawAccountMoney(paramMap);
+    public Integer chargeAccountMoney(Map<String, Object> paramMap) {
+        return withdrawMapper.chargeAccountMoney(paramMap);
     }
 
     public void insertToHistory(Map<String, Object> paramMap) {
-        chargeMapper.insertToHistory(paramMap);
+        withdrawMapper.insertToHistory(paramMap);
     }
 }

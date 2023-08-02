@@ -25,6 +25,7 @@ public class AccountController {
 
     @PostMapping("/register")
     public CommonResponse registerAccount(@RequestBody AccountDTO accountDTO) {
+        List<AccountDTO> accountDTOList = accountService.getAccountsByPayId(accountDTO.getPayId());
         String accountNo = accountDTO.getAccountNo();
 
         if (accountService.isAccountDuplicate(accountNo)) {
@@ -34,7 +35,13 @@ public class AccountController {
         commonSuccessResponse.setStatus(201);
         commonSuccessResponse.setMessage("계좌가 성공적으로 등록되었습니다.");
 
-        accountService.registerAccount(accountDTO);
+        if (accountDTOList.isEmpty()) {
+            accountService.registerAccountY(accountDTO);
+        }
+        else {
+            accountService.registerAccountN(accountDTO);
+
+        }
         return commonSuccessResponse;
     }
 
@@ -62,6 +69,7 @@ public class AccountController {
                 Map<String, String> accountInfo = new HashMap<>();
                 accountInfo.put("bankCode", accountDTO.getBankCode());
                 accountInfo.put("accountNo", accountDTO.getAccountNo());
+                accountInfo.put("mainAccountYN", accountDTO.getMainAccountYN());
                 accountInfos.add(accountInfo);
             }
 

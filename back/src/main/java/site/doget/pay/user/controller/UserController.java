@@ -60,4 +60,9 @@ public class UserController {
         return res;
     }
 
+    @GetMapping("/test")
+    public String test() {
+
+        return "ok";
+    }
 }

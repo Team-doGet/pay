@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.doget.pay.pay.withdraw.repository.WithdrawMapper">
+
+
+    <select id="getPaymoneyAndAccountMoney" parameterType="int" resultType="java.util.Map">
+        select pd.paymoney_balance as paymoneyBalance, am.account_balance as accountBalance,
+               am.account_no as accountNo, am.bank_code as bankCode
+        from pay_description pd join account_master am
+         on pd.pay_id = am.pay_id
+        where am.main_account_yn = 'Y' and pd.pay_id = #{payId};
+    </select>
+
+    <update id="withdrawPaymoney" parameterType="java.util.Map">
+        update pay_description set paymoney_balance = paymoney_balance - #{amount} where pay_id = ${payId}
+    </update>
+
+    <update id="chargeAccountMoney" parameterType="java.util.Map">
+        update account_master set account_balance = account_balance + #{amount} where pay_id = ${payId}
+    </update>
+
+    <insert id="insertToHistory" parameterType="java.util.Map">
+        insert into account_history values ('002', date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%S'),
+                                            #{accountNo}, #{payId}, #{bankCode}, #{paymoneyBalance},
+                                            #{amount}, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'),
+                                            #{payId}, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'), #{payId});
+    </insert>
+
+</mapper>
