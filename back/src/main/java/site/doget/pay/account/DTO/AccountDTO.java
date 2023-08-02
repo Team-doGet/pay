@@ -18,5 +18,6 @@ public class AccountDTO {
     private String registeredDate;
     private int registerId;
     private int payId;
+    private String mainAccountYN;
 
 }

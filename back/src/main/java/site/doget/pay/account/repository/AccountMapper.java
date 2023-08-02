@@ -8,7 +8,8 @@ import java.util.List;
 @Mapper
 public interface AccountMapper {
 
-    void registerAccount(AccountDTO accountDTO);
+    void registerAccountY(AccountDTO accountDTO);
+    void registerAccountN(AccountDTO accountDTO);
 
     AccountDTO getAccountByAccountNo(String accountNo);
 
