@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import History_ from './History.module.css';
 import HistoryFiler from '../../components/molecules/BottomModal/HistoryFiler';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { historyFilterState } from '../../states/historyFilterState';
 import useAxios from '../../hooks/useAxios';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ const HistoryPage = () => {
     const api = useAxios();
     const navigate = useNavigate();
     const [historyFilter, setHistoryFilter] = useRecoilState(historyFilterState);
+    const resetHistoryFilter = useResetRecoilState(historyFilterState);
     const [userBalance, setUserBalance] = useState(0);
     // 임시 더미데이터
     const [historyData, setHistoryData] = useState({
@@ -57,6 +58,10 @@ const HistoryPage = () => {
         setHistoryFilter({...historyFilter, id:userId});
         getAccountBalance();
         //getHistoryDefault();
+
+        return () => {
+            resetHistoryFilter();
+        }
     }, []);
 
     useEffect(() => {
@@ -102,7 +107,21 @@ const HistoryPage = () => {
                     </div>
                     <div className={History_.historyBox}>
                         <ul className={History_.historyList}>
-                            <li className={History_.historyWrapper}>
+                            {
+                                historyData.data.map((history) => (
+                                    <li className={History_.historyWrapper}>
+                                        <div className={History_.histroyContent}>
+                                            <p>06.05</p>
+                                            <p>{history.name}</p>
+                                        </div>
+                                        <div className={History_.historyAmount}>
+                                            <p>{history.amount}원</p>
+                                            <p>{history.paymoneyBalance}원</p>
+                                        </div>
+                                    </li>
+                                ))
+                            }
+                            {/* <li className={History_.historyWrapper}>
                                 <div className={History_.histroyContent}>
                                     <p>06.05</p>
                                     <p>사용처</p>
@@ -121,7 +140,7 @@ const HistoryPage = () => {
                                     <p>20,000원</p>
                                     <p>10,000원</p>
                                 </div>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </div>

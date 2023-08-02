@@ -3,12 +3,22 @@ import Transfer_ from './TransferPage.module.css';
 import Input from '../../components/atoms/Input';
 import useAxios from '../../hooks/useAxios';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import {userState} from '../../states/userState';
+import useAuth from '../../hooks/useAuth';
 
+// 1. useAuth(); 상단에 입력
+// 2. 랜더링 부분  user.accessToken && 처리
+// 3. const api = useAxios({
+//     Authorization: `Bearer ${user.accessToken}`
+//      }); 
 const TransferPage = () => {
-    const api = useAxios();
+    useAuth();
+    const user = useRecoilValue(userState);
+    const api = useAxios({
+        Authorization: `Bearer ${user.accessToken}`
+    });
     const navigate = useNavigate();
-
-    //userId = sessionStorage.getItem('userId');
 
     const [payBalance, setPayBalance] = useState(0);
     const [transferInputs, setTransferInputs] = useState({
@@ -19,8 +29,9 @@ const TransferPage = () => {
     });
 
     const transferGet = async() => {
-        const res = await api.get(`/transfer/?userId=${transferInputs.sender}`, transferInputs);
-        
+    
+        const res = await api.get(`/transfer/?userId=${user.userId}`); // 여기를 리코일로
+        console.log(res)
         if(res.data.status === 200) {
             setPayBalance(res.data.data.balance);
         }
@@ -79,10 +90,11 @@ const TransferPage = () => {
     }
 
     useEffect(() => {
-        (async () => {
-            //await setTransferInputs({...transferInputs, sender:'3'});
-            await transferGet();
-        })();
+        if (user.accessToken) {
+            (async () => {
+                await transferGet();
+            })();
+        }
     }, [])
 
     useEffect(()=> {
@@ -90,7 +102,11 @@ const TransferPage = () => {
     }, [transferInputs])
 
     return (
-        <>
+        
+            <>
+            {user.accessToken &&
+            (
+                <>
             <div className={Transfer_.container}>
                 <div className={Transfer_.shopContainer}>
                     <h4 className={Transfer_.title}>받을 사람</h4>
@@ -145,7 +161,9 @@ const TransferPage = () => {
                     </svg>
                     <span>Pay 송금</span>
                 </button>
-            </div>
+            </div></>
+        )
+        }   
         </>
     );
 };

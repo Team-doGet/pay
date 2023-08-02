@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="site.doget.pay.pay.history.repository.HistoryMapper">
+    <select id="getUserHistoryDefault" parameterType="java.lang.String" resultType="site.doget.pay.pay.history.repository.HistoryDTO">
+        SELECT
+            b.process_code as processCode,
+            b.process_datetime as processDatetime,
+            b.account_no as accountNo,
+            b.pay_id as payId,
+            b.bank_code as bankCode,
+            b.paymoney_balance as payMoneyBalance,
+            b.process_amount as processAmount
+        FROM pay_description as a  JOIN account_history as b ON a.pay_id=b.pay_id and a.pay_id=#{userid}
+        ORDER BY processDatetime DESC
+        Limit 5;
+    </select>
+    <select id="getUserHistory" parameterType="java.util.Map" resultType="site.doget.pay.pay.history.repository.HistoryDTO">
+        SELECT
+            b.process_code as processCode,
+            b.process_datetime as processDatetime,
+            b.account_no as accountNo,
+            b.pay_id as payId,
+            b.bank_code as bankCode,
+            b.paymoney_balance as payMoneyBalance,
+            b.process_amount as processAmount
+        FROM pay_description as a JOIN account_history as b ON a.pay_id=b.pay_id and a.pay_id=#{userId}
+        <choose>
+            <when test="period==1"> AND DATE(sysdate()) - b.registered_date &lt; 30 </when>
+            <when test="period==2"> AND DATE(sysdate()) - b.registered_date &lt; 90 </when>
+            <when test="period==3"> AND DATE(sysdate()) - b.registered_date &lt; 180 </when>
+            <when test="type==2"> and b.process_code = '003' </when>
+            <when test="type==3"> and b.process_code != '003'</when>
+            <when test="orderby==1"> ORDER BY processDatetime DESC </when>
+            <when test="orderby==2"> ORDER BY processDatetime ASC </when>
+        </choose>
+        Limit 5;
+    </select>
+</mapper>
