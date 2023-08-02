@@ -4,19 +4,34 @@ import CheckBox from '../components/atoms/CheckBox';
 import Button from '../components/atoms/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import Login from './LoginPage.module.css';
+import useAxios from '../hooks/useAxios';
+import { useRecoilState } from 'recoil';
+import { modalState } from '../states/modalState';
+import { userState } from '../states/userState';
 
 const LoginPage = () => {
+    const api = useAxios();
     const navigate = useNavigate();
-
+    const [modal, setModal] = useRecoilState(modalState);
+    const [user, setUser] = useRecoilState(userState);
     const [saveIdChecked, setSaveIdChecked] = useState([false]);
     const [loginInputs, setLoginInputs] = useState({
-        id: '',
-        pwd: '',
+        emailNo: '',
+        passwordNo: '',
     });
+    const [msg, setMsg] = useState('');
 
-    useEffect(() => {
-        console.log(loginInputs);
-    }, [loginInputs]);
+    const loginHandler = async () => {
+        const res = await api.post(`/users/login`, loginInputs);
+        if (res.data.status == 200) {
+            (async () => {
+                await setUser(res.data.data);
+                await navigate('/');
+            })();
+        } else {
+            setMsg(res.data.message);
+        }
+    };
 
     return (
         <div>
@@ -29,7 +44,7 @@ const LoginPage = () => {
                         <Input
                             placeholder="아이디를 입력하세요"
                             location="one"
-                            name="id"
+                            name="emailNo"
                             type="email"
                             inputs={loginInputs}
                             setInputsState={setLoginInputs}
@@ -40,11 +55,12 @@ const LoginPage = () => {
                             placeholder="비밀번호를 입력하세요"
                             location="one"
                             type="password"
-                            name="pwd"
+                            name="passwordNo"
                             inputs={loginInputs}
                             setInputsState={setLoginInputs}
                         />
                     </div>
+                    <p className={Login.warnMsg}>{msg}</p>
                 </div>
                 <div>
                     <CheckBox checked={saveIdChecked} setChecked={() => setSaveIdChecked(!saveIdChecked)}>
@@ -55,7 +71,7 @@ const LoginPage = () => {
             <div>
                 <div className={Login.buttonContainer}>
                     <div>
-                        <Button width="full" type="main">
+                        <Button width="full" type="main" handler={() => loginHandler()}>
                             로그인
                         </Button>
                     </div>

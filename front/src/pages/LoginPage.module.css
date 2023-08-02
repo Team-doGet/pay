@@ -5,6 +5,11 @@
     margin-top: 88px;
 }
 
+.warnMsg {
+    color: red;
+    font-size: 14px;
+}
+
 .inputContainer {
     margin-bottom: 39px;
 }
