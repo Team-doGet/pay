@@ -16,5 +16,4 @@ public class LoginResultDTO {
     private String userName;
 
     private String phoneNo;
-
 }

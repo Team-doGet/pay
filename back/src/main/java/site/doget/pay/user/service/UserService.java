@@ -1,5 +1,6 @@
 package site.doget.pay.user.service;
 
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,8 @@ public class UserService implements UserDetailsService {
         return User.builder()
                 .emailNo(user.getUsername())
                 .passwordNo(passwordEncoder.encode(user.getPassword()))
+                //.roles(user.getRoles())
+                .roles(List.of(user.getRoles().toArray(new String[0])))
                 .build();
     }
 }

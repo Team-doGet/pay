@@ -2,7 +2,7 @@
 <mapper namespace="site.doget.pay.user.repository.UserMapper">
 
   <select id="findByEmail" resultType="site.doget.pay.security.jwt.User">
-    SELECT email_no, password_no
+    SELECT email_no, password_no, roles
     FROM user_master
     WHERE email_no = #{emailNo}
   </select>
