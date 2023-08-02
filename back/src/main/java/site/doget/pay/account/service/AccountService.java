@@ -16,12 +16,18 @@ public class AccountService {
         this.accountMapper = accountMapper;
     }
 
-    public void registerAccount(AccountDTO accountDTO) {
+    public void registerAccountY(AccountDTO accountDTO) {
         // 등록일자 설정
         accountDTO.setRegisteredDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
 //        accountDTO.setRegisteredDate(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date()));
         // 계좌 등록 메서드 호출
-        accountMapper.registerAccount(accountDTO);
+        accountMapper.registerAccountY(accountDTO);
+    }
+    public void registerAccountN(AccountDTO accountDTO) {
+        // 등록일자 설정
+        accountDTO.setRegisteredDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
+        // 계좌 등록 메서드 호출
+        accountMapper.registerAccountN(accountDTO);
     }
 
     // 중복된 계좌가 있는지 확인
