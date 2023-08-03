@@ -1,6 +1,7 @@
 package site.doget.pay.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -35,14 +37,14 @@ public class SecurityConfig {
                 .cors().configurationSource(corsConfigurationSource()) // CORS 설정 추가
                 .and()
                 .authorizeRequests()  // 모든 기능 구현 후 살리기
-                .antMatchers("/users/login", "/users/test").permitAll()
+                .antMatchers("/users/login", "/users/signUp", "/email/signup/auth", "/sms/signup/auth").permitAll()
                 .antMatchers("/transfer/**").hasRole("USER")
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                //.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests     // 모든 기능 구현 후 제거
-                //    .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+//                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests     // 모든 기능 구현 후 제거
+//                    .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
                 .headers((headers) -> headers
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(
                                 XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)));
@@ -57,7 +59,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000"); // 모든 도메인 허용
+        configuration.addAllowedOrigin("*"); // 모든 도메인 허용
         configuration.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
         configuration.addAllowedHeader("*"); // 모든 헤더 허용
         configuration.setAllowCredentials(true); // 인증 정보를 포함할 수 있도록 허용

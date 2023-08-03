@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -16,18 +18,25 @@ import org.springframework.web.bind.annotation.RestController;
 import site.doget.pay.pay.common.CommonFailResponse;
 import site.doget.pay.pay.common.CommonResponse;
 import site.doget.pay.pay.common.CommonSuccessResponse;
+import site.doget.pay.security.jwt.JwtAuthenticationFilter;
 import site.doget.pay.security.jwt.TokenInfo;
 import site.doget.pay.user.DTO.LoginReqDTO;
 import site.doget.pay.user.DTO.LoginResultDTO;
 import site.doget.pay.user.service.UserService;
 
-@RequiredArgsConstructor
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @Slf4j
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/login")
     public CommonResponse login(@RequestBody @Validated LoginReqDTO loginReq, BindingResult bindingResult) {
@@ -59,10 +68,11 @@ public class UserController {
         res.setMessage("로그인에 성공하였습니다.");
         return res;
     }
-
-    @GetMapping("/test")
-    public String test() {
-
-        return "ok";
-    }
+    
+//
+//    @PostMapping("/signup")
+//    public CommonResponse singUp() {
+//
+//        return new CommonSuccessResponse();
+//    }
 }

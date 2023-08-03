@@ -13,6 +13,17 @@
     WHERE email_no = #{emailNo}
   </select>
 
+  <insert id="saveAuth">
+    INSERT INTO user_auth (auth_id, auth_code)
+    VALUES (#{authId}, #{authCode})
+  </insert>
+
+  <select id="checkAuth" resultType="Integer">
+    SELECT COUNT(*)
+    FROM user_auth
+    WHERE auth_id = #{authId} AND auth_code = #{authCode}
+  </select>
+
 <!--  <insert id="save" useGeneratedKeys="true" keyProperty="id">-->
 <!--    insert into user (name, age)-->
 <!--    values (#{name}, #{age})-->

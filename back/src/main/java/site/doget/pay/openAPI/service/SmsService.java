@@ -11,11 +11,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import site.doget.pay.openAPI.dto.MessageDTO;
 import site.doget.pay.openAPI.dto.SmsRequestDTO;
 import site.doget.pay.openAPI.dto.SmsResponseDTO;
+import site.doget.pay.user.repository.UserMapper;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -32,6 +35,8 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Service
 public class SmsService {
+
+    private final UserMapper userMapper;
 
     @Value("${naver-cloud-sms.accessKey}")
     private String accessKey;
@@ -126,5 +131,24 @@ public class SmsService {
         return key.toString();
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String sendAuth(String authId) throws UnsupportedEncodingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
+        String authCode = createSmsKey();
+        sendSms(new MessageDTO(authId, "[doGet-Pay]\n인증번호 ["+ authCode +"]를 입력해주세요."));
+        userMapper.saveAuth(authId, authCode);
+        return authCode;
+    }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String checkAuth(String authId, String authCode) {
+        try {
+            Integer result = userMapper.checkAuth(authId, authCode);
+            if (result >= 1) {
+                return authCode;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
