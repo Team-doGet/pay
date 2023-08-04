@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -16,18 +18,26 @@ import org.springframework.web.bind.annotation.RestController;
 import site.doget.pay.pay.common.CommonFailResponse;
 import site.doget.pay.pay.common.CommonResponse;
 import site.doget.pay.pay.common.CommonSuccessResponse;
+import site.doget.pay.security.jwt.JwtAuthenticationFilter;
 import site.doget.pay.security.jwt.TokenInfo;
+import site.doget.pay.user.DTO.JoinReqDTO;
 import site.doget.pay.user.DTO.LoginReqDTO;
 import site.doget.pay.user.DTO.LoginResultDTO;
 import site.doget.pay.user.service.UserService;
 
-@RequiredArgsConstructor
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @Slf4j
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/login")
     public CommonResponse login(@RequestBody @Validated LoginReqDTO loginReq, BindingResult bindingResult) {
@@ -60,9 +70,20 @@ public class UserController {
         return res;
     }
 
-    @GetMapping("/test")
-    public String test() {
+    @PostMapping("/join")
+    public CommonResponse join(@RequestBody JoinReqDTO joinReq, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String message = "";
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                message = fieldError.getDefaultMessage();
+            }
+            return new CommonFailResponse(message);
+        }
 
-        return "ok";
+        if (userService.join(joinReq)) {
+            return new CommonSuccessResponse("회원가입에 성공하였습니다.");
+        }
+
+        return new CommonFailResponse("회원가입에 실패하였습니다.");
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.doget.pay.security.jwt.JwtTokenProvider;
 import site.doget.pay.security.jwt.TokenInfo;
 import site.doget.pay.security.jwt.User;
+import site.doget.pay.user.DTO.JoinReqDTO;
 import site.doget.pay.user.DTO.LoginResultDTO;
 import site.doget.pay.user.repository.UserMapper;
 
@@ -61,5 +62,17 @@ public class UserService implements UserDetailsService {
                 //.roles(user.getRoles())
                 .roles(List.of(user.getRoles().toArray(new String[0])))
                 .build();
+    }
+
+    @Transactional
+    public boolean join(JoinReqDTO joinReq) {
+        Optional<User> findUser = userMapper.findByEmail(joinReq.getEmailNo());
+        if (findUser.isEmpty()) {
+            Integer result = userMapper.saveUser(joinReq);
+            if (result >= 1) {
+                return true;
+            }
+        }
+        return false;
     }
 }

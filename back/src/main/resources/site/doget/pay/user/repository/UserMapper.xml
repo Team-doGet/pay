@@ -13,10 +13,14 @@
     WHERE email_no = #{emailNo}
   </select>
 
-<!--  <insert id="save" useGeneratedKeys="true" keyProperty="id">-->
-<!--    insert into user (name, age)-->
-<!--    values (#{name}, #{age})-->
-<!--  </insert>-->
+
+  <insert id="saveUser" useGeneratedKeys="true" keyProperty="user_id">
+    insert into user_master (email_no, password_no, user_name, phone_no, agree1_yn, agree2_yn, agree3_yn, joined_date, registered_date, updated_date, roles)
+    values (#{emailNo}, #{passwordNo}, #{userName},#{phoneNo},#{agree1Yn},#{agree2Yn},#{agree3Yn},
+            date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'),
+            date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'),
+            date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'), 'USER')
+  </insert>
 
 
 </mapper>
