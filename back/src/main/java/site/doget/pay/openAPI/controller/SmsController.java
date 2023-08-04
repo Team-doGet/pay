@@ -38,12 +38,11 @@ public class SmsController {
         return "result";
     }
 
-    @PostMapping("/signup/auth")
+    @PostMapping("/join/auth")
     @ResponseBody
     public CommonResponse sendAuth(@RequestBody Map<String, Object> smsReq) throws UnsupportedEncodingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
         String phoneNo = (String) smsReq.get("phoneNo");
         try {
-//            smsService.sendSms(new MessageDTO(phoneNo, "[doGet-Pay]\n인증번호 [" + authCode + "]를 입력해주세요."));
             String authCode = smsService.sendAuth(phoneNo);
             HashMap<String, Object> resData = new HashMap<>();
             resData.put("authCode", authCode);
@@ -54,7 +53,7 @@ public class SmsController {
         return new CommonFailResponse("인증번호 전송에 실패하였습니다.");
     }
 
-    @GetMapping("/signup/auth")
+    @GetMapping("/join/auth")
     @ResponseBody
     public CommonResponse checkAuth(@RequestParam("phoneNo") String phoneNo, @RequestParam("authCode") String authCode) {
         String result = smsService.checkAuth(phoneNo, authCode);

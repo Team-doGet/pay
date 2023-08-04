@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import site.doget.pay.openAPI.dto.MessageDTO;
 import site.doget.pay.openAPI.dto.SmsRequestDTO;
 import site.doget.pay.openAPI.dto.SmsResponseDTO;
+import site.doget.pay.openAPI.repository.OpenAPIMapper;
 import site.doget.pay.user.repository.UserMapper;
 
 import javax.crypto.Mac;
@@ -36,7 +37,7 @@ import java.util.Random;
 @Service
 public class SmsService {
 
-    private final UserMapper userMapper;
+    private final OpenAPIMapper openAPIMapper;
 
     @Value("${naver-cloud-sms.accessKey}")
     private String accessKey;
@@ -131,18 +132,19 @@ public class SmsService {
         return key.toString();
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     public String sendAuth(String authId) throws UnsupportedEncodingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
         String authCode = createSmsKey();
+        openAPIMapper.deleteByAuthId(authId);
         sendSms(new MessageDTO(authId, "[doGet-Pay]\n인증번호 ["+ authCode +"]를 입력해주세요."));
-        userMapper.saveAuth(authId, authCode);
+        openAPIMapper.saveAuth(authId, authCode);
         return authCode;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     public String checkAuth(String authId, String authCode) {
         try {
-            Integer result = userMapper.checkAuth(authId, authCode);
+            Integer result = openAPIMapper.checkAuth(authId, authCode);
             if (result >= 1) {
                 return authCode;
             }
