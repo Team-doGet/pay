@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .cors().configurationSource(corsConfigurationSource()) // CORS 설정 추가
                 .and()
                 .authorizeRequests()  // 모든 기능 구현 후 살리기
-                .antMatchers("/users/login", "/users/signUp", "/email/signup/auth", "/sms/signup/auth").permitAll()
+                .antMatchers("/users/login", "/users/join", "/email/join/auth", "/sms/join/auth").permitAll()
                 .antMatchers("/transfer/**").hasRole("USER")
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()

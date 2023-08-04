@@ -20,6 +20,7 @@ import site.doget.pay.pay.common.CommonResponse;
 import site.doget.pay.pay.common.CommonSuccessResponse;
 import site.doget.pay.security.jwt.JwtAuthenticationFilter;
 import site.doget.pay.security.jwt.TokenInfo;
+import site.doget.pay.user.DTO.JoinReqDTO;
 import site.doget.pay.user.DTO.LoginReqDTO;
 import site.doget.pay.user.DTO.LoginResultDTO;
 import site.doget.pay.user.service.UserService;
@@ -68,11 +69,21 @@ public class UserController {
         res.setMessage("로그인에 성공하였습니다.");
         return res;
     }
-    
-//
-//    @PostMapping("/signup")
-//    public CommonResponse singUp() {
-//
-//        return new CommonSuccessResponse();
-//    }
+
+    @PostMapping("/join")
+    public CommonResponse join(@RequestBody JoinReqDTO joinReq, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String message = "";
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                message = fieldError.getDefaultMessage();
+            }
+            return new CommonFailResponse(message);
+        }
+
+        if (userService.join(joinReq)) {
+            return new CommonSuccessResponse("회원가입에 성공하였습니다.");
+        }
+
+        return new CommonFailResponse("회원가입에 실패하였습니다.");
+    }
 }
