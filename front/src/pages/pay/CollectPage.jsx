@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Collect_ from './CollectPage.module.css';
+import { useState } from 'react';
 
 const CollectPage = () => {
+
+    const [QRCodeImage, setQRCodeImage] = useState();
+
+
+    useEffect( () => {
+        setQRCodeImage('iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAQAAAACFI5MzAAABtUlEQVR4Xu2W26oCMQxFC/2tQn89kN8K9OyV4ijieWv0ZeIgNmsgl+6mtvWftXfHZTe5CfZNYq31mMtjjNaXsywhrsdGa9Otu02WNUSOaHOtGErAWZYRG1mmqs48ygiR5f+QwUGy0q9ibdrAXUOQhD/tTTvnyDb5JEV8284Ta51HO2c9RtMezhKyI4e8Uom6mg0tIFIf4UNnyvndEUsBIXZX4JQ7jZ2PDM4SSVyfXaK8lgIpIFK51O6Rm6eRtMimgDhB9aW5NGOLv4TIFx1ZRApE/hpCjZRIJ2PMTKeCoPTJIit+7ehZIqf00cBIxLk4KgglatNsohPeujp6mKi2NnIqKY3+OnuPEo5sqi+4BTOXEmJE1rTQUOo5Be3K7SjReWLT9AKDts3cywKykASR+a1+Pjt6lmQ3recc74v/KrOGpEvnOHePaXtlcJYEVxNrY+xZTqcKogxGXoLGxbEbWkAw55FQNMk5aSWEmBrmGdnZx3h09CzJ6NlH45U80SWEDdsylA4RvJcRuqhRRHheKyNOfTST0ZRnuYAAG3T/5UpPAUEhchgTVlOwZ2sLyGe7yU2w35M/XqKUE7MZyasAAAAASUVORK5CYII=');
+    }, [])
     return (
         <>
             <div className={Collect_.container}>
@@ -37,6 +45,9 @@ const CollectPage = () => {
                         </div>
                         <button>생성</button>
                     </div>
+                </div>
+                <div className='QRCodeImage'>
+                    <img src={"data:image/png;base64," + QRCodeImage}/>
                 </div>
             </div>
             <div>
