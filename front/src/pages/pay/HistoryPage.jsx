@@ -5,63 +5,74 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 import { historyFilterState } from '../../states/historyFilterState';
 import useAxios from '../../hooks/useAxios';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../states/userState';
 
 const HistoryPage = () => {
-    const api = useAxios();
+    useAuth();
+    const user = useRecoilValue(userState);
+    const api = useAxios({
+        Authorization: `Bearer ${user.accessToken}`,
+    });
+
     const navigate = useNavigate();
     const [historyFilter, setHistoryFilter] = useRecoilState(historyFilterState);
     const resetHistoryFilter = useResetRecoilState(historyFilterState);
     const [userBalance, setUserBalance] = useState(0);
     // 임시 더미데이터
     const [historyData, setHistoryData] = useState({
-        data: [{name: 'test', amount:'100', paymoneyBalance:'1000'},
-                {name: 'test', amount:'100', paymoneyBalance:'1000'},]
+        data: [
+            { name: 'test', amount: '100', paymoneyBalance: '1000' },
+            { name: 'test', amount: '100', paymoneyBalance: '1000' },
+        ],
     });
 
-    const userId = '2';
-    //userId = sessionStorage.getItem('userId');
+    const userId = user.userId;
 
-    const getAccountBalance = async() => {
+    const getAccountBalance = async () => {
         const res = await api.get(`/transfer/?userId=${userId}`, userBalance);
         setUserBalance(res.data.data.balance);
-    }
+    };
 
-    const getHistoryDefault = async() => {
+    const getHistoryDefault = async () => {
         const res = await api.get(`/history/?userId=${userId}`, historyFilter);
-        if(res.data.status === 200) {
+        if (res.data.status === 200) {
             //list 출력
-            setHistoryData({...historyData, data:res.data.data});
-        }
-        else {
+            setHistoryData({ ...historyData, data: res.data.data });
+        } else {
             // 조회 오류 발생
-            setHistoryData({...historyData,
-                data:{name: '데이터를 불러올 수 없습니다.', amount:"-", paymoneyBalance:"-"}});
+            setHistoryData({
+                ...historyData,
+                data: { name: '데이터를 불러올 수 없습니다.', amount: '-', paymoneyBalance: '-' },
+            });
             console.log(historyData);
         }
-    }
+    };
 
-    const getHistory = async() => {
+    const getHistory = async () => {
         const res = await api.post(`/history/`, historyFilter);
-        if(res.data.status === 200) {
+        if (res.data.status === 200) {
             //list 출력
-            setHistoryData({...historyData, data:res.data.data});
-        }
-        else {
+            setHistoryData({ ...historyData, data: res.data.data });
+        } else {
             // 조회 오류 발생
-            setHistoryData({...historyData, 
-                data:{name: '데이터를 불러올 수 없습니다.', amount:"-", paymoneyBalance:"-"}});
+            setHistoryData({
+                ...historyData,
+                data: { name: '데이터를 불러올 수 없습니다.', amount: '-', paymoneyBalance: '-' },
+            });
             console.log(historyData);
         }
     };
 
     useEffect(() => {
-        setHistoryFilter({...historyFilter, id:userId});
+        setHistoryFilter({ ...historyFilter, id: userId });
         getAccountBalance();
-        //getHistoryDefault();
+        getHistoryDefault();
 
         return () => {
             resetHistoryFilter();
-        }
+        };
     }, []);
 
     useEffect(() => {
@@ -88,8 +99,11 @@ const HistoryPage = () => {
                             className={History_.filterButton}
                             onClick={() => setHistoryFilter({ ...historyFilter, show: true })}
                         >
-                            <p>{historyFilter.period === 1 ? '1개월' : historyFilter.period === 2 ? '3개월': '6개월'} ・ </p>
-                            <p>{historyFilter.type === 1 ? '전체' : historyFilter.type === 2 ? '입금': '출금'} ・ </p>
+                            <p>
+                                {historyFilter.period === 1 ? '1개월' : historyFilter.period === 2 ? '3개월' : '6개월'}{' '}
+                                ・{' '}
+                            </p>
+                            <p>{historyFilter.type === 1 ? '전체' : historyFilter.type === 2 ? '입금' : '출금'} ・ </p>
                             <p>{historyFilter.orderby === 1 ? '최신순' : '과거순'}</p>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -107,20 +121,18 @@ const HistoryPage = () => {
                     </div>
                     <div className={History_.historyBox}>
                         <ul className={History_.historyList}>
-                            {
-                                historyData.data.map((history) => (
-                                    <li className={History_.historyWrapper}>
-                                        <div className={History_.histroyContent}>
-                                            <p>06.05</p>
-                                            <p>{history.name}</p>
-                                        </div>
-                                        <div className={History_.historyAmount}>
-                                            <p>{history.amount}원</p>
-                                            <p>{history.paymoneyBalance}원</p>
-                                        </div>
-                                    </li>
-                                ))
-                            }
+                            {historyData.data.map(history => (
+                                <li className={History_.historyWrapper}>
+                                    <div className={History_.histroyContent}>
+                                        <p>06.05</p>
+                                        <p>{history.name}</p>
+                                    </div>
+                                    <div className={History_.historyAmount}>
+                                        <p>{history.amount}원</p>
+                                        <p>{history.paymoneyBalance}원</p>
+                                    </div>
+                                </li>
+                            ))}
                             {/* <li className={History_.historyWrapper}>
                                 <div className={History_.histroyContent}>
                                     <p>06.05</p>
