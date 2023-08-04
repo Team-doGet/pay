@@ -3,6 +3,7 @@ package site.doget.pay.openAPI.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import site.doget.pay.openAPI.repository.OpenAPIMapper;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -13,6 +14,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class EmailService {
 
+    private final OpenAPIMapper openAPIMapper;
     private final JavaMailSender emailSender;
     private String authNumber;
 
@@ -49,8 +51,22 @@ public class EmailService {
         message.setFrom(fromMail);
         message.setText(authNumber, "utf-8");
         emailSender.send(message);
+        openAPIMapper.deleteByAuthId(toMail);
+        openAPIMapper.saveAuth(toMail, authNumber);
 
         return authNumber;
+    }
+
+    public boolean checkAuth(String emailNo, String authCode) {
+        try {
+            Integer result = openAPIMapper.checkAuth(emailNo, authCode);
+            if (result >= 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

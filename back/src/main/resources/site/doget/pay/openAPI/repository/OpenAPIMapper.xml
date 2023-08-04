@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.doget.pay.openAPI.repository.OpenAPIMapper">
+
+    <insert id="saveAuth">
+        INSERT INTO user_auth (auth_id, auth_code)
+        VALUES (#{authId}, #{authCode})
+    </insert>
+
+    <select id="findByAuthId" resultType="Integer">
+        SELECT COUNT(*)
+        FROM user_auth
+        WHERE auth_id = #{authId}
+    </select>
+
+    <delete id="deleteByAuthId">
+        DELETE FROM user_auth
+        WHERE auth_id = #{authId}
+    </delete>
+
+    <select id="checkAuth" resultType="Integer">
+        SELECT COUNT(*)
+        FROM user_auth
+        WHERE auth_id = #{authId} AND auth_code = #{authCode}
+    </select>
+
+</mapper>
