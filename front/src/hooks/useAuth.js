@@ -19,7 +19,7 @@ const useAuth = () => {
                 content: '로그인이 필요한 서비스입니다.',
                 confirmHandler: () => {
                     (async () => {
-                        await navigate('/login');
+                        await navigate('/login', { replace: true });
                         await resetModal();
                     })();
                 },

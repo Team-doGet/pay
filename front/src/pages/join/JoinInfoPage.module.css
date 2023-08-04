@@ -23,9 +23,14 @@
     padding-top: 30px;
 }
 
-.p_Color {
-    padding-top: 10px;
+.red {
+    padding: 10px 0 0 5px;
     color: red;
+}
+
+.green {
+    padding: 10px 0 0 5px;
+    color: rgb(0, 160, 0);
 }
 
 .bottomButton {

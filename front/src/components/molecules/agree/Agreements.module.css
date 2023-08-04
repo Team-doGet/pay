@@ -20,3 +20,7 @@
 .content > textarea:focus {
     outline: none;
 }
+
+.warning {
+    color: red;
+}

@@ -58,7 +58,7 @@ public class UserService implements UserDetailsService {
     private UserDetails createUserDetails(User user) {
         return User.builder()
                 .emailNo(user.getUsername())
-                .passwordNo(passwordEncoder.encode(user.getPassword()))
+                .passwordNo(user.getPassword())
                 //.roles(user.getRoles())
                 .roles(List.of(user.getRoles().toArray(new String[0])))
                 .build();
@@ -68,6 +68,7 @@ public class UserService implements UserDetailsService {
     public boolean join(JoinReqDTO joinReq) {
         Optional<User> findUser = userMapper.findByEmail(joinReq.getEmailNo());
         if (findUser.isEmpty()) {
+            joinReq.setPasswordNo(passwordEncoder.encode(joinReq.getPasswordNo()));
             Integer result = userMapper.saveUser(joinReq);
             if (result >= 1) {
                 return true;
