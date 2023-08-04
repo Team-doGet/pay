@@ -41,7 +41,7 @@ public class SmsController {
     @PostMapping("/join/auth")
     @ResponseBody
     public CommonResponse sendAuth(@RequestBody Map<String, Object> smsReq) throws UnsupportedEncodingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
-        String phoneNo = (String) smsReq.get("phoneNo");
+        String phoneNo = (String) smsReq.get("authId");
         try {
             String authCode = smsService.sendAuth(phoneNo);
             HashMap<String, Object> resData = new HashMap<>();
@@ -55,7 +55,7 @@ public class SmsController {
 
     @GetMapping("/join/auth")
     @ResponseBody
-    public CommonResponse checkAuth(@RequestParam("phoneNo") String phoneNo, @RequestParam("authCode") String authCode) {
+    public CommonResponse checkAuth(@RequestParam("authId") String phoneNo, @RequestParam("authCode") String authCode) {
         String result = smsService.checkAuth(phoneNo, authCode);
         if (result == null) {
             return new CommonFailResponse("인증번호가 일치하지않습니다.");

@@ -22,7 +22,7 @@ public class EmailController {
     @PostMapping("/join/auth")
     @ResponseBody
     public CommonResponse sendAuth(@RequestBody Map<String, Object> getAuthReq) {
-        String emailNo = (String) getAuthReq.get("emailNo");
+        String emailNo = (String) getAuthReq.get("authId");
         try {
             String authCode = emailService.sendEmail(emailNo);
             Map<String, Object> data = new HashMap<>();
@@ -37,7 +37,7 @@ public class EmailController {
 
     @GetMapping("/join/auth")
     @ResponseBody
-    public CommonResponse checkAuth(@RequestParam String emailNo, @RequestParam String authCode) {
+    public CommonResponse checkAuth(@RequestParam("authId") String emailNo, @RequestParam String authCode) {
         if (emailService.checkAuth(emailNo, authCode)) {
             return new CommonSuccessResponse("인증번호가 일치합니다.");
         }

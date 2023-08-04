@@ -84,6 +84,6 @@ public class UserController {
             return new CommonSuccessResponse("회원가입에 성공하였습니다.");
         }
 
-        return new CommonFailResponse("회원가입에 실패하였습니다.");
+        return new CommonFailResponse("이미 가입된 계정입니다.");
     }
 }
