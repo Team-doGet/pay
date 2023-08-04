@@ -8,12 +8,14 @@ import useAxios from '../hooks/useAxios';
 import { useRecoilState } from 'recoil';
 import { modalState } from '../states/modalState';
 import { userState } from '../states/userState';
+import { loadingState } from '../states/loadingState';
 
 const LoginPage = () => {
-    const api = useAxios();
+    const api = useAxios('');
     const navigate = useNavigate();
     const [modal, setModal] = useRecoilState(modalState);
     const [user, setUser] = useRecoilState(userState);
+    const [loading, setLoading] = useRecoilState(loadingState);
     const [saveIdChecked, setSaveIdChecked] = useState([false]);
     const [loginInputs, setLoginInputs] = useState({
         emailNo: '',
@@ -22,7 +24,9 @@ const LoginPage = () => {
     const [msg, setMsg] = useState('');
 
     const loginHandler = async () => {
+        setLoading({ ...loading, show: true });
         const res = await api.post(`/users/login`, loginInputs);
+        setLoading({ ...loading, show: false });
         if (res.data.status == 200) {
             (async () => {
                 await setUser(res.data.data);
@@ -32,6 +36,10 @@ const LoginPage = () => {
             setMsg(res.data.message);
         }
     };
+
+    useEffect(() => {
+        api.defaults.headers.common.Authorization = '';
+    }, []);
 
     return (
         <div>
