@@ -12,10 +12,8 @@ const HistoryFiler = () => {
         orderby: 1,
     });
 
-    useEffect(()=> {
+    useEffect(() => {
         setTempFilter(historyFilter);
-
-        
     }, []);
 
     return (
@@ -29,13 +27,13 @@ const HistoryFiler = () => {
                         <h4>조회기간</h4>
                         <ul className={HistoryFilter_.buttonList}>
                             <li className={tempFilter.period === 1 ? HistoryFilter_.buttonOn : HistoryFilter_.button}>
-                                <span onClick={() => setTempFilter({ ...tempFilter, period:1 })}>지난달</span>
+                                <span onClick={() => setTempFilter({ ...tempFilter, period: 1 })}>지난달</span>
                             </li>
                             <li className={tempFilter.period === 2 ? HistoryFilter_.buttonOn : HistoryFilter_.button}>
-                                <span onClick={() => setTempFilter({ ...tempFilter, period:2 })}>3개월</span>
+                                <span onClick={() => setTempFilter({ ...tempFilter, period: 2 })}>3개월</span>
                             </li>
                             <li className={tempFilter.period === 3 ? HistoryFilter_.buttonOn : HistoryFilter_.button}>
-                                <span onClick={() => setTempFilter({ ...tempFilter, period:3 })}>6개월</span>
+                                <span onClick={() => setTempFilter({ ...tempFilter, period: 3 })}>6개월</span>
                             </li>
                         </ul>
                     </li>
@@ -43,13 +41,13 @@ const HistoryFiler = () => {
                         <h4>거래유형</h4>
                         <ul className={HistoryFilter_.buttonList}>
                             <li className={tempFilter.type === 1 ? HistoryFilter_.buttonOn : HistoryFilter_.button}>
-                                <span onClick={() => setTempFilter({ ...tempFilter, type:1 })}>전체</span>
+                                <span onClick={() => setTempFilter({ ...tempFilter, type: 1 })}>전체</span>
                             </li>
                             <li className={tempFilter.type === 2 ? HistoryFilter_.buttonOn : HistoryFilter_.button}>
-                                <span onClick={() => setTempFilter({ ...tempFilter, type:2 })}>입금</span>
+                                <span onClick={() => setTempFilter({ ...tempFilter, type: 2 })}>입금</span>
                             </li>
                             <li className={tempFilter.type === 3 ? HistoryFilter_.buttonOn : HistoryFilter_.button}>
-                                <span onClick={() => setTempFilter({ ...tempFilter, type:3 })}>출금</span>
+                                <span onClick={() => setTempFilter({ ...tempFilter, type: 3 })}>출금</span>
                             </li>
                         </ul>
                     </li>
@@ -57,10 +55,10 @@ const HistoryFiler = () => {
                         <h4>정렬</h4>
                         <ul className={HistoryFilter_.buttonList}>
                             <li className={tempFilter.orderby === 1 ? HistoryFilter_.buttonOn : HistoryFilter_.button}>
-                                <span onClick={() => setTempFilter({ ...tempFilter, orderby:1 })}>최신순</span>
+                                <span onClick={() => setTempFilter({ ...tempFilter, orderby: 1 })}>최신순</span>
                             </li>
                             <li className={tempFilter.orderby === 2 ? HistoryFilter_.buttonOn : HistoryFilter_.button}>
-                                <span onClick={() => setTempFilter({ ...tempFilter, orderby:2 })}>과거순</span>
+                                <span onClick={() => setTempFilter({ ...tempFilter, orderby: 2 })}>과거순</span>
                             </li>
                         </ul>
                     </li>

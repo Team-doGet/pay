@@ -1,22 +1,50 @@
 import React, { useEffect } from 'react';
 import Collect_ from './CollectPage.module.css';
 import { useState } from 'react';
+import { RecoilState, useRecoilState } from 'recoil';
+import { userState } from '../../states/userState';
+import useAxios from '../../hooks/useAxios';
 
 const CollectPage = () => {
-
+    const api = useAxios();
+    const userInfo = useRecoilState(userState);
+    const [linkData, setLinkData] = useState();
     const [QRCodeImage, setQRCodeImage] = useState();
+    const [balance, setBalance] = useState({
+        receiver: '0',
+        amount: 1,
+    });
 
+    useEffect(() => {
+        setQRCodeImage(
+            'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAQAAAACFI5MzAAABtUlEQVR4Xu2W26oCMQxFC/2tQn89kN8K9OyV4ijieWv0ZeIgNmsgl+6mtvWftXfHZTe5CfZNYq31mMtjjNaXsywhrsdGa9Otu02WNUSOaHOtGErAWZYRG1mmqs48ygiR5f+QwUGy0q9ibdrAXUOQhD/tTTvnyDb5JEV8284Ta51HO2c9RtMezhKyI4e8Uom6mg0tIFIf4UNnyvndEUsBIXZX4JQ7jZ2PDM4SSVyfXaK8lgIpIFK51O6Rm6eRtMimgDhB9aW5NGOLv4TIFx1ZRApE/hpCjZRIJ2PMTKeCoPTJIit+7ehZIqf00cBIxLk4KgglatNsohPeujp6mKi2NnIqKY3+OnuPEo5sqi+4BTOXEmJE1rTQUOo5Be3K7SjReWLT9AKDts3cywKykASR+a1+Pjt6lmQ3recc74v/KrOGpEvnOHePaXtlcJYEVxNrY+xZTqcKogxGXoLGxbEbWkAw55FQNMk5aSWEmBrmGdnZx3h09CzJ6NlH45U80SWEDdsylA4RvJcRuqhRRHheKyNOfTST0ZRnuYAAG3T/5UpPAUEhchgTVlOwZ2sLyGe7yU2w35M/XqKUE7MZyasAAAAASUVORK5CYII='
+        );
+    }, []);
 
-    useEffect( () => {
-        setQRCodeImage('iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAQAAAACFI5MzAAABtUlEQVR4Xu2W26oCMQxFC/2tQn89kN8K9OyV4ijieWv0ZeIgNmsgl+6mtvWftXfHZTe5CfZNYq31mMtjjNaXsywhrsdGa9Otu02WNUSOaHOtGErAWZYRG1mmqs48ygiR5f+QwUGy0q9ibdrAXUOQhD/tTTvnyDb5JEV8284Ta51HO2c9RtMezhKyI4e8Uom6mg0tIFIf4UNnyvndEUsBIXZX4JQ7jZ2PDM4SSVyfXaK8lgIpIFK51O6Rm6eRtMimgDhB9aW5NGOLv4TIFx1ZRApE/hpCjZRIJ2PMTKeCoPTJIit+7ehZIqf00cBIxLk4KgglatNsohPeujp6mKi2NnIqKY3+OnuPEo5sqi+4BTOXEmJE1rTQUOo5Be3K7SjReWLT9AKDts3cywKykASR+a1+Pjt6lmQ3recc74v/KrOGpEvnOHePaXtlcJYEVxNrY+xZTqcKogxGXoLGxbEbWkAw55FQNMk5aSWEmBrmGdnZx3h09CzJ6NlH45U80SWEDdsylA4RvJcRuqhRRHheKyNOfTST0ZRnuYAAG3T/5UpPAUEhchgTVlOwZ2sLyGe7yU2w35M/XqKUE7MZyasAAAAASUVORK5CYII=');
-    }, [])
+    // const getLink = async () => {
+    //     const res = await api.post(`/collect/`, balance); // 여기를 리코일로
+    //     console.log(res);
+    //     if (res.data.status === 200) {
+    //         setPayBalance(res.data.data.balance);
+    //     } else {
+    //         setPayBalance(-1);
+    //     }
+    // };
+
     return (
         <>
             <div className={Collect_.container}>
                 <div className={Collect_.amountContainer}>
                     <h4 className={Collect_.title}>받을 금액</h4>
                     <div>
-                        <input type="number" placeholder="금액을 입력해주세요." />
+                        <input
+                            type="number"
+                            placeholder="금액을 입력해주세요."
+                            onChange={e => {
+                                setBalance({ ...balance, amount: e.target.value });
+                                console.log(balance);
+                            }}
+                        />
                     </div>
                 </div>
                 <div className={Collect_.linkContainer}>
@@ -46,8 +74,8 @@ const CollectPage = () => {
                         <button>생성</button>
                     </div>
                 </div>
-                <div className='QRCodeImage'>
-                    <img src={"data:image/png;base64," + QRCodeImage}/>
+                <div className="QRCodeImage">
+                    <img src={'data:image/png;base64,' + QRCodeImage} />
                 </div>
             </div>
             <div>
