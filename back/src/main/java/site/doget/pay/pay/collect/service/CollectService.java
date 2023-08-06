@@ -13,6 +13,7 @@ import site.doget.pay.pay.collect.repository.CollectMapper;
 import site.doget.pay.pay.common.AesUtil;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -29,7 +30,6 @@ public class CollectService {
         CollectDTO collectDTO = new CollectDTO();
 
         String link = genereatePayLink(paramMap);
-        System.out.println("IpAddr : " + ipAddr);
         link = "http://" + ipAddr + ":3000/pay/transfer/" + link;
         collectDTO.setLink(link);
 
@@ -44,7 +44,7 @@ public class CollectService {
 
         String phoneNum = (String) paramMap.get("receiver");
         int amount = Integer.valueOf(String.valueOf(paramMap.get("amount")));
-        String url = "?receiver=" + phoneNum + "&amount=" + String.valueOf(amount);
+        String url = "receiver=" + phoneNum + "&amount=" + String.valueOf(amount);
 
         return new AesUtil().encryption(url);
     }
@@ -64,5 +64,17 @@ public class CollectService {
 
     public String decryptPath(String path) {
         return new AesUtil().decryption(path);
+    }
+
+    public Map<String, Object> parseQueryString(String query) {
+        Map<String, Object> mp = new HashMap<>();
+
+        String[] queryArray = query.split("&");
+        for(String s : queryArray) {
+            String[] value = s.split("=");
+            mp.put(value[0], value[1]);
+        }
+
+        return mp;
     }
 }

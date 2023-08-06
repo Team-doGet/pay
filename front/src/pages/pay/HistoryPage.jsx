@@ -23,8 +23,8 @@ const HistoryPage = () => {
     // 임시 더미데이터
     const [historyData, setHistoryData] = useState({
         data: [
-            { name: 'test', amount: '100', paymoneyBalance: '1000' },
-            { name: 'test', amount: '100', paymoneyBalance: '1000' },
+            { name: '카페게이트', amount: '1500', paymoneyBalance: '3000' },
+            { name: '메가커피', amount: '2000', paymoneyBalance: '5000' },
         ],
     });
 
@@ -68,7 +68,7 @@ const HistoryPage = () => {
     useEffect(() => {
         setHistoryFilter({ ...historyFilter, id: userId });
         getAccountBalance();
-        getHistoryDefault();
+        //getHistoryDefault();
 
         return () => {
             resetHistoryFilter();
@@ -76,7 +76,6 @@ const HistoryPage = () => {
     }, []);
 
     useEffect(() => {
-        console.log('Data changed');
         //getHistory();
     }, [userBalance, historyData]);
 

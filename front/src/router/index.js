@@ -88,6 +88,10 @@ const Router = () => {
                     element: [<Header title="송금" isBack={true} targetUrl={'/'} />, <TransferPage />],
                 },
                 {
+                    path: 'transfer/:encrpyt',
+                    element: [<Header title="송금" isBack={true} targetUrl={'/'} />, <TransferPage />],
+                },
+                {
                     path: 'collect',
                     element: [<Header title="수금" isBack={true} />, <CollectPage />],
                 },

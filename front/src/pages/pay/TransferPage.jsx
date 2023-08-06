@@ -2,16 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Transfer_ from './TransferPage.module.css';
 import Input from '../../components/atoms/Input';
 import useAxios from '../../hooks/useAxios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../states/userState';
 import useAuth from '../../hooks/useAuth';
 
-// 1. useAuth(); 상단에 입력
-// 2. 랜더링 부분  user.accessToken && 처리
-// 3. const api = useAxios({
-//     Authorization: `Bearer ${user.accessToken}`
-//      });
 const TransferPage = () => {
     useAuth();
     const user = useRecoilValue(userState);
@@ -22,15 +17,20 @@ const TransferPage = () => {
 
     const [payBalance, setPayBalance] = useState(0);
     const [transferInputs, setTransferInputs] = useState({
-        sender: '2',
+        sender: user.userId,
         receiver: '',
         amount: 0,
-        messsage: '',
+        messsage: user.userName,
     });
 
-    const transferGet = async () => {
-        const res = await api.get(`/transfer/?userId=${user.userId}`); // 여기를 리코일로
-        console.log(res);
+    const [encrpytMsg, setEncryptMsg] = useState({
+        encoded: useParams().encrpyt,
+    });
+    const [inputPlaceholder, setInpunPlaceholder] = useState("휴대폰번호 ('-'를 제외하고 입력하세요.)");
+
+    const getUserBalance = async () => {
+        const res = await api.get(`/transfer/?userId=${user.userId}`);
+        //console.log(res);
         if (res.data.status === 200) {
             setPayBalance(res.data.data.balance);
         } else {
@@ -38,9 +38,22 @@ const TransferPage = () => {
         }
     };
 
+    const getDecode = async () => {
+        const res = await api.post(`/collect/decode`, encrpytMsg);
+
+        if (res.data.status === 200) {
+            setTransferInputs({ ...transferInputs, receiver: res.data.data.receiver, amount: res.data.data.amount });
+            setInpunPlaceholder(res.data.data.receiver);
+            //console.log(transferInputs);
+        } else {
+            console.log('decode error');
+        }
+    };
+
     const transfer = async () => {
         const res = await api.post(`/transfer/`, transferInputs);
 
+        console.log(res);
         if (res.data.status === 200) {
             // 완료 페이지 전환
             navigate('/result', {
@@ -49,16 +62,16 @@ const TransferPage = () => {
                     flag: 'success',
                     info: [
                         {
+                            title: '결제 금액',
+                            content: res.data.data.amount.toLocaleString() + '원',
+                        },
+                        {
                             title: '페이머니 잔액',
-                            content: '10,000원',
+                            content: (payBalance - res.data.data.amount).toLocaleString() + '원',
                         },
                         {
-                            title: '출금계좌 잔액',
-                            content: '10,000원',
-                        },
-                        {
-                            title: '출금계좌',
-                            content: 'IBK기업 234****3234',
+                            title: '전송 메시지',
+                            content: transferInputs.messsage,
                         },
                     ],
                     buttons: {
@@ -67,16 +80,17 @@ const TransferPage = () => {
                     },
                 },
             });
-            // successPageHandler 에서 땡겨서 만들기
         } else {
             // 에러 페이지 전환
+            console.log(res.data.message);
+
             navigate('/result', {
                 state: {
                     headerTitle: '결제실패',
                     flag: 'fail',
                     info: {
                         title: '결제가 실패되었습니다.',
-                        contents: ['머니가 부족합니다.', '머니 확인 후 다시 결제해주세요.'],
+                        contents: [res.data.message],
                     },
                     buttons: {
                         childrens: ['홈으로', '충전하기'],
@@ -90,14 +104,13 @@ const TransferPage = () => {
     useEffect(() => {
         if (user.accessToken) {
             (async () => {
-                await transferGet();
+                await getUserBalance();
+                if (encrpytMsg.encoded != undefined) {
+                    await getDecode();
+                }
             })();
         }
     }, []);
-
-    useEffect(() => {
-        //transferGet();
-    }, [transferInputs]);
 
     return (
         <>
@@ -113,7 +126,7 @@ const TransferPage = () => {
                                     name="receiver"
                                     inputs={transferInputs}
                                     setInputsState={setTransferInputs}
-                                    placeholder="휴대폰번호 ('-'를 제외하고 입력하세요.)"
+                                    placeholder={inputPlaceholder}
                                 />
                             </div>
                         </div>

@@ -38,6 +38,9 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	// SMTP
 	implementation 'org.springframework.boot:spring-boot-starter-mail:2.6.3'
+	//QR code
+	implementation 'com.google.zxing:zxing-parent:3.5.0'
+	implementation group: 'com.google.zxing', name: 'javase', version: '3.5.0'
 }
 
 tasks.named('test') {
