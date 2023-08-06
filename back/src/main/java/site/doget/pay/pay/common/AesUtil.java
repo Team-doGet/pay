@@ -14,7 +14,6 @@ public class AesUtil {
 
     // 암호화
     public String encryption(String text) {
-        System.out.println(secretKey);
         try {
             Cipher cipher = Cipher.getInstance("AES");
 

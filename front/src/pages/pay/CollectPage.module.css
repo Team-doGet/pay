@@ -12,50 +12,55 @@
     margin-bottom: 10px;
 }
 
-.amountContainer {}
+.amountContainer {
+}
 
-.amountContainer>h4 {}
+.amountContainer > h4 {
+}
 
-.amountContainer>div {}
+.amountContainer > div {
+}
 
-.amountContainer>div>input {
+.amountContainer > div > input {
     width: 100%;
-    border-bottom: 2px solid #39C4FF;
+    border-bottom: 2px solid #39c4ff;
     padding-bottom: 4px;
     font-size: 16px;
 }
 
-.linkContainer {}
+.linkContainer {
+}
 
-.linkContainer>h4 {}
+.linkContainer > h4 {
+}
 
-.linkContainer>div {
+.linkContainer > div {
     display: flex;
     height: 50px;
 }
 
-.linkContainer>div>div {
+.linkContainer > div > div {
     width: 80%;
     border-radius: 4px 0px 0px 4px;
-    border: 1px solid #E7E7E7;
+    border: 1px solid #e7e7e7;
     display: flex;
     align-items: center;
     padding: 10px;
     gap: 15px;
 }
 
-.linkContainer>div>button {
+.linkContainer > div > button {
     width: 20%;
     border-radius: 0px 4px 4px 0px;
-    background: var(--main, #39C4FF);
-    color: #FFF;
+    background: var(--main, #39c4ff);
+    color: #fff;
     text-align: center;
     font-size: 14px;
     font-weight: 400;
 }
 
-
-.copyButton {}
+.copyButton {
+}
 
 .link {
     overflow-x: scroll;
@@ -70,9 +75,26 @@
     display: none;
 }
 
-.link>p {
+.link > p {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
+}
+
+.QRCodeImage {
+}
+
+.QRCodeImage > img {
+    border-radius: 0px 4px 4px 0px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.QRCodeImage > p {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #dd2f2f;
 }
