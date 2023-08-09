@@ -1,56 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.doget.pay.account.repository.AccountMapper">
-    <insert id="registerAccountY" parameterType="site.doget.pay.account.DTO.AccountDTO">
+    <insert id="registerAccountY" parameterType="java.util.Map">
         INSERT INTO account_master (account_no, bank_code, pay_id, account_holder_name, account_balance, main_account_yn, registered_date, register_id)
-        VALUES (#{accountNo}, #{bankCode}, #{payId}, #{accountHolderName}, #{accountBalance}, "Y", #{registeredDate}, #{registerId})
+        VALUES (#{accountNo}, #{bankCode}, #{payId}, #{accountHolderName}, #{accountBalance},
+                "Y", date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'), #{payId})
     </insert>
 
-    <insert id="registerAccountN" parameterType="site.doget.pay.account.DTO.AccountDTO">
+    <insert id="registerAccountN" parameterType="java.util.Map">
         INSERT INTO account_master (account_no, bank_code, pay_id, account_holder_name, account_balance, main_account_yn, registered_date, register_id)
-        VALUES (#{accountNo}, #{bankCode}, #{payId}, #{accountHolderName}, #{accountBalance}, "N", #{registeredDate}, #{registerId})
+        VALUES (#{accountNo}, #{bankCode}, #{payId}, #{accountHolderName}, #{accountBalance},
+                "N", date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'), #{payId})
     </insert>
 
-    <select id="getAccountByAccountNo" resultType="site.doget.pay.account.DTO.AccountDTO">
+    <select id="getAccountByAccountNo" resultType="java.util.Map">
         SELECT account_no as accountNo,
                bank_code as bankCode,
                account_holder_name as accountHolderName,
                account_balance as accountBalance,
-               registered_date as registeredDate,
-               register_id as registerId,
+               pay_id as payId,
                main_account_yn as mainAccountYN
         FROM account_master
         WHERE account_no = #{accountNo}
     </select>
 
-    <delete id="deleteAccount" parameterType="site.doget.pay.account.DTO.AccountDTO">
+    <delete id="deleteAccount" parameterType="java.util.Map">
         DELETE FROM account_master
         WHERE account_no = #{accountNo}
     </delete>
 
-    <select id="getAccountByPayId" parameterType="int" resultType="site.doget.pay.account.DTO.AccountDTO">
+    <delete id="deleteHistory" parameterType="java.util.Map">
+        delete from account_history
+        where account_no = #{accoutNo}
+    </delete>
+
+    <select id="getAccountsByPayId" parameterType="int" resultType="java.util.Map">
         SELECT account_no as accountNo,
                bank_code as bankCode,
                account_holder_name as accountHolderName,
                account_balance as accountBalance,
-               registered_date as registeredDate,
-               register_id as registerId,
                pay_id as payId,
                main_account_yn as mainAccountYN
         FROM account_master
-        WHERE pay_id = #{payId}
+        WHERE pay_id = ${payId}
     </select>
 
-    <select id="getAccountsByPayId" parameterType="int" resultType="site.doget.pay.account.DTO.AccountDTO">
-        SELECT account_no as accountNo,
-               bank_code as bankCode,
-               account_holder_name as accountHolderName,
-               account_balance as accountBalance,
-               registered_date as registeredDate,
-               register_id as registerId,
-               pay_id as payId,
-               main_account_yn as mainAccountYN
-        FROM account_master
-        WHERE pay_id = #{payId}
+    <insert id="accountAuth" parameterType="java.util.Map">
+        insert into account_auth values (#{accountNo}, #{authCode});
+    </insert>
+
+    <select id="checkSenderName" parameterType="java.util.Map" resultType="int">
+        select count(*) from account_auth
+        where auth_code = #{authCode}
     </select>
+
+    <select id="getAccountBySenderName" parameterType="java.util.Map" resultType="java.util.Map">
+        select count(*) from account_auth
+        where auth_code = #{authCode}
+    </select>
+
+    <select id="checkAccount" parameterType="java.util.Map">
+        select count(*) from account_auth
+        where account_no = #{accountNo}
+    </select>
+
+    <update id="updateAuthCode" parameterType="java.util.Map">
+        update account_auth
+        set auth_code = #{authCode}
+        where account_no = #{accountNo}
+
+    </update>
+
+    <select id="getAuthCode" parameterType="java.util.Map">
+        select auth_code from account_auth
+        where account_no = #{accountNo}
+    </select>
+
+    <update id="updateMainToSub" parameterType="java.util.Map">
+        update account_master
+        set main_account_yn = 'N'
+        where main_account_yn = 'Y'
+    </update>
+
+    <update id="updateSubToMain" parameterType="java.util.Map">
+        update account_master
+        set main_account_yn = 'Y'
+        where account_no = #{accoutNo}
+    </update>
 
 </mapper>

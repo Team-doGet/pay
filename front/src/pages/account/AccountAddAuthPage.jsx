@@ -1,13 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AccountAddAuth from './AccountAddAuthPage.module.css';
 import Input from '../../components/atoms/Input';
 import BottomButtons from '../../components/molecules/common/BottomButtons';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import useAxios from '../../hooks/useAxios';
+import useAuth from '../../hooks/useAuth';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { modalState } from '../../states/modalState';
+import { userState } from '../../states/userState';
 
 const AccountAddAuthPage = () => {
-    const [inputAlpha, setInputAlpha] = useState({
-        alpha: '',
+    useAuth();
+    const user = useRecoilValue(userState);
+    const navigate = useNavigate();
+    const api = useAxios({
+        Authorization: `Bearer ${user.accessToken}`,
     });
+    const location = useLocation();
+    const { accountNo, bankCode, accountHolderName, accountBalance, payId } = location.state;
+    const [modal, setModal] = useRecoilState(modalState);
+    const resetModalState = useResetRecoilState(modalState);
+    const [inputAlpha, setInputAlpha] = useState({
+        authCode: '',
+    });
+
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleChangeAlpha = e => {
+        setInputAlpha({ authCode: e.target.value });
+    };
+
+    // 계좌 등록 API를 호출하는 함수
+    const registerAccount = async () => {
+        const { authCode } = inputAlpha;
+        const resp = await api.post('/pay/accounts/register', {
+            accountNo: accountNo,
+            bankCode: bankCode,
+            accountHolderName: accountHolderName,
+            accountBalance: accountBalance,
+            payId: user.userId,
+            authCode,
+        });
+        console.log(resp.data);
+
+        // 등록에 성공하면 페이지를 이동합니다.
+        if (resp.data.status === 201) {
+            setModal({
+                ...modal,
+                show: true,
+                title: '간편계좌 연결 완료',
+                content: '간편계좌 연결이 완료되었습니다.',
+                confirmHandler: () => {
+                    navigate('/');
+                    resetModalState();
+                },
+                cancel: false,
+            });
+        } else {
+            setErrorMessage(resp.data.message);
+        }
+    };
+
+    useEffect(() => {
+        console.log(inputAlpha);
+    }, [inputAlpha]);
     return (
         <div>
             <div className={AccountAddAuth.one}>
@@ -65,21 +122,24 @@ const AccountAddAuthPage = () => {
                 </div>
             </div>
             <div className={AccountAddAuth.two}>
-                <div>2. 영문 알파벳을 입력해주세요</div>
+                <div>2. 입금자명에 적힌 문자 4자리를 입력해주세요</div>
+                <div className={AccountAddAuth.subText}> 인증문자 : 영문 알파벳과 숫자로 조합된 문자</div>
+                <div className={AccountAddAuth.subText}> 단! 한가지로만 조합될 수도 있습니다.</div>
                 <div className={AccountAddAuth.input}>
                     <Input
                         location="one"
                         type="text"
-                        name="alpha"
-                        inputs={inputAlpha}
+                        name="authCode"
+                        inputs={inputAlpha.authCode}
                         setInputsState={setInputAlpha}
-                        placeholder="소문자 4글자 입력"
+                        placeholder="4글자 입력"
                     />
                 </div>
+                <div className={AccountAddAuth.error}>{errorMessage}</div>
             </div>
             <div className={AccountAddAuth.bottom}>06월 02일 15시 17분 전까지 입력 필요</div>
             <div>
-                <BottomButtons childrens={['확인']} handlers={[() => Navigate('/success')]}></BottomButtons>
+                <BottomButtons childrens={['확인']} handlers={[() => registerAccount()]}></BottomButtons>
             </div>
         </div>
     );
