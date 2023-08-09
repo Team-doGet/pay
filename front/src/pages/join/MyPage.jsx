@@ -4,10 +4,12 @@ import MyPage_ from './MyPage.module.css';
 import useAuth from '../../hooks/useAuth';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../states/userState';
+import formatPhoneNumber from '../../mock/phoneNoFormat';
+
 const MyPage = () => {
     useAuth();
     const user = useRecoilValue(userState);
-
+    const phoneNum = formatPhoneNumber(user.phoneNo);
     return (
         <>
             {user.accessToken && (
@@ -28,7 +30,7 @@ const MyPage = () => {
                             </div>
                             <div>
                                 <img src={`${process.env.PUBLIC_URL}/assets/img/common/phoneNo.png`} />
-                                <li>{user.phoneNo}</li>
+                                <li>{phoneNum}</li>
                             </div>
                         </ul>
                     </div>
