@@ -21,7 +21,8 @@ public class ChargeController {
     public CommonResponse payCharge(@RequestBody Map<String, Object> paramMap) throws Exception {
         Integer payId = Integer.parseInt(String.valueOf(paramMap.get("payId")));
         Long amount = Long.parseLong(String.valueOf(paramMap.get("amount")));
+        String accountNo = (String) paramMap.get("accountNo");
 
-        return chargeService.processCharge(payId, amount);
+        return chargeService.processCharge(payId, amount, accountNo);
     }
 }

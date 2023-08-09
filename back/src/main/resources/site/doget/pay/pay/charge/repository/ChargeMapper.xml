@@ -7,7 +7,7 @@
                am.account_no as accountNo, am.bank_code as bankCode
         from pay_description pd join account_master am
          on pd.pay_id = am.pay_id
-        where am.main_account_yn = 'Y' and pd.pay_id = #{payId};
+        where pd.pay_id = #{payId};
     </select>
 
     <update id="chargePaymoney" parameterType="java.util.Map">
@@ -19,9 +19,9 @@
     </update>
 
     <insert id="insertToHistory" parameterType="java.util.Map">
-        insert into account_history values ('003', date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%S'),
+        insert into account_history values ('004', date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%S'),
                                                 #{accountNo}, #{payId}, #{bankCode}, #{paymoneyBalance},
-                                                #{amount}, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'),
+                                                #{amount}, null, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'),
                                                 #{payId}, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'), #{payId});
     </insert>
 

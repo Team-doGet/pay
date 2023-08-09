@@ -1,5 +1,6 @@
 package site.doget.pay.pay.withdraw.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,11 +12,14 @@ import site.doget.pay.pay.common.CommonSuccessResponse;
 import site.doget.pay.pay.withdraw.repository.WithdrawMapper;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Transactional
 @Service
+@Slf4j
 public class WithdrawService {
     DecimalFormat formatter = new DecimalFormat("###,###");
 
@@ -30,20 +34,42 @@ public class WithdrawService {
     }
 
     @Transactional
-    public CommonResponse processWithdraw(int payId, long amount) throws Exception {
+    public CommonResponse processWithdraw(int payId, long amount, String selectedAccountNo) throws Exception {
         if (amount <= 0) {
             return new CommonFailResponse("0 보다 큰 금액을 입력해주세요");
         }
 
-        Map<String, Object> balances = withdrawMapper.getPaymoneyAndAccountMoney(payId);
-        if (balances == null) {
-            return new CommonFailResponse("등록된 계좌가 없습니다.");
+        List<Map<String, Object>> balances = new ArrayList<>();
+        try {
+            balances = (List<Map<String, Object>>) withdrawMapper.getPaymoneyAndAccountMoney(payId);
+            if (balances.isEmpty()) {
+                return new CommonFailResponse("등록된 계좌가 없습니다.");
+            }
+        } catch (Exception e) {
+            log.info(balances.toString());
+            e.printStackTrace();
         }
 
-        long paymoneyBalance = Long.parseLong(String.valueOf(balances.get("paymoneyBalance")));
-        long accountBalance = Long.parseLong(String.valueOf(balances.get("accountBalance")));
-        String accountNo = (String) balances.get("accountNo");
-        String bankCode = (String) balances.get("bankCode");
+        Map<String, Object> selectedAccount = new HashMap<>();
+        for (Map<String, Object> balance: balances) {
+            String accountNo = (String) balance.get("accountNo");
+            if (accountNo.equals(selectedAccountNo)) {
+                selectedAccount.put("paymoneyBalance", balance.get("paymoneyBalance"));
+                selectedAccount.put("accountBalance", balance.get("accountBalance"));
+                selectedAccount.put("accountNo", balance.get("accountNo"));
+                selectedAccount.put("bankCode", balance.get("bankCode"));
+                break;
+            }
+        }
+        if (selectedAccount.isEmpty()) {
+            System.out.println("Selected account not found in the list of balances.");
+            return new CommonFailResponse("선택된 계좌가 없습니다.");
+        }
+
+        long paymoneyBalance = Long.parseLong(String.valueOf(selectedAccount.get("paymoneyBalance")));
+        long accountBalance = Long.parseLong(String.valueOf(selectedAccount.get("accountBalance")));
+        String accountNo = (String) selectedAccount.get("accountNo");
+        String bankCode = (String) selectedAccount.get("bankCode");
 
         if (amount <= accountBalance) {
             Map<String, Object> params = new HashMap<>();
@@ -74,10 +100,6 @@ public class WithdrawService {
         }
 
         return new CommonFailResponse("잔액보다 인출 금액이 큽니다. 다시 확인해주세요.");
-    }
-
-    public Map<String, Object> getBalance(int payId) {
-        return withdrawMapper.getPaymoneyAndAccountMoney(payId);
     }
 
     public Integer withdrawPaymoney(Map<String, Object> paramMap) {
