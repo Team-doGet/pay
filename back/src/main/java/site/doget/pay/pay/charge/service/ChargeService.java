@@ -1,5 +1,6 @@
 package site.doget.pay.pay.charge.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,11 +12,14 @@ import site.doget.pay.pay.common.CommonResponse;
 import site.doget.pay.pay.common.CommonSuccessResponse;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Transactional
 @Service
+@Slf4j
 public class ChargeService {
     DecimalFormat formatter = new DecimalFormat("###,###");
 
@@ -30,20 +34,44 @@ public class ChargeService {
     }
 
     @Transactional
-    public CommonResponse processCharge(int payId, long amount) throws Exception {
+    public CommonResponse processCharge(int payId, long amount, String selectedAccountNo) throws Exception {
         if (amount <= 0) {
             return new CommonFailResponse("0 보다 큰 금액을 입력해주세요");
         }
 
-        Map<String, Object> balances = chargeMapper.getPaymoneyAndAccountMoney(payId);
-        if (balances == null) {
-            return new CommonFailResponse("등록된 계좌가 없습니다.");
+        List<Map<String, Object>> balances = new ArrayList<>();
+        try {
+            balances = (List<Map<String, Object>>) chargeMapper.getPaymoneyAndAccountMoney(payId);
+            if (balances.isEmpty()) {
+                return new CommonFailResponse("등록된 계좌가 없습니다.");
+            }
+        } catch (Exception e) {
+            log.info(balances.toString());
+            e.printStackTrace();
         }
 
-        long paymoneyBalance = Long.parseLong(String.valueOf(balances.get("paymoneyBalance")));
-        long accountBalance = Long.parseLong(String.valueOf(balances.get("accountBalance")));
-        String accountNo = (String) balances.get("accountNo");
-        String bankCode = (String) balances.get("bankCode");
+
+        Map<String, Object> selectedAccount = new HashMap<>();
+        for (Map<String, Object> balance: balances) {
+            String accountNo = (String) balance.get("accountNo");
+            if (accountNo.equals(selectedAccountNo)) {
+                selectedAccount.put("paymoneyBalance", balance.get("paymoneyBalance"));
+                selectedAccount.put("accountBalance", balance.get("accountBalance"));
+                selectedAccount.put("accountNo", balance.get("accountNo"));
+                selectedAccount.put("bankCode", balance.get("bankCode"));
+                break;
+            }
+        }
+        if (selectedAccount.isEmpty()) {
+            System.out.println("Selected account not found in the list of balances.");
+            return new CommonFailResponse("선택된 계좌가 없습니다.");
+        }
+
+        long paymoneyBalance = Long.parseLong(String.valueOf(selectedAccount.get("paymoneyBalance")));
+        long accountBalance = Long.parseLong(String.valueOf(selectedAccount.get("accountBalance")));
+        String accountNo = (String) selectedAccount.get("accountNo");
+        String bankCode = (String) selectedAccount.get("bankCode");
+
 
         if (amount <= accountBalance) {
             Map<String, Object> params = new HashMap<>();
@@ -66,6 +94,7 @@ public class ChargeService {
 
             Map<String, Object> response = new HashMap<>();
             response.put("paymoneyBalance", paymoneyBalance);
+            response.put("accountBalance", accountBalance);
 
             smsService.sendSms(new MessageDTO("01092510383", "[doGet-Pay]\n충전이 정상적으로 완료되었습니다.\n충전 금액 : " + formatter.format(amount)
                 + "원\n\n잔액 : " + formatter.format(paymoneyBalance) + "원"));
@@ -73,10 +102,6 @@ public class ChargeService {
             return new CommonSuccessResponse(response);
         }
         return new CommonFailResponse("잔액보다 충전 금액이 큽니다. 다시 확인해주세요.");
-    }
-
-    public Map<String, Object> getBalance(int payId) {
-        return chargeMapper.getPaymoneyAndAccountMoney(payId);
     }
 
     public Integer chargePaymoney(Map<String, Object> paramMap) {
