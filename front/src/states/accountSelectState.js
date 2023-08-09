@@ -4,6 +4,9 @@ const accountSelectState = atom({
     key: 'accountSelectState',
     default: {
         show: false,
+        accountNo: '',
+        bankCode: null,
+        // accountBalance: null,
     },
 });
 

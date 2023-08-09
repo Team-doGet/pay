@@ -11,6 +11,17 @@
 .bank {
 }
 
+.error {
+    padding-left: 10px;
+    margin-top: 5px;
+    color: #ff3f3f;
+    font-family: Noto Sans KR;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
 .bank > ul {
     display: flex;
     justify-content: space-around;
@@ -21,24 +32,35 @@
     border-radius: 4px;
     border: 1px solid #c4c4c4;
     width: 20%;
+    height: 60px;
 }
 
-.bank > ul > li > div {
+li > button {
+    width: 100%;
+}
+
+.bank > ul > li > button {
     text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    /* margin-top: 20px;
+    margin-bottom: 20px; */
     color: var(--font-black, #222);
     font-family: Noto Sans KR;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    height: 100%;
+    cursor: pointer;
+}
+
+.selected {
+    background: var(--main, #cae9f7);
 }
 .bottom {
     padding-top: 10px;
 }
 .bottom > div {
-    margin-top: 5px;
+    margin-top: 10px;
     color: #ff3f3f;
     font-family: Noto Sans KR;
     font-size: 14px;
