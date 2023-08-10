@@ -22,6 +22,8 @@ import HistoryPage from '../pages/pay/HistoryPage';
 import AccountConfigPage from '../pages/account/AccountConfigPage';
 import MainPage from '../pages/MainPage';
 import MyPage from '../pages/join/MyPage';
+import ResetPassWord from '../pages/join/ResetPassWord';
+import ResetSimplePassWord from '../pages/join/ResetSimplePassWord';
 
 const Router = () => {
     const routes = [
@@ -36,6 +38,14 @@ const Router = () => {
                 {
                     path: 'mypage',
                     element: [<MyPage />],
+                },
+                {
+                    path: 'mypage/resetPassword',
+                    element: [<Header title="비밀번호 변경" isBack={true} />, <ResetPassWord />],
+                },
+                {
+                    path: 'mypage/resetSimplePassword',
+                    element: [<Header title="간편비밀번호 재설정" isBack={true} />, <ResetSimplePassWord />],
                 },
             ],
         },
