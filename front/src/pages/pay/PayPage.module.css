@@ -1,3 +1,9 @@
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -12,67 +18,75 @@
     margin-bottom: 10px;
 }
 
-.shopContainer {}
+.shopContainer {
+}
 
 .shopInfo {
     display: flex;
     align-items: center;
 }
 
-.shopInfo>svg {
+.shopInfo > svg {
     margin-right: 12px;
 }
 
-.shopInfo>span {}
+.shopInfo > span {
+}
 
-.amountContainer {}
+.amountContainer {
+}
 
-.amountContainer>h4 {}
+.amountContainer > h4 {
+}
 
-.amountContainer>div {
+.amountContainer > div {
     margin-bottom: 5px;
 }
 
-.amountContainer>div>input {
+.amountContainer > div > input {
     width: 100%;
-    border-bottom: 2px solid #39C4FF;
+    border-bottom: 2px solid #39c4ff;
     padding-bottom: 4px;
     font-size: 16px;
 }
 
-.amountContainer>p {
+.amountContainer > p {
     color: var(--font-black, #222);
     font-size: 14px;
     font-weight: 500;
 }
 
-.msgContainer {}
+.msgContainer {
+}
 
-.msgContainer>h4 {}
+.msgContainer > h4 {
+}
 
-.msgContainer>div {}
+.msgContainer > div {
+}
 
-.noticeContainer>h4 {}
+.noticeContainer > h4 {
+}
 
-.noticeContainer>div {}
+.noticeContainer > div {
+}
 
-.noticeContainer>div>p {
+.noticeContainer > div > p {
     color: var(--font-grey, #929294);
     font-size: 14px;
     font-weight: 500;
 }
 
 .btnContainer {
-
     position: absolute;
     width: 100%;
     bottom: 15px;
     height: 50px;
 }
 
-.btnContainer>button {
+.btnContainer > button {
     border-radius: 4px;
-    background: var(--main, #39C4FF);
+    background: var(--main, #39c4ff);
     width: 100%;
     height: 100%;
     display: flex;
@@ -81,10 +95,11 @@
     gap: 5px;
 }
 
-.btnContainer>button>svg {}
+.btnContainer > button > svg {
+}
 
-.btnContainer>button>span {
-    color: #FFF;
+.btnContainer > button > span {
+    color: #fff;
     font-size: 20px;
     font-weight: 400;
 }
