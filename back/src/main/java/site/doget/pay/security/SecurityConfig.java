@@ -36,15 +36,15 @@ public class SecurityConfig {
                 .and()
                 .cors().configurationSource(corsConfigurationSource()) // CORS 설정 추가
                 .and()
-                .authorizeRequests()  // 모든 기능 구현 후 살리기
-                .antMatchers("/users/login", "/users/join", "/email/join/auth", "/sms/join/auth").permitAll()
-                .antMatchers("/transfer/**").hasRole("USER")
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-//                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests     // 모든 기능 구현 후 제거
-//                    .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+//                .authorizeRequests()  // 모든 기능 구현 후 살리기
+//                .antMatchers("/users/login", "/users/join", "/email/join/auth", "/sms/join/auth").permitAll()
+//                .antMatchers("/transfer/**").hasRole("USER")
+//                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests     // 모든 기능 구현 후 제거
+                    .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
                 .headers((headers) -> headers
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(
                                 XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)));
