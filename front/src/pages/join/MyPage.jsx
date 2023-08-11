@@ -54,7 +54,12 @@ const MyPage = () => {
     return (
         <>
             {user.accessToken && (
-                <div>
+                <div
+                    style={{
+                        marginLeft: '12px',
+                        marginRight: '12px',
+                    }}
+                >
                     <Header title="마이페이지" isBack={true} />
                     <div className={MyPage_.account_box}>
                         <div className={MyPage_.title}>

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Transfer_ from './TransferPage.module.css';
 import Input from '../../components/atoms/Input';
 import useAxios from '../../hooks/useAxios';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '../../states/userState';
 import useAuth from '../../hooks/useAuth';
+import { simplePwState } from '../../states/simplePwState';
+import SimplePassword from '../../components/organisms/SimplePassword';
 
 const TransferPage = () => {
     useAuth();
@@ -14,6 +16,7 @@ const TransferPage = () => {
         Authorization: `Bearer ${user.accessToken}`,
     });
     const navigate = useNavigate();
+    const [simple, setSimple] = useState(false);
 
     const [payBalance, setPayBalance] = useState(0);
     const [transferInputs, setTransferInputs] = useState({
@@ -30,7 +33,7 @@ const TransferPage = () => {
 
     const getUserBalance = async () => {
         const res = await api.get(`/transfer/?userId=${user.userId}`);
-        //console.log(res);
+
         if (res.data.status === 200) {
             setPayBalance(res.data.data.balance);
         } else {
@@ -44,7 +47,6 @@ const TransferPage = () => {
         if (res.data.status === 200) {
             setTransferInputs({ ...transferInputs, receiver: res.data.data.receiver, amount: res.data.data.amount });
             setInpunPlaceholder(res.data.data.receiver);
-            //console.log(transferInputs);
         } else {
             console.log('decode error');
         }
@@ -101,6 +103,10 @@ const TransferPage = () => {
         }
     };
 
+    const simplePwHandler = () => {
+        setSimple(true);
+    };
+
     useEffect(() => {
         if (user.accessToken) {
             (async () => {
@@ -114,7 +120,7 @@ const TransferPage = () => {
 
     return (
         <>
-            {user.accessToken && (
+            {user.accessToken && !simple && (
                 <>
                     <div className={Transfer_.container}>
                         <div className={Transfer_.shopContainer}>
@@ -164,7 +170,7 @@ const TransferPage = () => {
                         </div>
                     </div>
                     <div className={Transfer_.btnContainer}>
-                        <button onClick={() => transfer()}>
+                        <button onClick={() => simplePwHandler()}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="28"
@@ -184,6 +190,8 @@ const TransferPage = () => {
                     </div>
                 </>
             )}
+
+            {simple && <SimplePassword handler={() => transfer()} exit={() => setSimple(false)} />}
         </>
     );
 };

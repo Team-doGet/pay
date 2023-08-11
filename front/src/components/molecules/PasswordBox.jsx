@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import arr from '../mock/password';
 import PwBox from './PasswordBox.module.css';
-import { useRecoilState } from 'recoil';
-import { simplePwState } from '@states/simplePwState';
 
 const PasswordBox = () => {
-    // const [passwords, setPasswords] = useRecoilState(simplePwState);
     const [passwords, setPasswords] = useState(Array.from({ length: 6 }, () => -1));
     const [passwordsIdx, setPasswordsIdx] = useState(0);
 

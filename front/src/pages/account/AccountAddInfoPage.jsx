@@ -55,7 +55,12 @@ const AccountAddInfoPage = () => {
     }, [inputAccount]);
 
     return (
-        <div>
+        <div
+            style={{
+                marginLeft: '12px',
+                marginRight: '12px',
+            }}
+        >
             <div className={AccountAddInfo.top}>금액 설정은 만원 단위로 가능합니다.</div>
             <Input
                 location="one"
@@ -279,11 +284,7 @@ const AccountAddInfoPage = () => {
                 <div>등록 가능한 계좌 확인은 등록하려는 은행의 고객센터로 문의하세요.</div>
             </div>
             <div>
-                <BottomButtons
-                    childrens={['등록하기']}
-                    // handlers={[() => navigate('/account/add/auth')]}
-                    handlers={[() => checkDuplicateAccount()]}
-                ></BottomButtons>
+                <BottomButtons childrens={['등록하기']} handlers={[() => checkDuplicateAccount()]}></BottomButtons>
             </div>
         </div>
     );

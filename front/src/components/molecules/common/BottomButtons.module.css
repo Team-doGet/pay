@@ -2,6 +2,9 @@
     position: absolute;
     width: 100%;
     bottom: 15px;
+    padding-left: 12px;
+    padding-right: 12px;
+    left: 0;
 }
 
 .twoContainer {

@@ -10,6 +10,7 @@ import useAxios from '../../hooks/useAxios';
 import useAuth from '../../hooks/useAuth';
 import { userState } from '../../states/userState';
 import bankData from '../../mock/bankCode.json';
+import SimplePassword from '../../components/organisms/SimplePassword';
 
 const ChargePage = () => {
     useAuth();
@@ -21,6 +22,7 @@ const ChargePage = () => {
     const [balance, setBalance] = useState(0);
     const [amount, setAmount] = useState(0);
     const [accountSelect, setAccountSelect] = useRecoilState(accountSelectState);
+    const [simple, setSimple] = useState(false);
 
     const [accountList, setAccountList] = useState([]);
 
@@ -111,7 +113,12 @@ const ChargePage = () => {
     return (
         <>
             {user.accessToken && (
-                <>
+                <div
+                    style={{
+                        marginLeft: '12px',
+                        marginRight: '12px',
+                    }}
+                >
                     <div className={Charge.top}>
                         <p>금액 설정은 만원 단위로 가능합니다.</p>
                     </div>
@@ -151,10 +158,12 @@ const ChargePage = () => {
                         </div>
                     </div>
                     {/* <BottomButtons childrens={['충전하기']} handlers={[() => navigate('/charge/simplePassword')]} /> */}
-                    <BottomButtons childrens={['충전하기']} handlers={[() => chargeHandler()]} />
+                    <BottomButtons childrens={['충전하기']} handlers={[() => setSimple(true)]} />
                     {accountSelect.show && <AccountSelect accountList={accountList} />}
-                </>
+                </div>
             )}
+
+            {simple && <SimplePassword handler={() => chargeHandler()} exit={() => setSimple(false)} />}
         </>
     );
 };

@@ -42,7 +42,12 @@ const LoginPage = () => {
     }, []);
 
     return (
-        <div>
+        <div
+            style={{
+                marginLeft: '12px',
+                marginRight: '12px',
+            }}
+        >
             <div className={Login.logo}>
                 <img src={`${process.env.PUBLIC_URL}/assets/img/common/logo.svg`} />
             </div>
