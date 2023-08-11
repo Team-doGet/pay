@@ -9,6 +9,7 @@ import { userState } from '../../states/userState';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { modalState } from '../../states/modalState';
 import { loadingState } from '../../states/loadingState';
+import SimplePassword from '../../components/organisms/SimplePassword';
 
 const PayPage = () => {
     useAuth();
@@ -23,6 +24,7 @@ const PayPage = () => {
         Authorization: `Bearer ${user.accessToken}`,
     });
 
+    const [simple, setSimple] = useState(false);
     const [payReq, setPayReq] = useState({
         amount: 0,
         message: '',
@@ -129,7 +131,12 @@ const PayPage = () => {
     return (
         <>
             {storeName && (
-                <>
+                <div
+                    style={{
+                        marginLeft: '12px',
+                        marginRight: '12px',
+                    }}
+                >
                     <div className={Pay_.container}>
                         <div className={Pay_.shopContainer}>
                             <h4 className={Pay_.title}>결제매장</h4>
@@ -190,7 +197,7 @@ const PayPage = () => {
                         </div>
                     </div>
                     <div className={Pay_.btnContainer}>
-                        <button onClick={() => payHandler('asd')}>
+                        <button onClick={() => setSimple(true)}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="28"
@@ -208,8 +215,10 @@ const PayPage = () => {
                             <span>Pay 결제</span>
                         </button>
                     </div>
-                </>
+                </div>
             )}
+
+            {simple && <SimplePassword handler={() => payHandler()} exit={() => setSimple(false)} />}
         </>
     );
 };

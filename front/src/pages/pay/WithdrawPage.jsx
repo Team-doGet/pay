@@ -10,6 +10,7 @@ import useAxios from '../../hooks/useAxios';
 import useAuth from '../../hooks/useAuth';
 import { userState } from '../../states/userState';
 import bankData from '../../mock/bankCode.json';
+import SimplePassword from '../../components/organisms/SimplePassword';
 
 const WithdrawPage = () => {
     useAuth();
@@ -21,6 +22,7 @@ const WithdrawPage = () => {
     const [balance, setBalance] = useState(0);
     const [amount, setAmount] = useState(0);
     const [accountSelect, setAccountSelect] = useRecoilState(accountSelectState);
+    const [simple, setSimple] = useState(false);
 
     const [accountList, setAccountList] = useState([]);
 
@@ -110,7 +112,12 @@ const WithdrawPage = () => {
     return (
         <>
             {user.accessToken && (
-                <>
+                <div
+                    style={{
+                        marginLeft: '12px',
+                        marginRight: '12px',
+                    }}
+                >
                     <div className={Withdraw.top}>
                         <p>금액 설정은 만원 단위로 가능합니다.</p>
                     </div>
@@ -150,10 +157,12 @@ const WithdrawPage = () => {
                         </div>
                     </div>
                     {/* <BottomButtons childrens={['인출하기']} handlers={[() => navigate('/withdraw/simplePassword')]} /> */}
-                    <BottomButtons childrens={['인출하기']} handlers={[() => withdrawHandler()]} />
+                    <BottomButtons childrens={['인출하기']} handlers={[() => setSimple(true)]} />
                     {accountSelect.show && <AccountSelect accountList={accountList} />}
-                </>
+                </div>
             )}
+
+            {simple && <SimplePassword handler={() => withdrawHandler()} exit={() => setSimple(false)} />}
         </>
     );
 };
