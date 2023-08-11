@@ -40,6 +40,7 @@ const PayPage = () => {
                     setStoreName(res.data.data.storeName);
                     setLoading({ ...loading, show: false });
                 } else {
+                    setLoading({ ...loading, show: false });
                     setModal({
                         show: true,
                         title: '실패',
@@ -53,10 +54,11 @@ const PayPage = () => {
                 }
             })();
         } else {
+            setLoading({ ...loading, show: false });
             setModal({
                 show: true,
                 title: '실패',
-                content: '존재하지 않는 매장입니다.',
+                content: '카메라 앱으로 QR 코드를 인식해주세요.',
                 confirmHandler: () => {
                     resetModal();
                     navigate('/');
@@ -126,7 +128,7 @@ const PayPage = () => {
 
     return (
         <>
-            {payBalance && (
+            {storeName && (
                 <>
                     <div className={Pay_.container}>
                         <div className={Pay_.shopContainer}>
