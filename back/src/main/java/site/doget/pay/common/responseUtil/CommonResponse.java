@@ -1,4 +1,4 @@
-package site.doget.pay.pay.common;
+package site.doget.pay.common.responseUtil;
 
 public interface CommonResponse {
     int status = 0;

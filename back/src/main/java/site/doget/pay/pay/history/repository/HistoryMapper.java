@@ -5,11 +5,10 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Mapper
 public interface HistoryMapper {
-    List<HistoryDTO> getUserHistoryDefault(@Param("userid") String userId);
+    List<Map<String, Object>> getUserHistoryDefault(@Param("userid") String userId);
 
-    List<HistoryDTO> getUserHistory(Map<String, Object> paramMap);
+    List<Map<String, Object>> getUserHistory(Map<String, Object> paramMap);
 }

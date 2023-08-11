@@ -2,7 +2,7 @@ package site.doget.pay.pay.charge.controller;
 
 import org.springframework.web.bind.annotation.*;
 import site.doget.pay.pay.charge.service.ChargeService;
-import site.doget.pay.pay.common.CommonResponse;
+import site.doget.pay.common.responseUtil.CommonResponse;
 
 import java.util.Map;
 

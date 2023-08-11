@@ -1,4 +1,4 @@
-package site.doget.pay.pay.common;
+package site.doget.pay.common;
 
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Value;

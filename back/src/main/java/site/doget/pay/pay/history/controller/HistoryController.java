@@ -3,10 +3,9 @@ package site.doget.pay.pay.history.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import site.doget.pay.pay.common.CommonFailResponse;
-import site.doget.pay.pay.common.CommonResponse;
-import site.doget.pay.pay.common.CommonSuccessResponse;
-import site.doget.pay.pay.history.repository.HistoryDTO;
+import site.doget.pay.common.responseUtil.CommonFailResponse;
+import site.doget.pay.common.responseUtil.CommonResponse;
+import site.doget.pay.common.responseUtil.CommonSuccessResponse;
 import site.doget.pay.pay.history.service.HistoryService;
 
 import java.util.List;
@@ -28,14 +27,14 @@ public class HistoryController {
     @GetMapping("/*")
     @ResponseBody
     public CommonResponse getUserHistoryGet(@RequestParam Map<String, Object> paramMap) {
-
-        List<HistoryDTO> historyDTOList = historyService.getUserHistoryDefault(paramMap);
-
-        if(historyDTOList.size() == 0) {
+        
+        List<Map<String, Object>> historyList = historyService.getUserHistoryDefault(paramMap);
+        
+        if(historyList.size() == 0) {
             return new CommonFailResponse("조회된 거래 내역이 없습니다.");
         }
         else {
-            return new CommonSuccessResponse(historyDTOList);
+            return new CommonSuccessResponse(historyList);
         }
     }
 
@@ -50,8 +49,13 @@ public class HistoryController {
     @PostMapping ("/*")
     @ResponseBody
     public CommonResponse getUserHistoryPost(@RequestBody Map<String, Object> paramMap) {
-        List<HistoryDTO> historyDTOList = historyService.getUserHistory(paramMap);
+        List<Map<String, Object>> historyList = historyService.getUserHistory(paramMap);
 
-        return new CommonSuccessResponse(historyDTOList);
+        if(historyList.size() == 0) {
+            return new CommonFailResponse("조회된 거래 내역이 없습니다.");
+        }
+        else {
+            return new CommonSuccessResponse(historyList);
+        }
     }
 }

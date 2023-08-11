@@ -3,9 +3,7 @@ package site.doget.pay.account.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.doget.pay.account.repository.AccountMapper;
-import site.doget.pay.pay.common.CommonFailResponse;
-import site.doget.pay.pay.common.CommonResponse;
-import site.doget.pay.pay.common.CommonSuccessResponse;
+import site.doget.pay.common.responseUtil.*;
 
 import java.util.HashMap;
 import java.util.List;

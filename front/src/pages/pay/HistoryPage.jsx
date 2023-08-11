@@ -20,33 +20,42 @@ const HistoryPage = () => {
     const [historyFilter, setHistoryFilter] = useRecoilState(historyFilterState);
     const resetHistoryFilter = useResetRecoilState(historyFilterState);
     const [userBalance, setUserBalance] = useState(0);
-    // 임시 더미데이터
     const [historyData, setHistoryData] = useState({
         data: [
-            { name: '카페게이트', amount: '1500', paymoneyBalance: '3000' },
-            { name: '메가커피', amount: '2000', paymoneyBalance: '5000' },
+            {
+                registered_date: '          ',
+                opposite_name: '조회된 데이터가 없습니다.',
+                process_code: '000',
+                process_amount: '-',
+                paymoney_balance: '-',
+            },
         ],
     });
 
-    const userId = user.userId;
-
     const getAccountBalance = async () => {
-        const res = await api.get(`/transfer/?userId=${userId}`, userBalance);
+        const res = await api.get(`/transfer/?userId=${user.userId}`, userBalance);
         setUserBalance(res.data.data.balance);
     };
 
     const getHistoryDefault = async () => {
-        const res = await api.get(`/history/?userId=${userId}`, historyFilter);
+        const res = await api.get(`/history/?userId=${11}`, historyFilter); // user.userId
         if (res.data.status === 200) {
+            console.log(res.data.data);
             //list 출력
             setHistoryData({ ...historyData, data: res.data.data });
         } else {
             // 조회 오류 발생
             setHistoryData({
-                ...historyData,
-                data: { name: '데이터를 불러올 수 없습니다.', amount: '-', paymoneyBalance: '-' },
+                data: [
+                    {
+                        registered_date: '          ',
+                        opposite_name: '조회 에러',
+                        process_code: '000',
+                        process_amount: '-',
+                        paymoney_balance: '-',
+                    },
+                ],
             });
-            console.log(historyData);
         }
     };
 
@@ -61,14 +70,13 @@ const HistoryPage = () => {
                 ...historyData,
                 data: { name: '데이터를 불러올 수 없습니다.', amount: '-', paymoneyBalance: '-' },
             });
-            console.log(historyData);
         }
     };
 
     useEffect(() => {
-        setHistoryFilter({ ...historyFilter, id: userId });
+        setHistoryFilter({ ...historyFilter, id: user.userId });
         getAccountBalance();
-        //getHistoryDefault();
+        getHistoryDefault();
 
         return () => {
             resetHistoryFilter();
@@ -76,8 +84,9 @@ const HistoryPage = () => {
     }, []);
 
     useEffect(() => {
-        //getHistory();
-    }, [userBalance, historyData]);
+        // getHistory(); 수정중
+        console.log(historyFilter);
+    }, [historyFilter]);
 
     return (
         <>
@@ -120,38 +129,31 @@ const HistoryPage = () => {
                     </div>
                     <div className={History_.historyBox}>
                         <ul className={History_.historyList}>
-                            {historyData.data.map(history => (
-                                <li className={History_.historyWrapper}>
-                                    <div className={History_.histroyContent}>
-                                        <p>06.05</p>
-                                        <p>{history.name}</p>
-                                    </div>
-                                    <div className={History_.historyAmount}>
-                                        <p>{history.amount}원</p>
-                                        <p>{history.paymoneyBalance}원</p>
-                                    </div>
-                                </li>
-                            ))}
-                            {/* <li className={History_.historyWrapper}>
-                                <div className={History_.histroyContent}>
-                                    <p>06.05</p>
-                                    <p>사용처</p>
-                                </div>
-                                <div className={History_.historyAmount}>
-                                    <p>20,000원</p>
-                                    <p>1,310,000원</p>
-                                </div>
-                            </li>
-                            <li className={History_.historyWrapper}>
-                                <div className={History_.histroyContent}>
-                                    <p>06.05</p>
-                                    <p>사용처</p>
-                                </div>
-                                <div className={History_.historyAmount}>
-                                    <p>20,000원</p>
-                                    <p>10,000원</p>
-                                </div>
-                            </li> */}
+                            {historyData &&
+                                historyData.data.map(history => (
+                                    <li className={History_.historyWrapper}>
+                                        <div className={History_.histroyContent}>
+                                            <p>
+                                                {history.registered_date.slice(4, 6)}.
+                                                {history.registered_date.slice(6, 8)}
+                                            </p>
+                                            <p>{history.opposite_name}</p>
+                                        </div>
+                                        <div className={History_.historyAmount}>
+                                            <p>
+                                                {history.process_code === '001' ? (
+                                                    <p style={{ color: 'red' }}>출금</p>
+                                                ) : history.process_code === '000' ? (
+                                                    '-'
+                                                ) : (
+                                                    <p style={{ color: 'blue' }}>입금</p>
+                                                )}
+                                            </p>
+                                            <p>사용 금액 : {history.process_amount.toLocaleString()}원</p>
+                                            <p>잔액 : {history.paymoney_balance.toLocaleString()}원</p>
+                                        </div>
+                                    </li>
+                                ))}
                         </ul>
                     </div>
                 </div>

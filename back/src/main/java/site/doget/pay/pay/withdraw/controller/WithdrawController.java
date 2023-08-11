@@ -1,7 +1,7 @@
 package site.doget.pay.pay.withdraw.controller;
 
 import org.springframework.web.bind.annotation.*;
-import site.doget.pay.pay.common.CommonResponse;
+import site.doget.pay.common.responseUtil.CommonResponse;
 import site.doget.pay.pay.withdraw.service.WithdrawService;
 
 import java.util.Map;

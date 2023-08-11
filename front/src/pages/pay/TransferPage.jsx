@@ -58,11 +58,11 @@ const TransferPage = () => {
             // 완료 페이지 전환
             navigate('/result', {
                 state: {
-                    headerTitle: '결제완료',
+                    headerTitle: '송금완료',
                     flag: 'success',
                     info: [
                         {
-                            title: '결제 금액',
+                            title: '송금 금액',
                             content: res.data.data.amount.toLocaleString() + '원',
                         },
                         {

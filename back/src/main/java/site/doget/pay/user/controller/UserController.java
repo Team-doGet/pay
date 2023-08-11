@@ -2,30 +2,25 @@ package site.doget.pay.user.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import site.doget.pay.pay.common.CommonFailResponse;
-import site.doget.pay.pay.common.CommonResponse;
-import site.doget.pay.pay.common.CommonSuccessResponse;
-import site.doget.pay.security.jwt.JwtAuthenticationFilter;
+import site.doget.pay.common.responseUtil.CommonFailResponse;
+import site.doget.pay.common.responseUtil.CommonResponse;
+import site.doget.pay.common.responseUtil.CommonSuccessResponse;
 import site.doget.pay.security.jwt.TokenInfo;
 import site.doget.pay.user.DTO.JoinReqDTO;
 import site.doget.pay.user.DTO.LoginReqDTO;
 import site.doget.pay.user.DTO.LoginResultDTO;
 import site.doget.pay.user.service.UserService;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @Slf4j

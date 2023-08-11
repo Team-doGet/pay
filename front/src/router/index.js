@@ -128,7 +128,7 @@ const Router = () => {
                         },
                         {
                             path: 'auth',
-                            element: [<Header title="계좌로 본인 인증" isBack={false} />, <AccountAddAuthPage />],
+                            element: [<Header title="계좌로 본인 인증" isBack={true} />, <AccountAddAuthPage />],
                         },
                     ],
                 },

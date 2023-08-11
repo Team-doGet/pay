@@ -1,17 +1,14 @@
 package site.doget.pay.pay.collect.controller;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.doget.pay.pay.collect.repository.CollectDTO;
 import site.doget.pay.pay.collect.service.CollectService;
-import site.doget.pay.pay.common.CommonFailResponse;
-import site.doget.pay.pay.common.CommonResponse;
-import site.doget.pay.pay.common.CommonSuccessResponse;
-import site.doget.pay.pay.transfer.DTO.TransferReqDTO;
+import site.doget.pay.common.responseUtil.CommonFailResponse;
+import site.doget.pay.common.responseUtil.CommonResponse;
+import site.doget.pay.common.responseUtil.CommonSuccessResponse;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Controller
