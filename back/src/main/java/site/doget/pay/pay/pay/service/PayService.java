@@ -31,13 +31,20 @@ public class PayService {
         // 페이머니가 결제금액보다 클 경우 자동 충전
         if (amount > paymoneyBalance) {
             Map<String, Object> accountInfo = payMapper.getAccountInfo(userId);
+            if (accountInfo == null) {
+                Map<String, Object> error = new HashMap<>();
+                error.put("error", "등록된 계좌가 없습니다.");
+                return error;
+            }
             int accountBalance = (int) accountInfo.get("accountBalance");
             String accountNo = (String) accountInfo.get("accountNo");
             String bankCode = (String) accountInfo.get("bankCode");
 
             int needAccountMoney = (int) (Math.ceil((float) (amount - paymoneyBalance) / 10000) * 10000);
             if (accountBalance < needAccountMoney) {
-                return null;
+                Map<String, Object> error = new HashMap<>();
+                error.put("error", "주계좌 잔액을 확인해주세요.");
+                return error;
             }
             Map<String, Object> chargeReq = new HashMap<>();
 
@@ -70,6 +77,11 @@ public class PayService {
 
         // 결제 기록 거래내역에 남기기
         Map<String, Object> accountInfo = payMapper.getAccountInfo(userId);
+        if (accountInfo == null) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("error", "등록된 계좌가 없습니다.");
+            return error;
+        }
         int accountBalance = (int) accountInfo.get("accountBalance");
         String accountNo = (String) accountInfo.get("accountNo");
         String bankCode = (String) accountInfo.get("bankCode");
