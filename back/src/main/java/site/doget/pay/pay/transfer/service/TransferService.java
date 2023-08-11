@@ -3,7 +3,6 @@ package site.doget.pay.pay.transfer.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.doget.pay.pay.common.CommonFailResponse;
 import site.doget.pay.pay.transfer.DTO.TransferReqDTO;
 import site.doget.pay.pay.transfer.repository.TransferMapper;
 
@@ -43,13 +42,7 @@ public class TransferService {
 
     public Integer chargePayAccount(TransferReqDTO dto) {
 
-        dto.setReceiver(transferMapper.getPayAccount(dto.getSender()).toString());
+        dto.setReceiver(transferMapper.findUserByPhone(dto.getReceiver()).get().toString());
         return transferMapper.chargePayAccount(dto);
     }
 }
-// ref
-
-//    public List<MonthDataVO> getMonthData(@Param("userNo") int userNo, @Param("yesterday") Date yesterday) {
-//        List<MonthDataVO> vo = mainMapper.getMonthData(userNo, yesterday);
-//        return vo;
-//    }

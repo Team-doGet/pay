@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.doget.pay.common.responseUtil.*;
 import site.doget.pay.myInfo.service.MyInfoService;
-import site.doget.pay.pay.common.CommonFailResponse;
-import site.doget.pay.pay.common.CommonResponse;
-import site.doget.pay.pay.common.CommonSuccessResponse;
 
 @RequiredArgsConstructor
 @RestController

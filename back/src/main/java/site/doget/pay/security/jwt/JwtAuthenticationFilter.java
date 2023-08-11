@@ -8,16 +8,15 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
-import site.doget.pay.pay.common.CommonFailResponse;
+import site.doget.pay.common.responseUtil.CommonFailResponse;
 
 // 클라이언트 요청 시 JWT 인증하는 커스텀 필터
 @RequiredArgsConstructor

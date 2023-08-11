@@ -27,6 +27,11 @@ const AccountAddAuthPage = () => {
 
     const [errorMessage, setErrorMessage] = useState('');
 
+    var date = new Date();
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+    var second = date.getSeconds().toString();
+
     const handleChangeAlpha = e => {
         setInputAlpha({ authCode: e.target.value });
     };
@@ -137,7 +142,9 @@ const AccountAddAuthPage = () => {
                 </div>
                 <div className={AccountAddAuth.error}>{errorMessage}</div>
             </div>
-            <div className={AccountAddAuth.bottom}>06월 02일 15시 17분 전까지 입력 필요</div>
+            <div className={AccountAddAuth.bottom}>
+                인증코드는 {hour}시 {minute + 5}분 {second}초까지 유효합니다
+            </div>
             <div>
                 <BottomButtons childrens={['확인']} handlers={[() => registerAccount()]}></BottomButtons>
             </div>

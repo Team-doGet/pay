@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.doget.pay.pay.collect.repository.CollectDTO;
 import site.doget.pay.pay.collect.repository.CollectMapper;
-import site.doget.pay.pay.common.AesUtil;
+import site.doget.pay.common.AesUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;

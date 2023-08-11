@@ -1,4 +1,4 @@
-package site.doget.pay.pay.common;
+package site.doget.pay.common.responseUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

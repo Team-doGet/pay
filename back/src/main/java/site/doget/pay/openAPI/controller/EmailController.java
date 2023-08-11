@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.doget.pay.openAPI.service.EmailService;
-import site.doget.pay.pay.common.CommonFailResponse;
-import site.doget.pay.pay.common.CommonResponse;
-import site.doget.pay.pay.common.CommonSuccessResponse;
+import site.doget.pay.common.responseUtil.CommonFailResponse;
+import site.doget.pay.common.responseUtil.CommonResponse;
+import site.doget.pay.common.responseUtil.CommonSuccessResponse;
 
 import javax.mail.MessagingException;
 import java.util.HashMap;

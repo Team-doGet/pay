@@ -1,4 +1,5 @@
-.conatiner {}
+.conatiner {
+}
 
 .payContainer {
     display: flex;
@@ -9,12 +10,12 @@
     padding-bottom: 30px;
 }
 
-.payMoney > h3{
+.payMoney > h3 {
     text-align: center;
     padding-bottom: 10px;
 }
 
-.payMoney>h4 {
+.payMoney > h4 {
     color: #000;
     text-align: center;
     font-family: Noto Sans KR;
@@ -27,24 +28,25 @@
     gap: 15px;
 }
 
-.payButtonsContainer>button {
+.payButtonsContainer > button {
     width: 105px;
     height: 50px;
     border-radius: 4px;
-    background: var(--main, #39C4FF);
-    color: #FFF;
+    background: var(--main, #39c4ff);
+    color: #fff;
     text-align: center;
     font-size: 16px;
     font-weight: 500;
 }
 
-.historyContainer {}
+.historyContainer {
+}
 
 .filterButtonContainer {
     position: relative;
     height: 50px;
-    border-top: 1px solid #D2D2D2;
-    border-bottom: 1px solid #D2D2D2;
+    border-top: 1px solid #d2d2d2;
+    border-bottom: 1px solid #d2d2d2;
 }
 
 .filterButton {
@@ -57,20 +59,23 @@
     height: 100%;
 }
 
-.filterButton>p {
+.filterButton > p {
     color: var(--font-grey, #929294);
     font-size: 14px;
     font-weight: 500;
 }
 
-.filterButton>svg {}
+.filterButton > svg {
+}
 
-.historyBox {}
+.historyBox {
+}
 
-.historyList {}
+.historyList {
+}
 
 .historyWrapper {
-    border-bottom: 1px solid #D2D2D2;
+    border-bottom: 1px solid #d2d2d2;
     padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -81,13 +86,13 @@
     gap: 20px;
 }
 
-.histroyContent>p:first-of-type {
+.histroyContent > p:first-of-type {
     color: var(--font-grey, #929294);
     font-size: 16px;
     font-weight: 500;
 }
 
-.histroyContent>p:last-of-type {
+.histroyContent > p:last-of-type {
     color: var(--font-black, #222);
     font-size: 16px;
     font-weight: 400;
@@ -100,13 +105,17 @@
     gap: 10px;
 }
 
-.historyAmount>p:first-of-type {
+.historyAmount > p:first-of-type {
+    color: #2601fa;
+}
+
+.historyAmount > p {
     color: var(--font-black, #222);
-    font-size: 18px;
+    /* font-size: 18px; */
     font-weight: 700;
 }
 
-.historyAmount>p:last-of-type {
+.historyAmount > p:last-of-type {
     color: var(--font-grey, #929294);
     font-size: 16px;
     font-weight: 400;

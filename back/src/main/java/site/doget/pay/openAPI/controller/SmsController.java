@@ -9,9 +9,9 @@ import org.springframework.web.client.RestClientException;
 import site.doget.pay.openAPI.dto.MessageDTO;
 import site.doget.pay.openAPI.dto.SmsResponseDTO;
 import site.doget.pay.openAPI.service.SmsService;
-import site.doget.pay.pay.common.CommonFailResponse;
-import site.doget.pay.pay.common.CommonResponse;
-import site.doget.pay.pay.common.CommonSuccessResponse;
+import site.doget.pay.common.responseUtil.CommonFailResponse;
+import site.doget.pay.common.responseUtil.CommonResponse;
+import site.doget.pay.common.responseUtil.CommonSuccessResponse;
 import site.doget.pay.user.repository.UserMapper;
 
 import java.io.UnsupportedEncodingException;
@@ -20,8 +20,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static site.doget.pay.openAPI.service.SmsService.createSmsKey;
 
 @Controller
 @RequiredArgsConstructor

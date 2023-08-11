@@ -3,7 +3,7 @@ package site.doget.pay.account.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.doget.pay.account.service.AccountService;
-import site.doget.pay.pay.common.CommonResponse;
+import site.doget.pay.common.responseUtil.CommonResponse;
 
 import java.util.Map;
 

@@ -3,9 +3,9 @@ package site.doget.pay.pay.transfer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import site.doget.pay.pay.common.CommonFailResponse;
-import site.doget.pay.pay.common.CommonResponse;
-import site.doget.pay.pay.common.CommonSuccessResponse;
+import site.doget.pay.common.responseUtil.CommonFailResponse;
+import site.doget.pay.common.responseUtil.CommonResponse;
+import site.doget.pay.common.responseUtil.CommonSuccessResponse;
 import site.doget.pay.pay.transfer.DTO.TransferAccountDTO;
 import site.doget.pay.pay.transfer.DTO.TransferDTO;
 import site.doget.pay.pay.transfer.service.TransferService;
@@ -45,6 +45,7 @@ public class TransferController {
     @ResponseBody
     public CommonResponse payTransferPost(@RequestBody Map<String, Object> paramMap) {
         TransferReqDTO tReqDTO = new TransferReqDTO(paramMap);
+//        System.out.println(tReqDTO.getReceiver()+"asdadad");
 
             // receiver 회원 일치 존재 여부 확인
             if(transferService.findUserByPhone(tReqDTO.getReceiver()).isEmpty()) {
