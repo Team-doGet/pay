@@ -22,5 +22,9 @@
             date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'), 'USER')
   </insert>
 
-
+  <select id="getSimplePw" resultType="String">
+    SELECT simple_password_no
+    FROM user_master
+    WHERE user_id = #{userId}
+  </select>
 </mapper>

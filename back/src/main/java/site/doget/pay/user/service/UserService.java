@@ -76,4 +76,9 @@ public class UserService implements UserDetailsService {
         }
         return false;
     }
+
+    public boolean checkSimplePw(String userId, String simplePw) {
+        String userSimplePw = userMapper.getSimplePw(userId);
+        return passwordEncoder.matches(simplePw, userSimplePw);
+    }
 }
