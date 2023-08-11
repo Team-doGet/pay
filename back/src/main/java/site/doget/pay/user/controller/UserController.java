@@ -81,4 +81,17 @@ public class UserController {
 
         return new CommonFailResponse("이미 가입된 계정입니다.");
     }
+
+    @PostMapping("/simplePw")
+    public CommonResponse checkSimplePw(@RequestBody Map<String, Object> req) {
+        String userId = (String) req.get("userId");
+        String simplePw = (String) req.get("simplePw");
+
+        if (userService.checkSimplePw(userId, simplePw)) {
+            return new CommonSuccessResponse("간편비밀번호가 일치합니다.");
+        }
+
+        return new CommonFailResponse("간편비밀번호가 일치하지 않습니다.");
+    }
+
 }

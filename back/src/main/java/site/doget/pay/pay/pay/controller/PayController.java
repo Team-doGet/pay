@@ -2,13 +2,11 @@ package site.doget.pay.pay.pay.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import site.doget.pay.pay.common.CommonFailResponse;
-import site.doget.pay.pay.common.CommonResponse;
-import site.doget.pay.pay.common.CommonSuccessResponse;
+import site.doget.pay.common.responseUtil.CommonFailResponse;
+import site.doget.pay.common.responseUtil.CommonResponse;
+import site.doget.pay.common.responseUtil.CommonSuccessResponse;
 import site.doget.pay.pay.pay.service.PayService;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

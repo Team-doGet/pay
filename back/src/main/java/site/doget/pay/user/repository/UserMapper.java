@@ -15,4 +15,6 @@ public interface UserMapper {
     LoginResultDTO getUserInfo(String emailNo);
 
     Integer saveUser(JoinReqDTO joinReq);
+
+    String getSimplePw(@Param("userId") String userId);
 }
