@@ -1,21 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Enter_ from './SimplePasswordEnter.module.css';
 import arr from '../../../mock/passwordKeyPad';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { simplePwState } from '../../../states/simplePwState';
+import { userState } from '../../../states/userState';
+import useAxios from '../../../hooks/useAxios';
+import { modalState } from '../../../states/modalState';
+import { useNavigate } from 'react-router-dom';
 
 const SimplePasswordEnter = ({ handler }) => {
     const [passwords, setPasswords] = useRecoilState(simplePwState);
     const resetPasswords = useResetRecoilState(simplePwState);
     const { pw, pwIdx } = passwords;
+    const user = useRecoilValue(userState);
+    const api = useAxios({
+        Authorization: `Bearer ${user.accessToken}`,
+    });
+    const [modal, setModal] = useRecoilState(modalState);
+    const resetModal = useResetRecoilState(modalState);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        return () => {
-            resetPasswords();
-        };
-    }, []);
-
-    const passwordClickHandler = value => {
+    const passwordClickHandler = async value => {
         if (value >= 0) {
             if (pwIdx <= 5) {
                 const tmp = [...pw];
@@ -23,8 +28,26 @@ const SimplePasswordEnter = ({ handler }) => {
                 setPasswords({ ...passwords, pw: tmp, pwIdx: pwIdx + 1 });
 
                 if (pwIdx === 5) {
-                    console.log('api 요청(마지막 비밀번호 처리해줘야함)');
-                    handler();
+                    const res = await api.post(`/users/simplePw`, {
+                        userId: String(user.userId),
+                        simplePw: tmp.join(''),
+                    });
+
+                    if (res.data.status === 200) {
+                        handler();
+                    } else {
+                        setModal({
+                            ...modal,
+                            show: true,
+                            title: '비밀번호 불일치',
+                            content: '간편비밀번호가 일치하지않습니다.',
+                            confirmHandler: () => {
+                                resetModal();
+                                resetPasswords();
+                            },
+                            cancel: false,
+                        });
+                    }
                 }
             }
         } else if (value === -1) {
