@@ -47,10 +47,10 @@ public class PayController {
         }
 
         Map<String, Object> result = payService.payment(userId, amount, storeName);
-        if (result != null) {
-            return new CommonSuccessResponse("결제가 성공적으로 완료되었습니다.", result);
+        if (result.containsKey("error")) {
+            return new CommonFailResponse((String) result.get("error"));
         }
-        return new CommonFailResponse("결제에 실패하였습니다. 주계좌 잔액을 확인하세요.");
+        return new CommonSuccessResponse("결제가 성공적으로 완료되었습니다.", result);
     }
 
 }
