@@ -8,6 +8,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/atoms/Button';
 import { modalState } from '../../states/modalState';
+import BottomButtons from '../../components/molecules/common/BottomButtons';
 
 const ResetPassWord = () => {
     useAuth();
@@ -153,7 +154,12 @@ const ResetPassWord = () => {
     };
 
     return (
-        <div>
+        <div
+            style={{
+                marginLeft: '12px',
+                marginRight: '12px',
+            }}
+        >
             <div>
                 {/* <h2>비밀번호 변경</h2> */}
                 <p className={resetPw.top}>안전한 비밀번호로 내정보를 보호하세요</p>
@@ -193,14 +199,18 @@ const ResetPassWord = () => {
                 />
                 {warning.new.show && <p className={resetPw.warning}>{warning.new.msg}</p>}
             </div>
-            <div className={resetPw.button}>
+            <BottomButtons
+                childrens={['확인', '취소']}
+                handlers={[() => handleResetPassword(), () => handleCancel()]}
+            />
+            {/* <div className={resetPw.button}>
                 <Button width="full" type="main" handler={() => handleResetPassword()}>
                     확인
                 </Button>
                 <Button width="full" type="sub" handler={() => handleCancel()}>
                     취소
                 </Button>
-            </div>
+            </div> */}
         </div>
     );
 };

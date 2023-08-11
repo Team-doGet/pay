@@ -31,7 +31,7 @@ const CollectPage = () => {
             alert('정확한 금액을 입력해주세요!');
         } else {
             const res = await api.post(`/collect/`, collectData);
-            //console.log(res);
+
             if (res.data.status === 200) {
                 setLinkData(res.data.data.link);
                 setQRCodeImage(res.data.data.qrCode);
@@ -41,14 +41,17 @@ const CollectPage = () => {
         }
     };
 
-    useEffect(() => {
-        //console.log(collectData);
-    }, [collectData]);
+    useEffect(() => {}, [collectData]);
 
     return (
         <>
             {user.accessToken && (
-                <>
+                <div
+                    style={{
+                        marginLeft: '12px',
+                        marginRight: '12px',
+                    }}
+                >
                     <div className={Collect_.container}>
                         <div className={Collect_.amountContainer}>
                             <h4 className={Collect_.title}>받을 금액</h4>
@@ -105,7 +108,7 @@ const CollectPage = () => {
                         <div></div>
                         <div></div>
                     </div>
-                </>
+                </div>
             )}
         </>
     );

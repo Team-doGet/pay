@@ -71,7 +71,12 @@ const AccountAddAuthPage = () => {
         console.log(inputAlpha);
     }, [inputAlpha]);
     return (
-        <div>
+        <div
+            style={{
+                marginLeft: '12px',
+                marginRight: '12px',
+            }}
+        >
             <div className={AccountAddAuth.one}>
                 <div>
                     1. 입력한 계좌로 <span className={AccountAddAuth.blue}>1원</span>을 보냈어요.

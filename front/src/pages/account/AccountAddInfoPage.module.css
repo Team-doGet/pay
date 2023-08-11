@@ -8,8 +8,8 @@
     margin-top: 10px;
     margin-bottom: 5px;
 }
-.bank {
-}
+
+.bank {}
 
 .error {
     padding-left: 10px;
@@ -22,24 +22,24 @@
     line-height: normal;
 }
 
-.bank > ul {
+.bank>ul {
     display: flex;
     justify-content: space-around;
     margin-top: 25px;
 }
 
-.bank > ul > li {
+.bank>ul>li {
     border-radius: 4px;
     border: 1px solid #c4c4c4;
     width: 20%;
     height: 60px;
 }
 
-li > button {
+li>button {
     width: 100%;
 }
 
-.bank > ul > li > button {
+.bank>ul>li>button {
     text-align: center;
     /* margin-top: 20px;
     margin-bottom: 20px; */
@@ -56,10 +56,12 @@ li > button {
 .selected {
     background: var(--main, #cae9f7);
 }
+
 .bottom {
     padding-top: 10px;
 }
-.bottom > div {
+
+.bottom>div {
     margin-top: 10px;
     color: #ff3f3f;
     font-family: Noto Sans KR;

@@ -123,7 +123,12 @@ const JoinInfoPage = () => {
     }, []);
 
     return (
-        <>
+        <div
+            style={{
+                marginLeft: '12px',
+                marginRight: '12px',
+            }}
+        >
             <div>
                 <div className={JoinInfo.topInputContainer}>
                     <div className={JoinInfo.inputWithButton}>
@@ -235,7 +240,7 @@ const JoinInfoPage = () => {
                 </div>
             </div>
             <BottomButtons childrens={['가입하기']} handlers={[() => joinHandler()]} />
-        </>
+        </div>
     );
 };
 

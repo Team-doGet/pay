@@ -1,24 +1,24 @@
-.container {
-}
+.container {}
 
 .headerContainer {
     display: flex;
     height: 80px;
     justify-content: space-between;
     align-items: center;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 
-.headerContainer > div > button {
+.headerContainer>div>button {
     color: var(--font-black, #222);
     font-size: 1rem;
     font-weight: 500;
     margin-left: 10px;
 }
 
-.logoContainer {
-}
+.logoContainer {}
 
-.logoContainer > svg {
+.logoContainer>svg {
     width: 80px;
     height: 80px;
 }
@@ -29,15 +29,17 @@
     border-radius: 10px;
     padding: 1rem;
     /* margin-top: 1rem; */
+    margin-left: 12px;
+    margin-right: 12px;
 }
 
-.moneyContainer > h4 {
+.moneyContainer>h4 {
     color: var(--sub, #fff);
     font-size: 1rem;
     font-weight: 700;
 }
 
-.moneyContainer > p {
+.moneyContainer>p {
     color: var(--sub, #fff);
     font-size: 1.6rem;
     font-weight: 700;
@@ -51,7 +53,7 @@
     gap: 5%;
 }
 
-.moneyButtonContainer > button {
+.moneyButtonContainer>button {
     color: #fff;
     font-size: 1rem;
     font-weight: 700;
@@ -72,6 +74,7 @@
 .menuContainer {
     margin-top: 2.4rem;
     margin-bottom: 2.3rem;
+    padding: 0 12px;
 }
 
 .menuList {
@@ -81,16 +84,13 @@
     gap: 1.5rem;
 }
 
-.menuWrapper {
-}
+.menuWrapper {}
 
-.menuButton {
-}
+.menuButton {}
 
-.menuButton > img {
-}
+.menuButton>img {}
 
-.menuButton > p {
+.menuButton>p {
     color: var(--font-black, #222);
     font-size: 1rem;
     font-weight: 700;
@@ -98,10 +98,10 @@
 }
 
 .historyContainer {
+    padding: 0 12px;
 }
 
-.contahistoryContaineriner {
-}
+.contahistoryContaineriner {}
 
 .historyHeader {
     height: 2.8rem;
@@ -114,11 +114,9 @@
     padding: 0.75rem;
 }
 
-.historyBox {
-}
+.historyBox {}
 
-.historyList {
-}
+.historyList {}
 
 .historyWrapper {
     border-bottom: 1px solid #d2d2d2;
@@ -132,13 +130,13 @@
     gap: 20px;
 }
 
-.histroyContent > p:first-of-type {
+.histroyContent>p:first-of-type {
     color: var(--font-grey, #929294);
     font-size: 16px;
     font-weight: 500;
 }
 
-.histroyContent > p:last-of-type {
+.histroyContent>p:last-of-type {
     color: var(--font-black, #222);
     font-size: 16px;
     font-weight: 400;
@@ -151,13 +149,13 @@
     gap: 10px;
 }
 
-.historyAmount > p:first-of-type {
+.historyAmount>p:first-of-type {
     color: var(--font-black, #222);
     font-size: 18px;
     font-weight: 700;
 }
 
-.historyAmount > p:last-of-type {
+.historyAmount>p:last-of-type {
     color: var(--font-grey, #929294);
     font-size: 16px;
     font-weight: 400;

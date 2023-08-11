@@ -18,60 +18,51 @@ input[type='number']::-webkit-inner-spin-button {
     margin-bottom: 10px;
 }
 
-.shopContainer {
-}
+.shopContainer {}
 
 .shopInfo {
     display: flex;
     align-items: center;
 }
 
-.shopInfo > svg {
+.shopInfo>svg {
     margin-right: 12px;
 }
 
-.shopInfo > span {
-}
+.shopInfo>span {}
 
-.amountContainer {
-}
+.amountContainer {}
 
-.amountContainer > h4 {
-}
+.amountContainer>h4 {}
 
-.amountContainer > div {
+.amountContainer>div {
     margin-bottom: 5px;
 }
 
-.amountContainer > div > input {
+.amountContainer>div>input {
     width: 100%;
     border-bottom: 2px solid #39c4ff;
     padding-bottom: 4px;
     font-size: 16px;
 }
 
-.amountContainer > p {
+.amountContainer>p {
     color: var(--font-black, #222);
     font-size: 14px;
     font-weight: 500;
 }
 
-.msgContainer {
-}
+.msgContainer {}
 
-.msgContainer > h4 {
-}
+.msgContainer>h4 {}
 
-.msgContainer > div {
-}
+.msgContainer>div {}
 
-.noticeContainer > h4 {
-}
+.noticeContainer>h4 {}
 
-.noticeContainer > div {
-}
+.noticeContainer>div {}
 
-.noticeContainer > div > p {
+.noticeContainer>div>p {
     color: var(--font-grey, #929294);
     font-size: 14px;
     font-weight: 500;
@@ -79,12 +70,12 @@ input[type='number']::-webkit-inner-spin-button {
 
 .btnContainer {
     position: absolute;
-    width: 100%;
+    width: calc(100% - 24px);
     bottom: 15px;
     height: 50px;
 }
 
-.btnContainer > button {
+.btnContainer>button {
     border-radius: 4px;
     background: var(--main, #39c4ff);
     width: 100%;
@@ -95,10 +86,9 @@ input[type='number']::-webkit-inner-spin-button {
     gap: 5px;
 }
 
-.btnContainer > button > svg {
-}
+.btnContainer>button>svg {}
 
-.btnContainer > button > span {
+.btnContainer>button>span {
     color: #fff;
     font-size: 20px;
     font-weight: 400;
