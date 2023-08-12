@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { simplePwState } from '../../../states/simplePwState';
 
-const SimplePasswordHeader = ({ title, exit }) => {
+const RegSimplePasswordHeader = ({ title, exit }) => {
     const navigate = useNavigate();
     const [simple, setSimple] = useRecoilState(simplePwState);
     const resetSimple = useResetRecoilState(simplePwState);
@@ -12,9 +12,8 @@ const SimplePasswordHeader = ({ title, exit }) => {
     return (
         <div className={PwHeader.header}>
             <span className={PwHeader.text}>{title}</span>
-            <img className={PwHeader.close} onClick={exit} src="/assets/img/common/close.svg" alt="" />
         </div>
     );
 };
 
-export default SimplePasswordHeader;
+export default RegSimplePasswordHeader;

@@ -83,6 +83,6 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean regSimplePw(String userId, String simplePw) {
-        return userMapper.regSimplePw(userId, simplePw) >= 1;
+        return userMapper.regSimplePw(userId, passwordEncoder.encode(simplePw)) >= 1;
     }
 }
