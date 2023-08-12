@@ -81,4 +81,8 @@ public class UserService implements UserDetailsService {
         String userSimplePw = userMapper.getSimplePw(userId);
         return passwordEncoder.matches(simplePw, userSimplePw);
     }
+
+    public boolean regSimplePw(String userId, String simplePw) {
+        return userMapper.regSimplePw(userId, simplePw) >= 1;
+    }
 }

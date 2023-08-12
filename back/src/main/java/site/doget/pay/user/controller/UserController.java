@@ -59,6 +59,11 @@ public class UserController {
         resData.put("phoneNo", userInfo.getPhoneNo());
         resData.put("accessToken", token.getAccessToken());
         resData.put("refreshToken", token.getRefreshToken());
+        if (userInfo.getSimplePasswordNo() != null) {
+            resData.put("simplePw", true);
+        } else {
+            resData.put("simplePw", false);
+        }
 
         CommonSuccessResponse res = new CommonSuccessResponse(resData);
         res.setMessage("로그인에 성공하였습니다.");
@@ -82,7 +87,7 @@ public class UserController {
         return new CommonFailResponse("이미 가입된 계정입니다.");
     }
 
-    @PostMapping("/simplePw")
+    @PostMapping("/simplepw/check")
     public CommonResponse checkSimplePw(@RequestBody Map<String, Object> req) {
         String userId = (String) req.get("userId");
         String simplePw = (String) req.get("simplePw");
@@ -92,6 +97,16 @@ public class UserController {
         }
 
         return new CommonFailResponse("간편비밀번호가 일치하지 않습니다.");
+    }
+
+    @PostMapping("/simplepw/register")
+    public CommonResponse regSimplePw(@RequestBody Map<String, Object> req) {
+        String userId = (String) req.get("userId");
+        String simplePw = (String) req.get("simplePw");
+        if (userService.regSimplePw(userId, simplePw)) {
+            return new CommonSuccessResponse("간편 비밀번호가 등록되었습니다.");
+        }
+        return new CommonFailResponse("간편 비밀번호 등록에 실패하였습니다.");
     }
 
 }
