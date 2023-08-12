@@ -6,6 +6,7 @@ import { userState } from '../../states/userState';
 import useAxios from '../../hooks/useAxios';
 import { CopyToClipboard } from 'react-copy-to-clipboard/src';
 import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const CollectPage = () => {
     useAuth();
@@ -14,6 +15,7 @@ const CollectPage = () => {
     const api = useAxios({
         Authorization: `Bearer ${user.accessToken}`,
     });
+    const navigate = useNavigate();
 
     const [linkData, setLinkData] = useState('생성 버튼을 누르면 링크가 생성됩니다.');
     const [QRCodeImage, setQRCodeImage] = useState();
@@ -53,6 +55,14 @@ const CollectPage = () => {
                     }}
                 >
                     <div className={Collect_.container}>
+                        <ul className={Collect_.tabContainer}>
+                            <li onClick={() => navigate('../')}>
+                                <span>송금</span>
+                            </li>
+                            <li className={Collect_.activeTab}>
+                                <span>수금</span>
+                            </li>
+                        </ul>
                         <div className={Collect_.amountContainer}>
                             <h4 className={Collect_.title}>받을 금액</h4>
                             <div>
