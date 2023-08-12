@@ -1,5 +1,5 @@
 .container {
-    padding-top: 30px;
+    padding-top: 0;
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -12,34 +12,29 @@
     margin-bottom: 10px;
 }
 
-.amountContainer {
-}
+.amountContainer {}
 
-.amountContainer > h4 {
-}
+.amountContainer>h4 {}
 
-.amountContainer > div {
-}
+.amountContainer>div {}
 
-.amountContainer > div > input {
+.amountContainer>div>input {
     width: 100%;
     border-bottom: 2px solid #39c4ff;
     padding-bottom: 4px;
     font-size: 16px;
 }
 
-.linkContainer {
-}
+.linkContainer {}
 
-.linkContainer > h4 {
-}
+.linkContainer>h4 {}
 
-.linkContainer > div {
+.linkContainer>div {
     display: flex;
     height: 50px;
 }
 
-.linkContainer > div > div {
+.linkContainer>div>div {
     width: 80%;
     border-radius: 4px 0px 0px 4px;
     border: 1px solid #e7e7e7;
@@ -49,7 +44,7 @@
     gap: 15px;
 }
 
-.linkContainer > div > button {
+.linkContainer>div>button {
     width: 20%;
     border-radius: 0px 4px 4px 0px;
     background: var(--main, #39c4ff);
@@ -59,8 +54,7 @@
     font-weight: 400;
 }
 
-.copyButton {
-}
+.copyButton {}
 
 .link {
     overflow-x: scroll;
@@ -75,26 +69,57 @@
     display: none;
 }
 
-.link > p {
+.link>p {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
 }
 
-.QRCodeImage {
-}
+.QRCodeImage {}
 
-.QRCodeImage > img {
+.QRCodeImage>img {
     border-radius: 0px 4px 4px 0px;
     width: 100%;
     height: 100%;
     align-items: center;
 }
 
-.QRCodeImage > p {
+.QRCodeImage>p {
     width: 100%;
     height: 100%;
     text-align: center;
     color: #dd2f2f;
+}
+
+
+.tabContainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.tabContainer>li {
+    width: 100%;
+    height: 55px;
+    border: 3px solid #39C4FF;
+    border-bottom: none;
+    border-radius: 0 10px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.activeTab {
+    background-color: #39c4ff;
+    color: #fff;
+}
+
+.tabContainer>li:first-of-type {
+    border-right: none;
+    border-radius: 10px 0 0 0;
+}
+
+.tabContainer>li>span {
+    font-size: 17px;
+    font-weight: 600;
 }

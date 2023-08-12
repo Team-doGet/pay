@@ -123,6 +123,14 @@ const TransferPage = () => {
             {user.accessToken && !simple && (
                 <>
                     <div className={Transfer_.container}>
+                        <ul className={Transfer_.tabContainer}>
+                            <li className={Transfer_.activeTab}>
+                                <span>송금</span>
+                            </li>
+                            <li onClick={() => navigate('/pay/transfer/collect')}>
+                                <span>수금</span>
+                            </li>
+                        </ul>
                         <div className={Transfer_.shopContainer}>
                             <h4 className={Transfer_.title}>받을 사람</h4>
                             <div className={Transfer_.shopInfo}>

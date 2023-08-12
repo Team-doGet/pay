@@ -95,16 +95,30 @@ const Router = () => {
                 },
                 {
                     path: 'transfer',
-                    element: [<Header title="송금" isBack={true} targetUrl={'/'} />, <TransferPage />],
+                    children: [
+                        {
+                            path: '',
+                            element: [<Header title="송・수금" isBack={true} targetUrl={'/'} />, <TransferPage />],
+                        },
+                        {
+                            path: ':encrpyt',
+                            element: [<Header title="송금" isBack={true} targetUrl={'/'} />, <TransferPage />],
+                        },
+                        {
+                            path: 'collect',
+                            element: [<Header title="송・수금" isBack={true} targetUrl={'/'} />, <CollectPage />],
+                        },
+                    ],
+                    // element: [<Header title="송・수금" isBack={true} targetUrl={'/'} />, <TransferPage />],
                 },
-                {
-                    path: 'transfer/:encrpyt',
-                    element: [<Header title="송금" isBack={true} targetUrl={'/'} />, <TransferPage />],
-                },
-                {
-                    path: 'collect',
-                    element: [<Header title="수금" isBack={true} />, <CollectPage />],
-                },
+                // {
+                //     path: 'transfer/:encrpyt',
+                //     element: [<Header title="송금" isBack={true} targetUrl={'/'} />, <TransferPage />],
+                // },
+                // {
+                //     path: 'collect',
+                //     element: [<Header title="수금" isBack={true} />, <CollectPage />],
+                // },
                 {
                     path: 'history',
                     element: [<Header title="거래내역" isBack={true} />, <HistoryPage />],
