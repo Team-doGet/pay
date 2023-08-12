@@ -20,6 +20,7 @@ const userState = atom({
         emailNo: '',
         userName: '',
         phoneNo: '',
+        simplePw: false,
         accessToken: '',
         refreshToken: '',
     },

@@ -8,6 +8,7 @@ import { modalState } from '../states/modalState';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import useAxios from '../hooks/useAxios';
 import { historyFilterState } from '../states/historyFilterState';
+import RegSimplePassword from '../components/organisms/RegSimplePassword';
 
 const MainPage = () => {
     useAuth();
@@ -34,12 +35,9 @@ const MainPage = () => {
             },
         ],
     });
+    const [simple, setSimple] = useState(false);
 
     const logoutHandler = async () => {
-        /*
-            로그아웃 api
-        */
-
         await setModal({
             ...modal,
             show: true,
@@ -84,6 +82,19 @@ const MainPage = () => {
                 await getUserBalance();
                 await getHistoryDefault();
             })();
+        }
+
+        if (!user.simplePw) {
+            setModal({
+                show: true,
+                title: '간편비밀번호 등록',
+                content: '간편비밀번호 등록이 필요합니다.',
+                confirmHandler: () => {
+                    resetModal();
+                    setSimple(true);
+                },
+                cancel: false,
+            });
         }
     }, []);
 
@@ -189,6 +200,7 @@ const MainPage = () => {
                     </div>
                 </div>
             )}
+            {simple && <RegSimplePassword title="간편비밀번호 등록" exit={() => setSimple(false)} />}
         </>
     );
 };

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import SimplePasswordHeader from '../molecules/simplePw/SimplePasswordHeader';
 import SimplePasswordDisplay from '../molecules/simplePw/SimplePasswordDisplay';
-import SimplePasswordEnter from '../molecules/simplePw/SimplePasswordEnter';
 import useViewHeight from '../../hooks/useViewHeight';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SimplePasswordContainer from '../molecules/simplePw/SimplePasswordContainer';
@@ -10,8 +8,10 @@ import { userState } from '../../states/userState';
 import { simplePwState } from '../../states/simplePwState';
 import { modalState } from '../../states/modalState';
 import Modal from '../etc/Modal/Modal';
+import RegSimplePasswordHeader from '../molecules/simplePw/RegSimplePasswordHeader';
+import RegSimplePasswordEnter from '../molecules/simplePw/RegSimplePasswordEnter';
 
-const SimplePassword = ({ handler, exit }) => {
+const RegSimplePassword = ({ title, handler, exit }) => {
     useViewHeight();
     const navigate = useNavigate();
     const location = useLocation();
@@ -29,18 +29,18 @@ const SimplePassword = ({ handler, exit }) => {
 
     return (
         <>
-            <SimplePasswordHeader title="간편비밀번호 입력" exit={exit} />
+            <RegSimplePasswordHeader title={title} exit={exit} />
             <SimplePasswordContainer>
                 <SimplePasswordDisplay
                     name={user.userName}
                     email={user.emailNo}
-                    phrase="간편비밀번호를 입력해주세요."
+                    phrase="등록할 간편비밀번호를 입력해주세요."
                 />
-                <SimplePasswordEnter handler={handler} />
+                <RegSimplePasswordEnter handler={exit} />
             </SimplePasswordContainer>
             {modal.show && <Modal />}
         </>
     );
 };
 
-export default SimplePassword;
+export default RegSimplePassword;

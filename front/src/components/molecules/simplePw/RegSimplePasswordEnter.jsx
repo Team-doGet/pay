@@ -8,11 +8,12 @@ import useAxios from '../../../hooks/useAxios';
 import { modalState } from '../../../states/modalState';
 import { useNavigate } from 'react-router-dom';
 
-const SimplePasswordEnter = ({ handler }) => {
+const RegSimplePasswordEnter = ({ handler }) => {
     const [passwords, setPasswords] = useRecoilState(simplePwState);
     const resetPasswords = useResetRecoilState(simplePwState);
     const { pw, pwIdx } = passwords;
-    const user = useRecoilValue(userState);
+    // const user = useRecoilValue(userState);
+    const [user, setUser] = useRecoilState(userState);
     const api = useAxios({
         Authorization: `Bearer ${user.accessToken}`,
     });
@@ -28,19 +29,34 @@ const SimplePasswordEnter = ({ handler }) => {
                 setPasswords({ ...passwords, pw: tmp, pwIdx: pwIdx + 1 });
 
                 if (pwIdx === 5) {
-                    const res = await api.post(`/users/simplepw/check`, {
+                    // 핵심 로직
+                    const res = await api.post(`/users/simplepw/register`, {
                         userId: String(user.userId),
                         simplePw: tmp.join(''),
                     });
 
                     if (res.data.status === 200) {
-                        handler();
+                        setModal({
+                            show: true,
+                            title: '간편비밀번호 등록',
+                            content: '간편비밀번호가 성공적으로 등록되었습니다.',
+                            confirmHandler: () => {
+                                resetModal();
+                                resetPasswords();
+                                handler();
+                                setUser({
+                                    ...user,
+                                    simplePw: true,
+                                });
+                            },
+                            cancel: false,
+                        });
                     } else {
                         setModal({
                             ...modal,
                             show: true,
-                            title: '비밀번호 불일치',
-                            content: '간편비밀번호가 일치하지않습니다.',
+                            title: '간편비밀번호 등록',
+                            content: '간편비밀번호가 등록에 실패하였습니다.',
                             confirmHandler: () => {
                                 resetModal();
                                 resetPasswords();
@@ -48,6 +64,7 @@ const SimplePasswordEnter = ({ handler }) => {
                             cancel: false,
                         });
                     }
+                    // 핵심 로직
                 }
             }
         } else if (value === -1) {
@@ -125,4 +142,4 @@ const SimplePasswordEnter = ({ handler }) => {
     );
 };
 
-export default SimplePasswordEnter;
+export default RegSimplePasswordEnter;
