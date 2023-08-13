@@ -74,7 +74,7 @@ const HistoryPage = () => {
     };
 
     useEffect(() => {
-        setHistoryFilter({ ...historyFilter, id: user.userId });
+        setHistoryFilter({ ...historyFilter, id: '11' }); // user.userId 로 변경
         getAccountBalance();
         getHistoryDefault();
 
@@ -84,8 +84,8 @@ const HistoryPage = () => {
     }, []);
 
     useEffect(() => {
-        // getHistory(); 수정중
         console.log(historyFilter);
+        // getHistory(); 시발 버그
     }, [historyFilter]);
 
     return (

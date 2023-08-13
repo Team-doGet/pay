@@ -13,8 +13,11 @@ import site.doget.pay.pay.transfer.DTO.TransferReqDTO;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import static site.doget.pay.common.Util.getNowTime;
 
 @Controller
 @RequestMapping("/transfer")
@@ -43,39 +46,9 @@ public class TransferController {
 
     @PostMapping("/*")
     @ResponseBody
-    public CommonResponse payTransferPost(@RequestBody Map<String, Object> paramMap) {
+    public CommonResponse payTransferPost(@RequestBody Map<String, Object> paramMap) throws Exception {
         TransferReqDTO tReqDTO = new TransferReqDTO(paramMap);
-//        System.out.println(tReqDTO.getReceiver()+"asdadad");
 
-            // receiver 회원 일치 존재 여부 확인
-            if(transferService.findUserByPhone(tReqDTO.getReceiver()).isEmpty()) {
-                return new CommonFailResponse("존재하지않는 받는 사람 정보입니다.");
-            }
-
-            // sender 페이 계좌 조회 후 잔액부족 여부 검사
-            Optional<Long> senderAccountAmount = transferService.getPayAccount(tReqDTO.getSender());
-            if(senderAccountAmount.isEmpty()) {
-                return new CommonFailResponse("페이 계좌 정보가 없습니다.");
-                // service 단 에러처리 catch
-            }
-            else if(senderAccountAmount.get() - tReqDTO.getAmount() < 0) {
-                return new CommonFailResponse("잔액 부족입니다.");
-            }
-
-        try {
-            // sender 페이계좌에서 출금, receiver 페이계좌에 충전
-            transferService.payTransferService(tReqDTO);
-        } catch (Exception e) {
-            return new CommonFailResponse("송금, 충전과정에서 문제 발생");
-        } finally {
-            // 성공시 성공코드 201과 결과 반환
-            TransferDTO tDTO = new TransferDTO(tReqDTO.getAmount(), getNowTime(),tReqDTO.getReceiver());
-
-            return new CommonSuccessResponse(tDTO);
-        }
-    }
-
-    private String getNowTime() {
-        return new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date());
+        return transferService.payTransferService(tReqDTO);
     }
 }
