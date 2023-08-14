@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.doget.pay.user.repository.UserMapper">
-
   <select id="findByEmail" resultType="site.doget.pay.security.jwt.User">
     SELECT email_no, password_no, roles
     FROM user_master
@@ -13,13 +12,12 @@
     WHERE email_no = #{emailNo}
   </select>
 
-
   <insert id="saveUser" useGeneratedKeys="true" keyProperty="user_id">
     insert into user_master (email_no, password_no, user_name, phone_no, agree1_yn, agree2_yn, agree3_yn, joined_date, registered_date, updated_date, roles)
     values (#{emailNo}, #{passwordNo}, #{userName},#{phoneNo},#{agree1Yn},#{agree2Yn},#{agree3Yn},
-            date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'),
-            date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'),
-            date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'), 'USER')
+            date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s'),
+            date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s'),
+            date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s'), 'USER')
   </insert>
 
   <select id="getSimplePw" resultType="String">
@@ -33,4 +31,21 @@
     SET simple_password_no = #{simplePw}
     WHERE user_id = #{userId}
   </update>
+
+  <select id="getUserInfoForPay" resultType="map">
+    SELECT user_id as userId, registered_date as regDate
+    FROM user_master
+    WHERE email_no = #{emailNo}
+  </select>
+
+  <update id="updateRegInfo">
+    UPDATE user_master
+    SET register_id = #{userId}, update_id = #{userId}
+    WHERE user_id = #{userId}
+  </update>
+
+  <insert id="saveUserToPayDescription">
+    INSERT INTO pay_description
+    VALUES (#{userId}, #{userId}, 0, #{regDate}, #{userId}, #{regDate}, #{userId})
+  </insert>
 </mapper>

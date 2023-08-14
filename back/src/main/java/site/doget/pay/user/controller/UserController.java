@@ -80,11 +80,14 @@ public class UserController {
             return new CommonFailResponse(message);
         }
 
-        if (userService.join(joinReq)) {
+        try {
+            userService.join(joinReq);
             return new CommonSuccessResponse("회원가입에 성공하였습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new CommonFailResponse("이미 가입된 계정입니다.");
         }
 
-        return new CommonFailResponse("이미 가입된 계정입니다.");
     }
 
     @PostMapping("/simplepw/check")
