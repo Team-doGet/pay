@@ -102,7 +102,7 @@ const Router = () => {
                         },
                         {
                             path: ':encrpyt',
-                            element: [<Header title="송금" isBack={true} targetUrl={'/'} />, <TransferPage />],
+                            element: [<Header title="송・수금" isBack={true} targetUrl={'/'} />, <TransferPage />],
                         },
                         {
                             path: 'collect',
