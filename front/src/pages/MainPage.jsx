@@ -77,14 +77,21 @@ const MainPage = () => {
     };
 
     useEffect(() => {
-        if (user.accessToken) {
-            (async () => {
-                await getUserBalance();
-                await getHistoryDefault();
-            })();
-        }
-
-        if (!user.simplePw) {
+        if (user.accessToken == '') {
+            setModal({
+                ...modal,
+                show: true,
+                title: '알림',
+                content: '로그인이 필요한 서비스입니다.',
+                confirmHandler: () => {
+                    (async () => {
+                        await navigate('/login', { replace: true });
+                        await resetModal();
+                    })();
+                },
+                cancel: false,
+            });
+        } else if (!user.simplePw) {
             setModal({
                 show: true,
                 title: '간편비밀번호 등록',
@@ -95,6 +102,11 @@ const MainPage = () => {
                 },
                 cancel: false,
             });
+        } else {
+            (async () => {
+                await getUserBalance();
+                await getHistoryDefault();
+            })();
         }
     }, []);
 

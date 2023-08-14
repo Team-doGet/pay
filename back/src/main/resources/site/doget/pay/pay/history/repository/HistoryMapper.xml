@@ -2,23 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="site.doget.pay.pay.history.repository.HistoryMapper">
     <select id="getUserHistoryDefault" parameterType="java.lang.String" resultType="java.util.Map">
-        SELECT * FROM pay_description as a JOIN account_history as b ON a.pay_id=b.pay_id and a.pay_id=#{userid}
+        SELECT b.* FROM pay_description as a JOIN account_history as b ON a.pay_id=b.pay_id and a.pay_id=#{userid}
         ORDER BY b.process_datetime DESC
         Limit 5;
     </select>
     <select id="getUserHistory" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
             *
-        FROM pay_description as a JOIN account_history as b ON a.pay_id=b.pay_id and a.pay_id=#{userId}
+        FROM account_history
+        WHERE pay_id = #{id}
         <choose>
-            <when test="period==1"> AND DATE(sysdate()) - b.registered_date &lt; 30 </when>
-            <when test="period==2"> AND DATE(sysdate()) - b.registered_date &lt; 90 </when>
-            <when test="period==3"> AND DATE(sysdate()) - b.registered_date &lt; 180 </when>
-            <when test="type==2"> and b.process_code = '003' </when>
-            <when test="type==3"> and b.process_code != '003'</when>
-            <when test="orderby==1"> ORDER BY processDatetime DESC </when>
-            <when test="orderby==2"> ORDER BY processDatetime ASC </when>
+            <when test="period==1"> AND DATE(sysdate()) - registered_date &lt; 30 </when>
+            <when test="period==2"> AND DATE(sysdate()) - registered_date &lt; 90 </when>
+            <when test="period==3"> AND DATE(sysdate()) - registered_date &lt; 180 </when>
         </choose>
-        Limit 5;
+        <choose>
+            <when test="type==2"> and (process_code = '003' or process_code = '004') </when>
+            <when test="type==3"> and (process_code != '003' and process_code != '004')</when>
+        </choose>
+        <choose>
+            <when test="orderby==1"> ORDER BY process_datetime DESC </when>
+            <when test="orderby==2"> ORDER BY process_datetime ASC </when>
+        </choose>
     </select>
 </mapper>
