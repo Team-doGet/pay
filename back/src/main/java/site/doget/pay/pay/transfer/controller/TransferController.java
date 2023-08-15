@@ -27,8 +27,8 @@ public class TransferController {
     @ResponseBody
     public CommonResponse payTransferGet(@RequestParam Map<String, Object> paramMap) {
 
+        paramMap.put("sender", paramMap.get("userId"));
         Optional<Integer> senderAccountAmount = transferService.getPayAccount(paramMap);
-
         // 계좌 유무
         if(senderAccountAmount.isEmpty()) {
             return new CommonFailResponse("해당 사용자가 없습니다");

@@ -6,7 +6,7 @@
     </select>
 
     <select id="getPayAccount" parameterType="java.lang.String" resultType="Integer">
-        SELECT paymoney_balance FROM pay_description WHERE user_id = #{sender}
+        SELECT paymoney_balance FROM pay_description WHERE user_id = #{userId}
     </select>
 
     <select id="findUserName" parameterType="java.util.Map">
