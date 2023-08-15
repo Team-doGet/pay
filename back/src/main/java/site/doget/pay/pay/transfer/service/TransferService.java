@@ -6,13 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 import site.doget.pay.common.responseUtil.CommonFailResponse;
 import site.doget.pay.common.responseUtil.CommonResponse;
 import site.doget.pay.common.responseUtil.CommonSuccessResponse;
+import site.doget.pay.common.ruleEngine.RuleEngineController;
 import site.doget.pay.pay.charge.repository.ChargeMapper;
 import site.doget.pay.pay.pay.repository.PayMapper;
 import site.doget.pay.pay.transfer.DTO.TransferDTO;
 import site.doget.pay.pay.transfer.DTO.TransferReqDTO;
 import site.doget.pay.pay.transfer.repository.TransferMapper;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,6 +29,8 @@ public class TransferService {
     @Autowired
     PayMapper payMapper;
 
+    RuleEngineController ruleEngineService;
+
     public CommonResponse payTransferService(TransferReqDTO dto) throws Exception {
 
         // receiver 회원 일치 존재 여부 확인
@@ -41,33 +43,36 @@ public class TransferService {
             return new CommonFailResponse("페이 계좌 정보가 없습니다.");
         }
 
+
         // 페이머니 부족 시 계좌로부터 충전
         if(senderAccountAmount.get() - dto.getAmount() < 0) {
             // 부족한 금액이 n원 일 경우 계좌에서 충전할 금액 ((n/10000)+1)*10000
             // 부족한 금액 (10000원 단위)
-            int needAccountMoney = (int) (((dto.getAmount() - senderAccountAmount.get()) / 10000 + 1)*10000);
-            // 계좌에서 인출
-            Map<String, Object> withdrawReq = new HashMap<>();
-            withdrawReq.put("amount", needAccountMoney);
-            withdrawReq.put("payId", dto.getSender());
-            chargeMapper.withdrawAccountMoney(withdrawReq);
-
-            // 페이머니에 충전
-            Map<String, Object> chargeReq = new HashMap<>();
-            chargeReq.put("amount", needAccountMoney);
-            chargeReq.put("payId", dto.getSender());
-            chargeMapper.chargePaymoney(chargeReq);
-
-            // 충전 기록 남기기
-            Map<String, Object> historyReq = new HashMap<>();
-            historyReq.put("accountNo", findUserByPhone(dto.getReceiver()));
-            historyReq.put("payId", dto.getSender());
-            historyReq.put("bankCode", "002");
-            historyReq.put("paymoneyBalance", senderAccountAmount.get() + Math.round((float) (dto.getAmount() - senderAccountAmount.get()) / 10000) * 10000);
-            historyReq.put("amount", Math.round((float) (dto.getAmount() - senderAccountAmount.get()) / 10000) * 10000);
-            chargeMapper.insertToHistory(historyReq);
+//            int needAccountMoney = (int) (((dto.getAmount() - senderAccountAmount.get()) / 10000 + 1)*10000);
+//            // 계좌에서 인출
+//            Map<String, Object> withdrawReq = new HashMap<>();
+//            withdrawReq.put("amount", needAccountMoney);
+//            withdrawReq.put("payId", dto.getSender());
+//            chargeMapper.withdrawAccountMoney(withdrawReq);
+//
+//            // 페이머니에 충전
+//            Map<String, Object> chargeReq = new HashMap<>();
+//            chargeReq.put("amount", needAccountMoney);
+//            chargeReq.put("payId", dto.getSender());
+//            chargeMapper.chargePaymoney(chargeReq);
+//
+//            // 충전 기록 남기기
+//            Map<String, Object> historyReq = new HashMap<>();
+//            historyReq.put("accountNo", findUserByPhone(dto.getReceiver()));
+//            historyReq.put("payId", dto.getSender());
+//            historyReq.put("bankCode", "002");
+//            historyReq.put("paymoneyBalance", senderAccountAmount.get() + Math.round((float) (dto.getAmount() - senderAccountAmount.get()) / 10000) * 10000);
+//            historyReq.put("amount", Math.round((float) (dto.getAmount() - senderAccountAmount.get()) / 10000) * 10000);
+//            chargeMapper.insertToHistory(historyReq);
 
         }
+//        checkFDS(paramMap);
+
 
         Integer withDraw = withDrawPayAccount(dto);
         Integer chargePay = chargePayAccount(dto);
@@ -77,23 +82,23 @@ public class TransferService {
         }
 
         // 결제 기록 거래내역에 남기기
-        Map<String, Object> accountInfo = payMapper.getAccountInfo(dto.getSender());
-        if (accountInfo == null) {
-            return new CommonFailResponse("등록된 계좌가 없습니다.");
-        }
-        int accountBalance = (int) accountInfo.get("accountBalance");
-        String accountNo = (String) accountInfo.get("accountNo");
-        String bankCode = (String) accountInfo.get("bankCode");
-
-        int updatedPayBalance = payMapper.getPaymoneyBalance(dto.getSender());
-        Map<String, Object> historyReq = new HashMap<>();
-        historyReq.put("payId", dto.getSender());
-        historyReq.put("paymoneyBalance", updatedPayBalance);
-        historyReq.put("amount", dto.getAmount());
-        historyReq.put("storeName", dto.getReceiver());
-        historyReq.put("accountNo", accountNo);
-        historyReq.put("bankCode", bankCode);
-        payMapper.insertToHistory(historyReq);
+//        Map<String, Object> accountInfo = payMapper.getAccountInfo(dto.getSender());
+//        if (accountInfo == null) {
+//            return new CommonFailResponse("등록된 계좌가 없습니다.");
+//        }
+//        int accountBalance = (int) accountInfo.get("accountBalance");
+//        String accountNo = (String) accountInfo.get("accountNo");
+//        String bankCode = (String) accountInfo.get("bankCode");
+//
+//        int updatedPayBalance = payMapper.getPaymoneyBalance(dto.getSender());
+//        Map<String, Object> historyReq = new HashMap<>();
+//        historyReq.put("payId", dto.getSender());
+//        historyReq.put("paymoneyBalance", updatedPayBalance);
+//        historyReq.put("amount", dto.getAmount());
+//        historyReq.put("storeName", dto.getReceiver());
+//        historyReq.put("accountNo", accountNo);
+//        historyReq.put("bankCode", bankCode);
+//        payMapper.insertToHistory(historyReq);
 
         TransferDTO tDTO = new TransferDTO(dto.getAmount(), getNowTime(),dto.getReceiver());
 
@@ -125,4 +130,8 @@ public class TransferService {
     public void createHistory() {
 
     }
+    public CommonResponse checkFDS(Map<String, Object> paramMap) {
+        return ruleEngineService.checkFDS(paramMap);
+    }
+
 }
