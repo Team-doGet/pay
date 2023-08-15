@@ -10,10 +10,10 @@
     <select id="getPayId" parameterType="java.lang.String" resultType="int">
         SELECT pay_id FROM pay_description WHERE user_id = #{sender}
     </select>
-    <update id="withDrawPayAccount" parameterType="site.doget.pay.pay.transfer.DTO.TransferReqDTO">
-        UPDATE pay_description SET paymoney_balance = paymoney_balance - #{amount} WHERE pay_id = #{sender}
+    <update id="withDrawPayAccount" parameterType="java.util.Map">
+        UPDATE pay_description SET paymoney_balance = paymoney_balance - ${amount} WHERE pay_id = #{sender}
     </update>
-    <update id="chargePayAccount" parameterType="site.doget.pay.pay.transfer.DTO.TransferReqDTO">
-        UPDATE pay_description SET paymoney_balance = paymoney_balance + #{amount} WHERE pay_id = #{receiver}
+    <update id="chargePayAccount" parameterType="java.util.Map">
+        UPDATE pay_description SET paymoney_balance = paymoney_balance + ${amount} WHERE pay_id = #{receiver}
     </update>
 </mapper>
