@@ -65,6 +65,12 @@ public class UserController {
             resData.put("simplePw", false);
         }
 
+        if (userInfo.getSecretKey() != null) {
+            resData.put("fds", true);
+        } else {
+            resData.put("fds", false);
+        }
+
         CommonSuccessResponse res = new CommonSuccessResponse(resData);
         res.setMessage("로그인에 성공하였습니다.");
         return res;

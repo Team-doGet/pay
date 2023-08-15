@@ -2,6 +2,7 @@ package site.doget.pay.common.googleTOTP.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.doget.pay.common.googleTOTP.service.TOTPService;
@@ -22,8 +23,8 @@ public class TOTPController {
         this.totpService = totpService;
     }
     // secretkey 넣는거
-    @GetMapping("/update")
-    public CommonResponse updateTOTP(Map<String, Object> paramMap) {
+    @PostMapping("/update")
+    public CommonResponse updateTOTP(@RequestBody  Map<String, Object> paramMap) {
         try {
             totpService.updateSecretKey(paramMap);
             return new CommonSuccessResponse();
@@ -33,8 +34,8 @@ public class TOTPController {
         return new CommonFailResponse();
     }
     // null로 바꾸는거
-    @GetMapping("/stop")
-    public CommonResponse stopTOTP(Map<String, Object> paraMap) {
+    @PostMapping("/stop")
+    public CommonResponse stopTOTP(@RequestBody Map<String, Object> paraMap) {
         return totpService.secretKeyToNull(paraMap);
     }
     // 검증

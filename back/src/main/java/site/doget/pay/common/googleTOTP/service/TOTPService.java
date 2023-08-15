@@ -59,7 +59,7 @@ public class TOTPService {
     }
 
     public CommonResponse secretKeyToNull(Map<String, Object> paramMap) {
-        String userId = (String) paramMap.get("userId");
+        String userId = String.valueOf(paramMap.get("userId"));
 
         totpMapper.secretKeyToNull(userId);
         return new CommonSuccessResponse();
