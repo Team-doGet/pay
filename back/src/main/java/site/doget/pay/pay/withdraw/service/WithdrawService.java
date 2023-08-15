@@ -93,7 +93,7 @@ public class WithdrawService {
             Map<String, Object> response = new HashMap<>();
             response.put("paymoneyBalance", paymoneyBalance);
 
-            smsService.sendSms(new MessageDTO("01092510383", "[doGet-Pay]\n인출이 정상적으로 완료되었습니다.\n인출 금액 : " + formatter.format(amount)
+            smsService.sendSms(new MessageDTO("01055373077", "[doGet-Pay]\n인출이 정상적으로 완료되었습니다.\n인출 금액 : " + formatter.format(amount)
                 + "원\n\n잔액 : " + formatter.format(paymoneyBalance) + "원"));
 
             return new CommonSuccessResponse(response);

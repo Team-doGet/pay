@@ -42,6 +42,16 @@ dependencies {
 	//QR code
 	implementation 'com.google.zxing:zxing-parent:3.5.0'
 	implementation group: 'com.google.zxing', name: 'javase', version: '3.5.0'
+	// FDS Rule Engine
+	implementation 'org.jeasy:easy-rules-core:4.0.0'
+
+	// Google OTP
+	// https://mvnrepository.com/artifact/de.taimos/totp
+	implementation group: 'de.taimos', name: 'totp', version: '1.0'
+	// https://mvnrepository.com/artifact/commons-codec/commons-codec
+	implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
+	// https://mvnrepository.com/artifact/com.google.zxing/javase
+	implementation group: 'com.google.zxing', name: 'javase', version: '3.4.1'
 }
 
 tasks.named('test') {

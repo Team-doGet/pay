@@ -4,7 +4,117 @@
     <select id="getRules" resultType="java.util.Map">
         SELECT * FROM fds_condition
     </select>
-    <select id="ruleA" resultType="Integer" parameterType="java.util.Map">
-        SELECT count(*) FROM fds_condition WHERE amount ${boundFactor} 50000
+<!--    <select id="ruleA" resultType="Integer" parameterType="java.util.Map">-->
+<!--        SELECT count(*) FROM fds_condition WHERE amount ${boundFactor} 50000-->
+<!--    </select>-->
+
+<!--    <select id="">-->
+<!--        SELECT *, (-->
+<!--            case-->
+<!--                when is_same_receiver = 0-->
+<!--                    then (-->
+<!--                        select count(*) from test-->
+<!--                            where (TIMESTAMPDIFF(SECOND,${registerdate}, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s')) ${durationFactor} ${duration})-->
+<!--                              and b.amount >= 10000)-->
+<!--                when is_same_receiver = 1-->
+<!--                    then (-->
+<!--                        SELECT MAX(receiver_count)-->
+<!--                            FROM (-->
+<!--                                SELECT receiver, COUNT(receiver) as receiver_count-->
+<!--                                FROM test-->
+<!--                                GROUP BY receiver-->
+<!--                            ) AS counts-->
+<!--                )-->
+<!--                end-->
+<!--            ) as c-->
+<!--        FROM test a left outer join fds_condition b-->
+<!--            on a.index = b.index-->
+<!--            having count ${countFactor} c;-->
+<!--    </select>-->
+
+<!--    <select id="selectRegisteredDateByPayId" parameterType="java.util.Map">-->
+<!--        select registered_date as registerDate from pay_description where pay_id = #{pay_id}-->
+<!--    </select>-->
+
+<!--    리스트에 담을 거 (createDiff)-->
+<!--    <select id="testA" resultType="java.util.Map">-->
+<!--        SELECT TIMESTAMPDIFF(SECOND, registered_date, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s')) as createDiff-->
+<!--        FROM pay_description-->
+<!--        where pay_id = #{userId};-->
+<!--    </select>-->
+
+<!--    리스트에 담을 거 (bound용)-->
+    <select id="checkFDS" resultType="java.util.Map" parameterType="java.util.Map">
+        select *,TIMESTAMPDIFF(SECOND, b.registered_date, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s')) as aaa,
+           (date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s')-process_datetime) as bbb
+        from account_history a join pay_description b
+            on a.pay_id = b.pay_id
+        where #{bound} ${boundFactor} (date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s')-process_datetime)
+            and b.pay_id = #{payId}
+            and (process_code = '001' or process_code = '002')
+            and #{duration} ${durationFactor} TIMESTAMPDIFF(SECOND, b.registered_date, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s')) ;
     </select>
+<!--   is_same_receiver = 0-->
+    <select id="notSameReceiver" resultType="java.util.Map" parameterType="java.util.Map">
+        select *, count(*) as cnt
+        from account_history a join pay_description b
+            on a.pay_id = b.pay_id
+        where #{bound} ${boundFactor} (date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s')-process_datetime)
+            and b.pay_id = #{payId}
+            and (process_code = '001' or process_code = '002')
+            and #{duration} ${durationFactor} TIMESTAMPDIFF(SECOND, b.registered_date, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s'));
+    </select>
+
+    <select id="sameReceiver" resultType="java.util.Map" parameterType="java.util.Map">
+        select *, count(*) as cnt
+        from account_history a join pay_description b
+                                    on a.pay_id = b.pay_id
+        where #{bound} ${boundFactor} (date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s')-process_datetime)
+            and b.pay_id = #{payId}
+            and (process_code = '001' or process_code = '002')
+            and #{duration} ${durationFactor} TIMESTAMPDIFF(SECOND, b.registered_date, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s'))
+        group by opposite_name
+        having opposite_name = #{oppositeName};
+    </select>
+
+    <insert id="insertIntoHistory" parameterType="java.util.Map">
+        insert into account_history values ('002', date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%S'),
+                                            #{accoutNo}, #{payId}, #{bankCode}, #{paymoneyBalance},
+                                            #{amount}, #{oppositeName}, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'),
+                                            #{payId}, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'), #{payId});
+    </insert>
+<!--is_same_receiver = 1    -->
+<!--    <select id="testD" resultType="java.util.Map" parameterType="java.util.Map">-->
+<!--        select (select max(opposite_name_count)-->
+<!--                from (-->
+<!--                    select opposite_name, count(opposite_name) as opposite_name_count-->
+<!--                        from account_history a join pay_description b-->
+<!--                        on a.pay_id = b.pay_id-->
+<!--                    where #{bound} ${boundFactor} (date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s')-process_datetime)-->
+<!--                        and b.pay_id = 11-->
+<!--                        and (process_code = '001' or process_code = '002')-->
+<!--                        and #{duration} ${durationFactor} TIMESTAMPDIFF(SECOND, b.registered_date, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s'))-->
+<!--                    group by opposite_name-->
+<!--                ) as counts)-->
+<!--            from account_history a join pay_description b-->
+<!--                on a.pay_id = b.pay_id-->
+<!--                where #{bound} ${boundFactor} (date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s')-process_datetime)-->
+<!--                    and b.pay_id = 11-->
+<!--                    and (process_code = '001' or process_code = '002')-->
+<!--                    and #{duration} ${durationFactor} TIMESTAMPDIFF(SECOND, b.registered_date, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s'));-->
+<!--    </select>-->
+
+<!--    리스트에 담을 거(amount)-->
+<!--    <select id="testC">-->
+<!--        -->
+<!--    </select>-->
+
+<!--    createDiff, processDiff-->
+<!--    <select id="testC"  parameterType="java.util.Map">-->
+<!--        select count(*)-->
+<!--        from fds_condition-->
+<!--            where #{rules.duration} #{rules.durationFactor} #{createDiff}-->
+<!--                and #{rules.bound} #{rules.boundFactor} #{processDiff.processDiff}-->
+<!--                and #{rules.amount} #{rules.amountFactor} 10000-->
+<!--    </select>-->
 </mapper>

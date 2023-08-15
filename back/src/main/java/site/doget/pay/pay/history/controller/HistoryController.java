@@ -49,8 +49,11 @@ public class HistoryController {
     @PostMapping ("/*")
     @ResponseBody
     public CommonResponse getUserHistoryPost(@RequestBody Map<String, Object> paramMap) {
+
+        System.out.println("paramMap = " + paramMap);
         List<Map<String, Object>> historyList = historyService.getUserHistory(paramMap);
 
+        System.out.println("historyList = " + historyList);
         if(historyList.size() == 0) {
             return new CommonFailResponse("조회된 거래 내역이 없습니다.");
         }

@@ -38,7 +38,10 @@ const HistoryPage = () => {
     };
 
     const getHistoryDefault = async () => {
-        const res = await api.get(`/history/?userId=${11}`, historyFilter); // user.userId
+        const res = await api.post(`/history/`, {
+            ...historyFilter,
+            id: '11',
+        }); // user.userId
         if (res.data.status === 200) {
             console.log(res.data.data);
             //list 출력
@@ -59,22 +62,8 @@ const HistoryPage = () => {
         }
     };
 
-    const getHistory = async () => {
-        const res = await api.post(`/history/`, historyFilter);
-        if (res.data.status === 200) {
-            //list 출력
-            setHistoryData({ ...historyData, data: res.data.data });
-        } else {
-            // 조회 오류 발생
-            setHistoryData({
-                ...historyData,
-                data: { name: '데이터를 불러올 수 없습니다.', amount: '-', paymoneyBalance: '-' },
-            });
-        }
-    };
-
     useEffect(() => {
-        setHistoryFilter({ ...historyFilter, id: user.userId });
+        setHistoryFilter({ ...historyFilter, id: '11' }); // user.userId 로 변경
         getAccountBalance();
         getHistoryDefault();
 
@@ -82,11 +71,6 @@ const HistoryPage = () => {
             resetHistoryFilter();
         };
     }, []);
-
-    useEffect(() => {
-        // getHistory(); 수정중
-        console.log(historyFilter);
-    }, [historyFilter]);
 
     return (
         <>
@@ -129,7 +113,7 @@ const HistoryPage = () => {
                     </div>
                     <div className={History_.historyBox}>
                         <ul className={History_.historyList}>
-                            {historyData &&
+                            {historyData.data &&
                                 historyData.data.map(history => (
                                     <li className={History_.historyWrapper}>
                                         <div className={History_.histroyContent}>
@@ -158,7 +142,7 @@ const HistoryPage = () => {
                     </div>
                 </div>
             </div>
-            {historyFilter.show && <HistoryFiler />}
+            {historyFilter.show && <HistoryFiler historyData={historyData} setHistoryData={setHistoryData} />}
         </>
     );
 };
