@@ -27,7 +27,7 @@ public class TransferController {
     @ResponseBody
     public CommonResponse payTransferGet(@RequestParam Map<String, Object> paramMap) {
 
-        Optional<Long> senderAccountAmount = transferService.getPayAccount(paramMap);
+        Optional<Integer> senderAccountAmount = transferService.getPayAccount(paramMap);
 
         // 계좌 유무
         if(senderAccountAmount.isEmpty()) {
