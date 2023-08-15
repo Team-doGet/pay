@@ -6,6 +6,7 @@
     /* background-image: linear-gradient(98deg, #a3ddf5, #39c4ff); */
     background-image: linear-gradient(98deg, #39c4ff, #b3e0f4);
 }
+
 .account_box {
     padding-top: 30px;
 }
@@ -18,7 +19,7 @@
     color: #fff;
 }
 
-.account_box > .account_row {
+.account_box>.account_row {
     border-radius: 0 0 12px 12px;
     border-top: 0;
 }
@@ -31,30 +32,34 @@
     background-color: #fff;
     box-sizing: border-box;
 }
-.account_row > div {
+
+.account_row>div {
     display: flex;
     gap: 1rem;
     align-items: center;
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
+
 .account_row img {
     width: 16px;
 }
-.account_row > li {
+
+.account_row>li {
     display: flex;
     gap: 1rem;
     justify-content: space-between;
     align-items: center;
 }
 
-.account_row > li > div {
+.account_row>li>div {
     display: flex;
     gap: 1rem;
     align-items: center;
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
+
 .account_row button {
     display: inline-block;
     min-width: 44px;
@@ -69,4 +74,12 @@
     box-sizing: border-box;
     text-align: center;
     height: 30px;
+}
+
+.fdsContainer>div:last-of-type {
+    padding: 0;
+}
+
+.fdsContainer span {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
 }

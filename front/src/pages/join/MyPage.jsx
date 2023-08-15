@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/molecules/Header';
 import MyPage_ from './MyPage.module.css';
 import useAuth from '../../hooks/useAuth';
@@ -12,9 +12,16 @@ import { modalState } from '../../states/modalState';
 import Modal from '../../components/etc/Modal/Modal';
 import ResetPassWord from './ResetPassWord';
 
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import { loadingState } from '../../states/loadingState';
+
 const MyPage = () => {
     useAuth();
-    const user = useRecoilValue(userState);
+    const [user, setUser] = useRecoilState(userState);
     const api = useAxios({
         Authorization: `Bearer ${user.accessToken}`,
     });
@@ -22,6 +29,7 @@ const MyPage = () => {
     const navigate = useNavigate();
     const [modal, setModal] = useRecoilState(modalState);
     const resetModalState = useResetRecoilState(modalState);
+    const [loading, setLoading] = useRecoilState(loadingState);
 
     const resetPasswordModal = () => {
         setModal({
@@ -51,13 +59,94 @@ const MyPage = () => {
         });
     };
 
+    const fdsHandler = async () => {
+        setLoading({ ...loading, show: true });
+
+        if (user.fds) {
+            const res = await api.post(`/totp/stop`, {
+                userId: user.userId,
+            });
+
+            if (res.data.status === 200) {
+                setLoading({ ...loading, show: false });
+
+                setModal({
+                    show: true,
+                    title: 'FDS',
+                    content: 'FDS 사용이 해지되었습니다..',
+                    confirmHandler: () => {
+                        setUser({
+                            ...user,
+                            fds: false,
+                        });
+                        navigate('/', { replace: true });
+                        resetModalState();
+                    },
+                    cancel: false,
+                });
+            } else {
+                setLoading({ ...loading, show: false });
+
+                setModal({
+                    show: true,
+                    title: 'FDS',
+                    content: '에러 발생. 관리자에게 문의하세요.',
+                    confirmHandler: () => {
+                        resetModalState();
+                    },
+                    cancel: false,
+                });
+            }
+
+            setUser({
+                ...user,
+                fds: false,
+            });
+        } else {
+            const res = await api.post(`/totp/update`, {
+                emailNo: user.emailNo,
+                userId: user.userId,
+            });
+
+            if (res.data.status === 200) {
+                setLoading({ ...loading, show: false });
+                setModal({
+                    show: true,
+                    title: 'FDS',
+                    content: '이메일로 보내드린 바코드로 2FA 등록을 해주세요.',
+                    confirmHandler: () => {
+                        setUser({
+                            ...user,
+                            fds: true,
+                        });
+                        navigate('/', { replace: true });
+                        resetModalState();
+                    },
+                    cancel: false,
+                });
+            } else {
+                setLoading({ ...loading, show: false });
+
+                setModal({
+                    show: true,
+                    title: 'FDS',
+                    content: '에러 발생. 관리자에게 문의하세요.',
+                    confirmHandler: () => {
+                        resetModalState();
+                    },
+                    cancel: false,
+                });
+            }
+        }
+    };
+
     return (
         <>
             {user.accessToken && (
                 <div
                     style={{
-                        marginLeft: '12px',
-                        marginRight: '12px',
+                        marginLeft: '.75rem',
+                        marginRight: '.75rem',
                     }}
                 >
                     <Header title="마이페이지" isBack={true} />
@@ -102,6 +191,24 @@ const MyPage = () => {
                                 <button onClick={() => resetSimplePasswordModal()}>
                                     <span>재설정</span>
                                 </button>
+                            </li>
+                            <li className={MyPage_.fdsContainer}>
+                                <div>
+                                    <img src={`${process.env.PUBLIC_URL}/assets/img/common/simplepassword.png`} />
+                                    <p>FDS 사용 여부</p>
+                                </div>
+                                <FormControl>
+                                    <RadioGroup
+                                        row
+                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                        name="row-radio-buttons-group"
+                                        defaultValue={user.fds}
+                                        onChange={() => fdsHandler()}
+                                    >
+                                        <FormControlLabel value={true} control={<Radio />} label="사용" />
+                                        <FormControlLabel value={false} control={<Radio />} label="미사용" />
+                                    </RadioGroup>
+                                </FormControl>
                             </li>
                         </ul>
                     </div>
