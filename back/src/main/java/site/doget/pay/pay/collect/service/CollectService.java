@@ -30,7 +30,7 @@ public class CollectService {
         CollectDTO collectDTO = new CollectDTO();
 
         String link = genereatePayLink(paramMap);
-        link = "http://" + ipAddr + ":3000/pay/transfer/" + link;
+        link = "http://" + ipAddr + "/pay/transfer/" + link;
         collectDTO.setLink(link);
 
         Object qrCode = genereatePayCode(link);

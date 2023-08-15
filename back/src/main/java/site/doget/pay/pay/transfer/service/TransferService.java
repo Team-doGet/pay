@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.doget.pay.common.responseUtil.CommonFailResponse;
 import site.doget.pay.common.responseUtil.CommonResponse;
 import site.doget.pay.common.responseUtil.CommonSuccessResponse;
+import site.doget.pay.common.ruleEngine.RuleEngineController;
 import site.doget.pay.pay.charge.repository.ChargeMapper;
 import site.doget.pay.pay.pay.repository.PayMapper;
 import site.doget.pay.pay.transfer.repository.TransferMapper;
@@ -28,7 +29,10 @@ public class TransferService {
     @Autowired
     PayMapper payMapper;
 
+    RuleEngineController ruleEngineService;
+
     public CommonResponse payTransferService(Map<String, Object> paramMap) {
+
         // receiver 회원 일치 존재 여부 확인
         if(findUserByPhone((String) paramMap.get("receiver")).isEmpty()) {
             return new CommonFailResponse("존재하지않는 받는 사람 정보입니다.");
@@ -59,11 +63,11 @@ public class TransferService {
             List<Map<String ,Object>> aa = chargeMapper.getPaymoneyAndAccountMoney((Integer) paramMap.get("sender"));
             chargeMapper.insertToHistory(aa.get(0));
         }
+//        checkFDS(paramMap);
 
         if(withDrawPayAccount(paramMap) == 0 || chargePayAccount(paramMap) == 0) {
             return new CommonFailResponse("페이머니 인출 중 에러");
         }
-
         // 송금 기록 거래내역에 남기기
         generateTransferHistory(paramMap);
 
@@ -107,5 +111,8 @@ public class TransferService {
         historyReq.put("receiver", findUserName(paramMap));
         System.out.println("historyReq = " + historyReq);
         transferMapper.insertTransferToHistory(historyReq);
+    }
+    public CommonResponse checkFDS(Map<String, Object> paramMap) {
+        return ruleEngineService.checkFDS(paramMap);
     }
 }

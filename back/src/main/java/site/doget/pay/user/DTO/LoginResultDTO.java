@@ -18,4 +18,6 @@ public class LoginResultDTO {
     private String phoneNo;
 
     private String simplePasswordNo;
+
+    private String secretKey;
 }

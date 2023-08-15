@@ -27,6 +27,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.3'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
@@ -41,6 +42,16 @@ dependencies {
 	//QR code
 	implementation 'com.google.zxing:zxing-parent:3.5.0'
 	implementation group: 'com.google.zxing', name: 'javase', version: '3.5.0'
+	// FDS Rule Engine
+	implementation 'org.jeasy:easy-rules-core:4.0.0'
+
+	// Google OTP
+	// https://mvnrepository.com/artifact/de.taimos/totp
+	implementation group: 'de.taimos', name: 'totp', version: '1.0'
+	// https://mvnrepository.com/artifact/commons-codec/commons-codec
+	implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
+	// https://mvnrepository.com/artifact/com.google.zxing/javase
+	implementation group: 'com.google.zxing', name: 'javase', version: '3.4.1'
 }
 
 tasks.named('test') {

@@ -65,6 +65,12 @@ public class UserController {
             resData.put("simplePw", false);
         }
 
+        if (userInfo.getSecretKey() != null) {
+            resData.put("fds", true);
+        } else {
+            resData.put("fds", false);
+        }
+
         CommonSuccessResponse res = new CommonSuccessResponse(resData);
         res.setMessage("로그인에 성공하였습니다.");
         return res;
@@ -80,11 +86,14 @@ public class UserController {
             return new CommonFailResponse(message);
         }
 
-        if (userService.join(joinReq)) {
+        try {
+            userService.join(joinReq);
             return new CommonSuccessResponse("회원가입에 성공하였습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new CommonFailResponse("이미 가입된 계정입니다.");
         }
 
-        return new CommonFailResponse("이미 가입된 계정입니다.");
     }
 
     @PostMapping("/simplepw/check")

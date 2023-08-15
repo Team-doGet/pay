@@ -1,5 +1,6 @@
 package site.doget.pay.user.repository;
 
+import java.util.Map;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,10 @@ public interface UserMapper {
     String getSimplePw(@Param("userId") String userId);
 
     Integer regSimplePw(@Param("userId") String userId, @Param("simplePw") String simplePw);
+
+    Map<String, Object> getUserInfoForPay(@Param("emailNo") String emailNo);
+
+    Integer updateRegInfo(@Param("userId") String userId);
+
+    Integer saveUserToPayDescription(@Param("userId") String userId, @Param("regDate") String regDate);
 }

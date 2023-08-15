@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="site.doget.pay.common.googleTOTP.repository.TOTPMapper">
+    <select id="getSecretKey" resultType="String">
+        SELECT secretKey
+        FROM user_master
+        WHERE user_id = #{userId}
+    </select>
+
+    <update id="updateSecretKey" parameterType="java.util.Map">
+        update user_master
+        set secretKey = #{newSecretKey}
+        where user_id = #{userId}
+    </update>
+
+    <update id="secretKeyToNull" parameterType="java.util.Map">
+        update user_master
+        set secretKey = null
+        where user_id = #{userId}
+    </update>
+</mapper>

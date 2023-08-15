@@ -23,6 +23,7 @@ const userState = atom({
         simplePw: false,
         accessToken: '',
         refreshToken: '',
+        fds: false,
     },
     effects: [localStorageEffect('user')],
 });

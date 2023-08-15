@@ -41,6 +41,20 @@ const PayPage = () => {
                 if (res.data.status === 200) {
                     setStoreName(res.data.data.storeName);
                     setLoading({ ...loading, show: false });
+
+                    // fds 미사용 시 사용 제안 모달 띄움
+                    if (user.fds === false) {
+                        setModal({
+                            show: true,
+                            title: 'FDS',
+                            content: '안전한 거래를 위해 FDS 기능을 사용하시겠습니까?',
+                            confirmHandler: () => {
+                                resetModal();
+                                navigate('/mypage', { replace: true });
+                            },
+                            cancel: true,
+                        });
+                    }
                 } else {
                     setLoading({ ...loading, show: false });
                     setModal({
