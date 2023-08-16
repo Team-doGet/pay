@@ -12,7 +12,7 @@ import { userState } from '../../states/userState';
 
 const AccountAddAuthPage = () => {
     useAuth();
-    const user = useRecoilValue(userState);
+    const [user, setUser] = useRecoilState(userState);
     const navigate = useNavigate();
     const api = useAxios({
         Authorization: `Bearer ${user.accessToken}`,
@@ -51,6 +51,11 @@ const AccountAddAuthPage = () => {
 
         // 등록에 성공하면 페이지를 이동합니다.
         if (resp.data.status === 201) {
+            setUser({
+                ...user,
+                bankCode,
+                accountNo,
+            });
             setModal({
                 ...modal,
                 show: true,

@@ -47,7 +47,11 @@ public class UserService implements UserDetailsService {
     }
 
     public LoginResultDTO getUserInfo(String emailNo) {
-        return userMapper.getUserInfo(emailNo);
+        LoginResultDTO userInfoList = userMapper.getUserInfoAndAccountInfo(emailNo);
+        if (userInfoList == null) {
+            return userMapper.getUserInfo(emailNo);
+        }
+        return userInfoList;
     }
 
     @Override

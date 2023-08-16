@@ -31,7 +31,7 @@
     <insert id="insertToHistory" parameterType="java.util.Map">
         insert into account_history values ('001', date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%S'),
                                             #{accountNo}, #{payId}, #{bankCode}, #{paymoneyBalance},
-                                            #{amount}, #{storeName}, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d%H%i%s'),
+                                            #{amount}, #{storeName}, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'),
                                             #{payId}, date_format(CONVERT_TZ(sysdate(), 'UTC', 'Asia/Seoul'), '%Y%m%d'), #{payId});
     </insert>
 

@@ -71,7 +71,7 @@ public class WithdrawService {
         String accountNo = (String) selectedAccount.get("accountNo");
         String bankCode = (String) selectedAccount.get("bankCode");
 
-        if (amount <= accountBalance) {
+        if (amount <= paymoneyBalance) {
             Map<String, Object> params = new HashMap<>();
             params.put("payId", payId);
             params.put("amount", amount);

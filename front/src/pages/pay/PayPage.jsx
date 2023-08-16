@@ -10,6 +10,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { modalState } from '../../states/modalState';
 import { loadingState } from '../../states/loadingState';
 import SimplePassword from '../../components/organisms/SimplePassword';
+import MfaModal from '../../components/etc/Modal/MfaModal';
 
 const PayPage = () => {
     useAuth();
@@ -33,42 +34,58 @@ const PayPage = () => {
     const [payBalance, setPayBalance] = useState();
     const [storeName, setStoreName] = useState();
 
+    const [mfa, setMfa] = useState(false);
+
     useEffect(() => {
         setLoading({ ...loading, show: true });
         if (location.search.startsWith('?storeId=')) {
-            (async () => {
-                const res = await api.get(`/pay?storeId=${searchParams.get('storeId')}`);
-                if (res.data.status === 200) {
-                    setStoreName(res.data.data.storeName);
-                    setLoading({ ...loading, show: false });
+            if (user.accountNo === '') {
+                setLoading({ ...loading, show: false });
+                setModal({
+                    show: true,
+                    title: '계좌 등록',
+                    content: '계좌등록이 필요합니다.',
+                    confirmHandler: () => {
+                        resetModal();
+                        navigate('/account/config', { replace: true });
+                    },
+                    cancel: false,
+                });
+            } else {
+                (async () => {
+                    const res = await api.get(`/pay?storeId=${searchParams.get('storeId')}`);
+                    if (res.data.status === 200) {
+                        setStoreName(res.data.data.storeName);
+                        setLoading({ ...loading, show: false });
 
-                    // fds 미사용 시 사용 제안 모달 띄움
-                    if (user.fds === false) {
+                        // fds 미사용 시 사용 제안 모달 띄움
+                        if (user.fds === false) {
+                            setModal({
+                                show: true,
+                                title: 'FDS',
+                                content: '안전한 거래를 위해 FDS 기능을 사용하시겠습니까?',
+                                confirmHandler: () => {
+                                    resetModal();
+                                    navigate('/mypage', { replace: true });
+                                },
+                                cancel: true,
+                            });
+                        }
+                    } else {
+                        setLoading({ ...loading, show: false });
                         setModal({
                             show: true,
-                            title: 'FDS',
-                            content: '안전한 거래를 위해 FDS 기능을 사용하시겠습니까?',
+                            title: '실패',
+                            content: '존재하지 않는 매장입니다.',
                             confirmHandler: () => {
                                 resetModal();
-                                navigate('/mypage', { replace: true });
+                                navigate('/');
                             },
-                            cancel: true,
+                            cancel: false,
                         });
                     }
-                } else {
-                    setLoading({ ...loading, show: false });
-                    setModal({
-                        show: true,
-                        title: '실패',
-                        content: '존재하지 않는 매장입니다.',
-                        confirmHandler: () => {
-                            resetModal();
-                            navigate('/');
-                        },
-                        cancel: false,
-                    });
-                }
-            })();
+                })();
+            }
         } else {
             setLoading({ ...loading, show: false });
             setModal({
@@ -90,6 +107,49 @@ const PayPage = () => {
             }
         })();
     }, []);
+
+    const fdsHandler = async () => {
+        const fdsRes = await api.post(`/checkFDS`, {
+            payId: user.userId,
+            amount: Number(amount),
+            oppositeName: storeName,
+            bankCode: user.bankCode,
+            accountNo: user.accountNo,
+            paymoneyBalance: payBalance,
+        });
+        console.log(fdsRes);
+
+        if (fdsRes.data.status === 200) {
+            setSimple(true);
+        } else if (fdsRes.data.status === 401) {
+            // fds 해야댐
+            setMfa(true);
+        }
+    };
+
+    const mfaHandler = async code => {
+        const mfaRes = await api.post(`/totp/validate`, {
+            inputCode: code,
+        });
+        console.log(mfaRes);
+
+        if (mfaRes.data.status === 200) {
+            setMfa(false);
+            setSimple(true);
+        } else {
+            setMfa(false);
+            setModal({
+                show: true,
+                title: '인증 실패',
+                content: '2FA 인증이 실패하였습니다.',
+                confirmHandler: () => {
+                    resetModal();
+                    navigate('/', { replace: true });
+                },
+                cancel: false,
+            });
+        }
+    };
 
     const payHandler = async () => {
         const res = await api.post(`/pay`, {
@@ -211,7 +271,7 @@ const PayPage = () => {
                         </div>
                     </div>
                     <div className={Pay_.btnContainer}>
-                        <button onClick={() => setSimple(true)}>
+                        <button onClick={() => fdsHandler()}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="28"
@@ -233,6 +293,8 @@ const PayPage = () => {
             )}
 
             {simple && <SimplePassword handler={() => payHandler()} exit={() => setSimple(false)} />}
+
+            {mfa && <MfaModal confirmHandler={() => mfaHandler()} setMfaModal={() => setMfa(false)} />}
         </>
     );
 };

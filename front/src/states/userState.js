@@ -24,6 +24,8 @@ const userState = atom({
         accessToken: '',
         refreshToken: '',
         fds: false,
+        accountNo: '',
+        bankCode: '',
     },
     effects: [localStorageEffect('user')],
 });
