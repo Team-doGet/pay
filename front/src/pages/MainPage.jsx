@@ -71,7 +71,15 @@ const MainPage = () => {
             // 조회 오류 발생
             setHistoryData({
                 ...historyData,
-                data: [{ name: '데이터를 불러올 수 없습니다.', amount: '-', paymoneyBalance: '-' }],
+                data: [
+                    {
+                        registered_date: '          ',
+                        opposite_name: '조회된 데이터가 없습니다.',
+                        process_code: '000',
+                        process_amount: '-',
+                        paymoney_balance: '-',
+                    },
+                ],
             });
         }
     };
@@ -186,10 +194,14 @@ const MainPage = () => {
                                     historyData.data.map(history => (
                                         <li className={History_.historyWrapper}>
                                             <div className={History_.histroyContent}>
-                                                <p>
-                                                    {history.registered_date.slice(4, 6)}.
-                                                    {history.registered_date.slice(6, 8)}
-                                                </p>
+                                                {history.process_amount === '-' ? (
+                                                    <p>-</p>
+                                                ) : (
+                                                    <p>
+                                                        {history.registered_date.slice(4, 6)}.
+                                                        {history.registered_date.slice(6, 8)}
+                                                    </p>
+                                                )}
                                                 <p>{history.opposite_name}</p>
                                             </div>
                                             <div className={History_.historyAmount}>

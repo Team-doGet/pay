@@ -1,6 +1,7 @@
 package site.doget.pay.user.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,7 @@ public class UserController {
         }
 
         LoginResultDTO userInfo = userService.getUserInfo(loginReq.getEmailNo());
+        System.out.println("userInfo = " + userInfo);
         Map<String, Object> resData = new HashMap<>();
         resData.put("userId", userInfo.getUserId());
         resData.put("emailNo", userInfo.getEmailNo());
@@ -69,6 +71,14 @@ public class UserController {
             resData.put("fds", true);
         } else {
             resData.put("fds", false);
+        }
+
+        if (userInfo.getAccountNo() == null) {
+            resData.put("accountNo", "");
+            resData.put("bankCode", "");
+        } else {
+            resData.put("accountNo", userInfo.getAccountNo());
+            resData.put("bankCode", userInfo.getBankCode());
         }
 
         CommonSuccessResponse res = new CommonSuccessResponse(resData);

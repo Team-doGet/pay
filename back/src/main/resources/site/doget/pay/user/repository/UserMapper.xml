@@ -6,10 +6,17 @@
     WHERE email_no = #{emailNo}
   </select>
 
+  <select id="getUserInfoAndAccountInfo" resultType="site.doget.pay.user.DTO.LoginResultDTO">
+    SELECT user_id, email_no, user_name, phone_no, simple_password_no, secretKey, account_no, bank_code
+    FROM user_master JOIN account_master
+    ON user_id = pay_id
+    WHERE email_no = #{emailNo} AND main_account_yn = 'Y';
+  </select>
+
   <select id="getUserInfo" resultType="site.doget.pay.user.DTO.LoginResultDTO">
     SELECT user_id, email_no, user_name, phone_no, simple_password_no, secretKey
     FROM user_master
-    WHERE email_no = #{emailNo}
+    WHERE email_no = #{emailNo};
   </select>
 
   <insert id="saveUser" useGeneratedKeys="true" keyProperty="user_id">

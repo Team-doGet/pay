@@ -20,4 +20,8 @@ public class LoginResultDTO {
     private String simplePasswordNo;
 
     private String secretKey;
+
+    private String accountNo;
+
+    private String bankCode;
 }

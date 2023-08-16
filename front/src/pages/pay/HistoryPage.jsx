@@ -52,7 +52,7 @@ const HistoryPage = () => {
                 data: [
                     {
                         registered_date: '          ',
-                        opposite_name: '조회 에러',
+                        opposite_name: '조회된 데이터가 없습니다.',
                         process_code: '000',
                         process_amount: '-',
                         paymoney_balance: '-',

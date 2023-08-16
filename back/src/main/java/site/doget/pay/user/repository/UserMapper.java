@@ -1,5 +1,6 @@
 package site.doget.pay.user.repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,6 +13,8 @@ import site.doget.pay.user.DTO.LoginResultDTO;
 public interface UserMapper {
 
     Optional<User> findByEmail(String emailNo);
+
+    LoginResultDTO getUserInfoAndAccountInfo(String emailNo);
 
     LoginResultDTO getUserInfo(String emailNo);
 

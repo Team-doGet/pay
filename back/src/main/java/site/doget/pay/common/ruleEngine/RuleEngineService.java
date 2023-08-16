@@ -26,7 +26,7 @@ public class RuleEngineService {
 
     @Transactional
     public CommonResponse checkFDS(Map<String, Object> paramMap) {
-        Map<String, Object> accountInfo = payMapper.getAccountInfo((String) paramMap.get("payId"));
+        Map<String, Object> accountInfo = payMapper.getAccountInfo(String.valueOf(paramMap.get("payId")));
 //        System.out.println("paramMap = " + paramMap);
 //        System.out.println("accountInfo = " + accountInfo);
         for(Map<String, Object> c : getRules()) {

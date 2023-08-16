@@ -104,7 +104,10 @@ const JoinInfoPage = () => {
             phoneNo: join.phoneNo.substring(1, join.phoneNo.length),
         });
 
-        const res = await api.post(`/users/join`, join);
+        const res = await api.post(`/users/join`, {
+            ...join,
+            phoneNo: join.phoneNo.substring(1, join.phoneNo.length),
+        });
         if (res.data.status === 200) {
             navigate('/join/success');
             resetJoin();
