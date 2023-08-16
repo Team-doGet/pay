@@ -1,6 +1,5 @@
 package site.doget.pay.common.googleTOTP.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,12 +34,12 @@ public class TOTPController {
     }
     // null로 바꾸는거
     @PostMapping("/stop")
-    public CommonResponse stopTOTP(@RequestBody Map<String, Object> paraMap) {
-        return totpService.secretKeyToNull(paraMap);
+    public CommonResponse stopTOTP(@RequestBody Map<String, Object> paramMap) {
+        return totpService.secretKeyToNull(paramMap);
     }
     // 검증
     @PostMapping("/validate")
-    public CommonResponse validateTOTP(String inputCode, Map<String, Object> paramMap) {
-        return totpService.validate(inputCode, paramMap);
+    public CommonResponse validateTOTP(@RequestBody Map<String, Object> paramMap) {
+        return totpService.validate(paramMap);
     }
 }

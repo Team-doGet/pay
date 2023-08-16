@@ -62,7 +62,7 @@ const MainPage = () => {
     };
 
     const getHistoryDefault = async () => {
-        const res = await api.get(`/history/?userId=${11}`, historyFilter);
+        const res = await api.get(`/history/?userId=${user.userId}`, historyFilter);
         if (res.data.status === 200) {
             console.log(res.data.data);
             //list 출력
@@ -206,7 +206,9 @@ const MainPage = () => {
                                             </div>
                                             <div className={History_.historyAmount}>
                                                 <p>
-                                                    {history.process_code === '001' ? (
+                                                    {history.process_code === '001' ||
+                                                    history.process_code === '002' ||
+                                                    history.process_code === '005' ? (
                                                         <p style={{ color: 'red' }}>출금</p>
                                                     ) : history.process_code === '000' ? (
                                                         '-'

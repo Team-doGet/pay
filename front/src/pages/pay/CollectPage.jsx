@@ -56,10 +56,10 @@ const CollectPage = () => {
                 >
                     <div className={Collect_.container}>
                         <ul className={Collect_.tabContainer}>
-                            <li onClick={() => navigate('../')}>
+                            <li className={Collect_.activeTab} onClick={() => navigate('../')}>
                                 <span>송금</span>
                             </li>
-                            <li className={Collect_.activeTab}>
+                            <li>
                                 <span>수금</span>
                             </li>
                         </ul>

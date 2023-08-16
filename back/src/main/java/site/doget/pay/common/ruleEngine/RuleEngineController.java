@@ -19,15 +19,7 @@ public class RuleEngineController {
     }
 
     @PostMapping("/checkFDS")
-    public CommonResponse checkFDS(@RequestBody Map<String, Object> paramMap) {
+    public CommonResponse checkFDS(@RequestBody Map<String, Object> paramMap) throws Exception {
         return ruleEngineService.checkFDS(paramMap);
     }
-
-//    @GetMapping("/check2FA/Code")
-//    public CommonResponse check2FACode(String code) {
-//        return ruleEngineService.checkCode();
-//    }
-
-
-
 }

@@ -16,7 +16,7 @@ class RuleEngineServiceTest {
     RuleEngineService ruleEngineService;
 
     @Test
-    public void ruleEngineTest () {
+    public void ruleEngineTest () throws Exception {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("payId", 11);
         paramMap.put("amount", 100000);

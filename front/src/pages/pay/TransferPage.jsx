@@ -103,8 +103,14 @@ const TransferPage = () => {
         }
     };
 
-    const simplePwHandler = () => {
+    const simplePwHandler = async () => {
         setSimple(true);
+        const res = await api.post('/checkFDS', {
+            payId: user.userId,
+            amount: transferInputs.amount,
+            oppositeName: 'test12',
+        });
+        console.log(res.data);
     };
 
     useEffect(() => {
@@ -124,10 +130,10 @@ const TransferPage = () => {
                 <>
                     <div className={Transfer_.container}>
                         <ul className={Transfer_.tabContainer}>
-                            <li className={Transfer_.activeTab}>
+                            <li>
                                 <span>송금</span>
                             </li>
-                            <li onClick={() => navigate('/pay/transfer/collect')}>
+                            <li className={Transfer_.activeTab} onClick={() => navigate('/pay/transfer/collect')}>
                                 <span>수금</span>
                             </li>
                         </ul>

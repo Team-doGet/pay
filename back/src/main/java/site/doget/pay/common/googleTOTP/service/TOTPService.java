@@ -31,7 +31,7 @@ public class TOTPService {
     }
 
     public String getSecretKey(Map<String, Object> paramMap) {
-        String userId = (String) paramMap.get("user_id");
+        String userId = (String) paramMap.get("userId");
         return totpMapper.getSecretKey(userId);
     }
 
@@ -65,7 +65,8 @@ public class TOTPService {
         return new CommonSuccessResponse();
     }
 
-    public CommonResponse validate(String inputCode, Map<String, Object> paramMap) {
+    public CommonResponse validate(Map<String, Object> paramMap) {
+        String inputCode = String.valueOf(paramMap.get("inputCode"));
         String code = getTOTPCode(paramMap);
         if (code.equals(inputCode)) {
             return new CommonSuccessResponse("인증 성공");

@@ -112,7 +112,7 @@ public class TransferService {
         System.out.println("historyReq = " + historyReq);
         transferMapper.insertTransferToHistory(historyReq);
     }
-    public CommonResponse checkFDS(Map<String, Object> paramMap) {
+    public CommonResponse checkFDS(Map<String, Object> paramMap) throws Exception {
         return ruleEngineService.checkFDS(paramMap);
     }
 }

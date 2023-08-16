@@ -40,7 +40,7 @@ const HistoryPage = () => {
     const getHistoryDefault = async () => {
         const res = await api.post(`/history/`, {
             ...historyFilter,
-            id: '11',
+            id: user.userId,
         }); // user.userId
         if (res.data.status === 200) {
             console.log(res.data.data);
@@ -63,7 +63,7 @@ const HistoryPage = () => {
     };
 
     useEffect(() => {
-        setHistoryFilter({ ...historyFilter, id: '11' }); // user.userId 로 변경
+        setHistoryFilter({ ...historyFilter, id: user.userId }); // user.userId 로 변경
         getAccountBalance();
         getHistoryDefault();
 
@@ -125,7 +125,9 @@ const HistoryPage = () => {
                                         </div>
                                         <div className={History_.historyAmount}>
                                             <p>
-                                                {history.process_code === '001' ? (
+                                                {history.process_code === '001' ||
+                                                history.process_code === '002' ||
+                                                history.process_code === '005' ? (
                                                     <p style={{ color: 'red' }}>출금</p>
                                                 ) : history.process_code === '000' ? (
                                                     '-'
