@@ -38,10 +38,7 @@ public class RuleEngineService {
             ruleEngineMapper.insertIntoHistory(c);
             if(c.get("is_same_receiver").equals(0)) {
                 int cnt = ruleEngineMapper.notSameReceiver(c);
-                System.out.println("fds = " + cnt);
                 if (cnt >= Integer.parseInt(String.valueOf(c.get("count")))) {
-                    System.out.println("cnt = " + cnt);
-                    System.out.println("Integer.parseInt(String.valueOf(c.get(\"count\"))) = " + Integer.parseInt(String.valueOf(c.get("count"))));
                     ruleEngineMapper.deleteFromHistory(c);
                     smsService.sendSms(new MessageDTO("01055373077", "[doGet-Pay]\n이상금융거래가 탐지되었습니다.\nOTP를 통해 본인 인증을 해주시기 바랍니다."));
                     return new CommonFailResponse(401,"FDS");
@@ -49,7 +46,6 @@ public class RuleEngineService {
             }
             else if (c.get("is_same_receiver").equals(1)) {
                 Map<String, Object> fds1 = ruleEngineMapper.sameReceiver(c);
-                System.out.println("fds1 = " + fds1);
                 int cnt = 0;
                 if (fds1 == null) {
                     cnt = 0;
@@ -58,8 +54,6 @@ public class RuleEngineService {
                     cnt = Integer.parseInt(String.valueOf(fds1.get("cnt")));
                 }
                 if (cnt >= Integer.parseInt(String.valueOf(c.get("count")))) {
-                    System.out.println("cnt = " + cnt);
-                    System.out.println("Integer.parseInt(String.valueOf(c.get(\"count\"))) = " + Integer.parseInt(String.valueOf(c.get("count"))));
                     ruleEngineMapper.deleteFromHistory(c);
                     smsService.sendSms(new MessageDTO("01055373077", "[doGet-Pay]\n이상금융거래가 탐지되었습니다.\nOTP를 통해 본인 인증을 해주시기 바랍니다."));
                     return new CommonFailResponse(401, "FDS");

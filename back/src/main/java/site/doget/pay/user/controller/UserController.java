@@ -53,7 +53,6 @@ public class UserController {
         }
 
         LoginResultDTO userInfo = userService.getUserInfo(loginReq.getEmailNo());
-        System.out.println("userInfo = " + userInfo);
         Map<String, Object> resData = new HashMap<>();
         resData.put("userId", userInfo.getUserId());
         resData.put("emailNo", userInfo.getEmailNo());

@@ -38,7 +38,6 @@ const CollectPage = () => {
                 setLinkData(res.data.data.link);
                 setQRCodeImage(res.data.data.qrCode);
             } else {
-                console.log('error');
             }
         }
     };

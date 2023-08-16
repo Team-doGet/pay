@@ -36,12 +36,8 @@ const ResetSimplePassWord = () => {
         },
     });
 
-    useEffect(() => {
-        console.log(resetSimplePassword);
-    }, [resetSimplePassword]);
-
     const handleCancel = () => {
-        navigate('/mypage');
+        navigate('/', { replace: true });
     };
 
     const handleResetSimplePassword = async () => {
@@ -121,7 +117,7 @@ const ResetSimplePassWord = () => {
                     title: '성공',
                     content: '비밀번호 변경에 성공하였습니다.',
                     confirmHandler: () => {
-                        navigate('/mypage');
+                        navigate('/mypage', { replace: true });
                         resetModal();
                     },
                     cancel: false,
@@ -132,20 +128,19 @@ const ResetSimplePassWord = () => {
                     title: '실패',
                     content: '비밀번호 변경에 실패하였습니다.',
                     confirmHandler: () => {
-                        navigate('/mypage');
+                        navigate('/mypage', { replace: true });
                         resetModal();
                     },
                     cancel: false,
                 });
             }
         } catch (error) {
-            console.error('비밀번호 재설정 오류:', error);
             setModal({
                 show: true,
                 title: '실패',
                 content: '비밀번호 변경에 실패하였습니다. 관리자에게 문의하세요.',
                 confirmHandler: () => {
-                    navigate('/mypage');
+                    navigate('/mypage', { replace: true });
                     resetModal();
                 },
                 cancel: false,

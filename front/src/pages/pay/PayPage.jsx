@@ -34,7 +34,10 @@ const PayPage = () => {
     const [payBalance, setPayBalance] = useState();
     const [storeName, setStoreName] = useState();
 
-    const [mfa, setMfa] = useState(false);
+    const [mfa, setMfa] = useState({
+        show: false,
+        code: '',
+    });
 
     useEffect(() => {
         setLoading({ ...loading, show: true });
@@ -111,33 +114,41 @@ const PayPage = () => {
     const fdsHandler = async () => {
         const fdsRes = await api.post(`/checkFDS`, {
             payId: user.userId,
-            amount: Number(amount),
+            reqAmount: amount,
             oppositeName: storeName,
             bankCode: user.bankCode,
             accountNo: user.accountNo,
             paymoneyBalance: payBalance,
         });
-        console.log(fdsRes);
 
         if (fdsRes.data.status === 200) {
             setSimple(true);
         } else if (fdsRes.data.status === 401) {
             // fds 해야댐
-            setMfa(true);
+            setMfa({
+                ...mfa,
+                show: true,
+            });
         }
     };
 
-    const mfaHandler = async code => {
+    const mfaHandler = async () => {
         const mfaRes = await api.post(`/totp/validate`, {
-            inputCode: code,
+            inputCode: mfa.code,
+            userId: user.userId,
         });
-        console.log(mfaRes);
 
         if (mfaRes.data.status === 200) {
-            setMfa(false);
+            setMfa({
+                ...mfa,
+                show: false,
+            });
             setSimple(true);
         } else {
-            setMfa(false);
+            setMfa({
+                ...mfa,
+                show: false,
+            });
             setModal({
                 show: true,
                 title: '인증 실패',
@@ -294,7 +305,7 @@ const PayPage = () => {
 
             {simple && <SimplePassword handler={() => payHandler()} exit={() => setSimple(false)} />}
 
-            {mfa && <MfaModal confirmHandler={() => mfaHandler()} setMfaModal={() => setMfa(false)} />}
+            {mfa.show && <MfaModal confirmHandler={() => mfaHandler()} setMfa={setMfa} mfa={mfa} />}
         </>
     );
 };

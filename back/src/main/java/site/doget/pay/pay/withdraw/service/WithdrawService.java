@@ -62,7 +62,6 @@ public class WithdrawService {
             }
         }
         if (selectedAccount.isEmpty()) {
-            System.out.println("Selected account not found in the list of balances.");
             return new CommonFailResponse("선택된 계좌가 없습니다.");
         }
 

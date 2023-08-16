@@ -12,14 +12,12 @@ const RegSimplePasswordEnter = ({ handler }) => {
     const [passwords, setPasswords] = useRecoilState(simplePwState);
     const resetPasswords = useResetRecoilState(simplePwState);
     const { pw, pwIdx } = passwords;
-    // const user = useRecoilValue(userState);
     const [user, setUser] = useRecoilState(userState);
     const api = useAxios({
         Authorization: `Bearer ${user.accessToken}`,
     });
     const [modal, setModal] = useRecoilState(modalState);
     const resetModal = useResetRecoilState(modalState);
-    const navigate = useNavigate();
 
     const passwordClickHandler = async value => {
         if (value >= 0) {

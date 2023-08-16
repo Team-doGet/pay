@@ -4,10 +4,9 @@ import Button from '../../atoms/Button';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { modalState } from '../../../states/modalState';
 
-const MfaModal = ({ confirmHandler, setMfaModal }) => {
+const MfaModal = ({ confirmHandler, setMfa, mfa }) => {
     const darBgRef = useRef(null);
     const modalRef = useRef(null);
-    const [code, setCode] = useState('');
 
     useEffect(() => {
         darBgRef.current.style.top = `${document.documentElement.scrollTop}px`;
@@ -33,7 +32,7 @@ const MfaModal = ({ confirmHandler, setMfaModal }) => {
                 <div className={Modal_.contents}>
                     <h2>2FA 인증</h2>
                     <p>2FA 인증번호를 입력해주세요.</p>
-                    <input type="number" value={code} onChange={e => setCode(e.target.value)} />
+                    <input type="number" value={mfa.code} onChange={e => setMfa({ ...mfa, code: e.target.value })} />
                 </div>
                 <div>
                     <Button width="full" type="main" handler={() => mfaHandler()}>

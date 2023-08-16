@@ -36,11 +36,8 @@ const ResetPassWord = () => {
         },
     });
 
-    useEffect(() => {
-        console.log(resetPassword);
-    }, [resetPassword]);
     const handleCancel = () => {
-        navigate('/mypage');
+        navigate('/', { replace: true });
     };
 
     const handleResetPassword = async () => {
@@ -139,7 +136,6 @@ const ResetPassWord = () => {
                 });
             }
         } catch (error) {
-            console.error('비밀번호 재설정 오류:', error);
             setModal({
                 show: true,
                 title: '실패',

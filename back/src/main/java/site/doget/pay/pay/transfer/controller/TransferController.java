@@ -38,7 +38,7 @@ public class TransferController {
 
     @PostMapping("/*")
     @ResponseBody
-    public CommonResponse payTransferPost(@RequestBody Map<String, Object> paramMap) {
+    public CommonResponse payTransferPost(@RequestBody Map<String, Object> paramMap) throws Exception {
         return transferService.payTransferService(paramMap);
     }
 }

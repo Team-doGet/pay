@@ -30,10 +30,6 @@ const ComponentsTest = () => {
         setChecked(agreeData);
     }, []);
 
-    useEffect(() => {
-        console.log(userInfo);
-    }, [userInfo]);
-
     // body에 데이터 담아 POST 요청
     const apiPostHandler = () => {
         api.post('/user/login', {

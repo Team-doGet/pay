@@ -1,5 +1,6 @@
 package site.doget.pay.pay.pay.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.doget.pay.common.responseUtil.CommonFailResponse;
@@ -7,6 +8,10 @@ import site.doget.pay.common.responseUtil.CommonResponse;
 import site.doget.pay.common.responseUtil.CommonSuccessResponse;
 import site.doget.pay.pay.pay.service.PayService;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -35,7 +40,7 @@ public class PayController {
     }
 
     @PostMapping
-    public CommonResponse requestPayment(@RequestBody Map<String, Object> payReq) {
+    public CommonResponse requestPayment(@RequestBody Map<String, Object> payReq) throws UnsupportedEncodingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
         String userId = (String) payReq.get("userId");
         int amount = (int) payReq.get("amount");
         String storeName = (String) payReq.get("storeName");

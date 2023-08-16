@@ -76,10 +76,8 @@ public class UserService implements UserDetailsService {
         if (findUser.isEmpty()) {
             joinReq.setPasswordNo(passwordEncoder.encode(joinReq.getPasswordNo()));
             Integer result = userMapper.saveUser(joinReq);
-            System.out.println("result = " + result);
             if (result >= 1) {
                 Map<String, Object> userInfo = userMapper.getUserInfoForPay(joinReq.getEmailNo());
-                System.out.println("userInfo = " + userInfo);
                 userMapper.updateRegInfo(String.valueOf(userInfo.get("userId")));
                 userMapper.saveUserToPayDescription(String.valueOf(userInfo.get("userId")), (String) userInfo.get("regDate"));
                 return true;

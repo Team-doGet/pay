@@ -79,7 +79,6 @@ public class MyInfoService {
 		}
 
 		String simplePass = myInfoMapper.getSimplePassword(userId);
-		System.out.println("simplePass : " + simplePass);
 		// 기존 간편 비밀번호와 데이터베이스에 저장된 간편 비밀번호를 비교
 		boolean checkOldSimplePassword = passwordEncoder.matches(oldSimplePassword, simplePass);
 		if (checkOldSimplePassword == true) {

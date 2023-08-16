@@ -7,10 +7,13 @@ import site.doget.pay.common.responseUtil.CommonFailResponse;
 import site.doget.pay.common.responseUtil.CommonResponse;
 import site.doget.pay.common.responseUtil.CommonSuccessResponse;
 import site.doget.pay.common.ruleEngine.RuleEngineController;
+import site.doget.pay.openAPI.dto.MessageDTO;
+import site.doget.pay.openAPI.service.SmsService;
 import site.doget.pay.pay.charge.repository.ChargeMapper;
 import site.doget.pay.pay.pay.repository.PayMapper;
 import site.doget.pay.pay.transfer.repository.TransferMapper;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,16 +25,20 @@ import static site.doget.pay.common.Util.getNowTime;
 @Service
 public class TransferService {
 
+    DecimalFormat formatter = new DecimalFormat("###,###");
+
     @Autowired
     TransferMapper transferMapper;
     @Autowired
     ChargeMapper chargeMapper;
     @Autowired
     PayMapper payMapper;
+    @Autowired
+    private SmsService smsService;
 
     RuleEngineController ruleEngineService;
 
-    public CommonResponse payTransferService(Map<String, Object> paramMap) {
+    public CommonResponse payTransferService(Map<String, Object> paramMap) throws Exception{
 
         // receiver 회원 일치 존재 여부 확인
         if(findUserByPhone((String) paramMap.get("receiver")).isEmpty()) {
@@ -75,6 +82,9 @@ public class TransferService {
         result.put("amount", paramMap.get("amount"));
         result.put("date", getNowTime());
         result.put("receiver", paramMap.get("receiver"));
+        long amount = Long.parseLong(String.valueOf(paramMap.get("amount")));
+        smsService.sendSms(new MessageDTO("01055373077", "[doGet-Pay]\n송금이 정상적으로 완료되었습니다.\n송금 금액 : " + formatter.format(amount)
+                + "원\n\n잔액 : " + formatter.format((long) getPayAccount(paramMap).get()) + "원"));
 
         return new CommonSuccessResponse(result);
     }
@@ -84,7 +94,7 @@ public class TransferService {
     }
 
     public Optional<Integer> getPayAccount(Map<String, Object> paramMap) {
-        return transferMapper.getPayAccount((String) paramMap.get("sender"));
+        return transferMapper.getPayAccount(String.valueOf(paramMap.get("sender")));
     }
 
     public Integer withDrawPayAccount(Map<String ,Object> paramMap) {
@@ -109,7 +119,6 @@ public class TransferService {
         historyReq.put("accountNo", bankData.get("accountNo"));
         historyReq.put("bankCode", bankData.get("bankCode"));
         historyReq.put("receiver", findUserName(paramMap));
-        System.out.println("historyReq = " + historyReq);
         transferMapper.insertTransferToHistory(historyReq);
     }
     public CommonResponse checkFDS(Map<String, Object> paramMap) throws Exception {

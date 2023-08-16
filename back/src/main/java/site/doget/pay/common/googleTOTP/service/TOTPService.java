@@ -2,6 +2,7 @@ package site.doget.pay.common.googleTOTP.service;
 
 import de.taimos.totp.TOTP;
 import org.apache.commons.codec.binary.Base32;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -31,7 +32,7 @@ public class TOTPService {
     }
 
     public String getSecretKey(Map<String, Object> paramMap) {
-        String userId = (String) paramMap.get("userId");
+        String userId = String.valueOf(paramMap.get("userId"));
         return totpMapper.getSecretKey(userId);
     }
 

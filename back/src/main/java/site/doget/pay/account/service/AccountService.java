@@ -51,9 +51,6 @@ public class AccountService {
         String authCode = accountMapper.getAuthCode(accountNo);
         authCode = authCode.substring(1, 5);
 
-        System.out.println(inputSenderName);
-        System.out.println(authCode);
-
         if (inputSenderName.equals(authCode)) {
             // 송금자명이 일치하면 계좌 등록 성공
             if (accountsList.isEmpty()) {

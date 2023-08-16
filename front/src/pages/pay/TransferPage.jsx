@@ -3,11 +3,13 @@ import Transfer_ from './TransferPage.module.css';
 import Input from '../../components/atoms/Input';
 import useAxios from '../../hooks/useAxios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { userState } from '../../states/userState';
 import useAuth from '../../hooks/useAuth';
 import { simplePwState } from '../../states/simplePwState';
 import SimplePassword from '../../components/organisms/SimplePassword';
+import { modalState } from '../../states/modalState';
+import MfaModal from '../../components/etc/Modal/MfaModal';
 
 const TransferPage = () => {
     useAuth();
@@ -17,6 +19,8 @@ const TransferPage = () => {
     });
     const navigate = useNavigate();
     const [simple, setSimple] = useState(false);
+    const resetModal = useResetRecoilState(modalState);
+    const [modal, setModal] = useRecoilState(modalState);
 
     const [payBalance, setPayBalance] = useState(0);
     const [transferInputs, setTransferInputs] = useState({
@@ -24,6 +28,11 @@ const TransferPage = () => {
         receiver: '',
         amount: 0,
         messsage: user.userName,
+    });
+
+    const [mfa, setMfa] = useState({
+        show: false,
+        code: '',
     });
 
     const [encrpytMsg, setEncryptMsg] = useState({
@@ -48,14 +57,63 @@ const TransferPage = () => {
             setTransferInputs({ ...transferInputs, receiver: res.data.data.receiver, amount: res.data.data.amount });
             setInpunPlaceholder(res.data.data.receiver);
         } else {
-            console.log('decode error');
+        }
+    };
+
+    const fdsHandler = async () => {
+        const fdsRes = await api.post(`/checkFDS`, {
+            payId: user.userId,
+            reqAmount: transferInputs.amount,
+            oppositeName: transferInputs.receiver,
+            bankCode: user.bankCode,
+            accountNo: user.accountNo,
+            paymoneyBalance: payBalance,
+        });
+
+        if (fdsRes.data.status === 200) {
+            setSimple(true);
+        } else if (fdsRes.data.status === 401) {
+            // fds 해야댐
+            setMfa({
+                ...mfa,
+                show: true,
+            });
+        }
+    };
+
+    const mfaHandler = async () => {
+        const mfaRes = await api.post(`/totp/validate`, {
+            inputCode: mfa.code,
+            userId: user.userId,
+        });
+
+        if (mfaRes.data.status === 200) {
+            setMfa({
+                ...mfa,
+                show: false,
+            });
+            setSimple(true);
+        } else {
+            setMfa({
+                ...mfa,
+                show: false,
+            });
+            setModal({
+                show: true,
+                title: '인증 실패',
+                content: '2FA 인증이 실패하였습니다.',
+                confirmHandler: () => {
+                    resetModal();
+                    navigate('/', { replace: true });
+                },
+                cancel: false,
+            });
         }
     };
 
     const transfer = async () => {
         const res = await api.post(`/transfer/`, transferInputs);
 
-        console.log(res);
         if (res.data.status === 200) {
             // 완료 페이지 전환
             navigate('/result', {
@@ -65,7 +123,7 @@ const TransferPage = () => {
                     info: [
                         {
                             title: '송금 금액',
-                            content: res.data.data.amount.toLocaleString() + '원',
+                            content: Number(res.data.data.amount).toLocaleString() + '원',
                         },
                         {
                             title: '페이머니 잔액',
@@ -83,9 +141,6 @@ const TransferPage = () => {
                 },
             });
         } else {
-            // 에러 페이지 전환
-            console.log(res.data.message);
-
             navigate('/result', {
                 state: {
                     headerTitle: '결제실패',
@@ -101,16 +156,6 @@ const TransferPage = () => {
                 },
             });
         }
-    };
-
-    const simplePwHandler = async () => {
-        setSimple(true);
-        const res = await api.post('/checkFDS', {
-            payId: user.userId,
-            amount: transferInputs.amount,
-            oppositeName: 'test12',
-        });
-        console.log(res.data);
     };
 
     useEffect(() => {
@@ -184,7 +229,7 @@ const TransferPage = () => {
                         </div>
                     </div>
                     <div className={Transfer_.btnContainer}>
-                        <button onClick={() => simplePwHandler()}>
+                        <button onClick={() => fdsHandler()}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="28"
@@ -206,6 +251,7 @@ const TransferPage = () => {
             )}
 
             {simple && <SimplePassword handler={() => transfer()} exit={() => setSimple(false)} />}
+            {mfa.show && <MfaModal confirmHandler={() => mfaHandler()} setMfa={setMfa} mfa={mfa} />}
         </>
     );
 };

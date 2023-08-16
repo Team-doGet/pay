@@ -73,7 +73,12 @@ const WithdrawPage = () => {
                         },
                         {
                             title: '출금계좌',
-                            content: bankData[accountSelect.bankCode] + ' ' + accountSelect.accountNo,
+                            content:
+                                bankData[accountSelect.bankCode] +
+                                ' ' +
+                                accountSelect.accountNo.slice(0, 3) +
+                                '****' +
+                                accountSelect.accountNo.slice(-4),
                         },
                     ],
                     buttons: {
@@ -119,7 +124,7 @@ const WithdrawPage = () => {
                     }}
                 >
                     <div className={Withdraw.top}>
-                        <p>금액 설정은 만원 단위로 가능합니다.</p>
+                        <p>인출 금액을 입력하시고 충전할 계좌를 선택해주세요.</p>
                     </div>
 
                     <div className={Withdraw.amountContainer}>

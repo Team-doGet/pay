@@ -1,19 +1,34 @@
 package site.doget.pay.pay.pay.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.doget.pay.openAPI.dto.MessageDTO;
+import site.doget.pay.openAPI.service.SmsService;
 import site.doget.pay.pay.charge.repository.ChargeMapper;
 import site.doget.pay.pay.pay.repository.PayMapper;
+import site.doget.pay.pay.transfer.repository.TransferMapper;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class PayService {
+
+    DecimalFormat formatter = new DecimalFormat("###,###");
+
+    @Autowired
+    private SmsService smsService;
 
     @Autowired
     private PayMapper payMapper;
@@ -25,7 +40,7 @@ public class PayService {
     }
 
     @Transactional
-    public Map<String, Object> payment(String userId, int amount, String storeName) {
+    public Map<String, Object> payment(String userId, int amount, String storeName) throws UnsupportedEncodingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
         int paymoneyBalance = payMapper.getPaymoneyBalance(userId);
 
         // 페이머니가 결제금액보다 클 경우 자동 충전
@@ -97,13 +112,16 @@ public class PayService {
         payMapper.insertToHistory(historyReq);
 
         LocalDateTime currentDateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
-        String formattedDateTime = currentDateTime.format(formatter);
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
+        String formattedDateTime = currentDateTime.format(formatter1);
 
         Map<String, Object> res = new HashMap<>();
         res.put("amount", amount);
         res.put("dateTime", formattedDateTime);
         res.put("storeName", storeName);
+        long a =  Long.parseLong(String.valueOf(res.get("amount")));
+        smsService.sendSms(new MessageDTO("01055373077", "[doGet-Pay]\n결제가 정상적으로 완료되었습니다.\n결제 금액 : " + formatter.format(a)
+                + "원\n\n잔액 : " + formatter.format(Long.parseLong(String.valueOf(updatedPayBalance))) + "원"));
 
         return res;
     }

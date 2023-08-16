@@ -56,7 +56,6 @@ const ChargePage = () => {
             accountNo: accountSelect.accountNo,
             // accountBalance: resp.accountBalance,
         });
-        console.log(resp.data);
         if (resp.data.status === 200) {
             // 완료 페이지 전환
             navigate('/result', {
@@ -74,7 +73,12 @@ const ChargePage = () => {
                         },
                         {
                             title: '출금계좌',
-                            content: bankData[accountSelect.bankCode] + ' ' + accountSelect.accountNo,
+                            content:
+                                bankData[accountSelect.bankCode] +
+                                ' ' +
+                                accountSelect.accountNo.slice(0, 3) +
+                                '****' +
+                                accountSelect.accountNo.slice(-4),
                         },
                     ],
                     buttons: {
@@ -120,7 +124,7 @@ const ChargePage = () => {
                     }}
                 >
                     <div className={Charge.top}>
-                        <p>금액 설정은 만원 단위로 가능합니다.</p>
+                        <p>충전 금액을 입력하시고 인출할 계좌를 선택해주세요.</p>
                     </div>
 
                     <div className={Charge.amountContainer}>

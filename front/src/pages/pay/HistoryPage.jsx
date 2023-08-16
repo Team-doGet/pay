@@ -43,7 +43,6 @@ const HistoryPage = () => {
             id: user.userId,
         }); // user.userId
         if (res.data.status === 200) {
-            console.log(res.data.data);
             //list 출력
             setHistoryData({ ...historyData, data: res.data.data });
         } else {
@@ -124,17 +123,20 @@ const HistoryPage = () => {
                                             <p>{history.opposite_name}</p>
                                         </div>
                                         <div className={History_.historyAmount}>
-                                            <p>
-                                                {history.process_code === '001' ||
-                                                history.process_code === '002' ||
-                                                history.process_code === '005' ? (
-                                                    <p style={{ color: 'red' }}>출금</p>
-                                                ) : history.process_code === '000' ? (
-                                                    '-'
-                                                ) : (
-                                                    <p style={{ color: 'blue' }}>입금</p>
-                                                )}
-                                            </p>
+                                            {history.process_code === '001' ? (
+                                                <p style={{ color: 'red' }}>결제</p>
+                                            ) : history.process_code === '002' ? (
+                                                <p style={{ color: 'red' }}>송금</p>
+                                            ) : history.process_code === '003' ? (
+                                                <p style={{ color: 'blue' }}>수금</p>
+                                            ) : history.process_code === '004' ? (
+                                                <p style={{ color: 'blue' }}>충전</p>
+                                            ) : history.process_code === '005' ? (
+                                                <p style={{ color: 'blue' }}>인출</p>
+                                            ) : (
+                                                <p>'-'</p>
+                                            )}
+
                                             <p>사용 금액 : {history.process_amount.toLocaleString()}원</p>
                                             <p>잔액 : {history.paymoney_balance.toLocaleString()}원</p>
                                         </div>
