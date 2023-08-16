@@ -30,7 +30,6 @@ const AccountAddInfoPage = () => {
     const checkDuplicateAccount = async () => {
         const { accountNo } = inputAccount;
         const resp = await api.post('/pay/accounts/checkDuplicate', { accountNo });
-        console.log(resp.data);
         if (resp.data.status === 200) {
             // 중복되는 계좌번호가 없는 경우, 계좌 등록 API 호출
 
@@ -49,10 +48,6 @@ const AccountAddInfoPage = () => {
     };
 
     const [selectedBank, setSelectedBank] = useState(null);
-
-    useEffect(() => {
-        console.log(inputAccount);
-    }, [inputAccount]);
 
     return (
         <div

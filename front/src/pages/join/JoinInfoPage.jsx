@@ -59,7 +59,6 @@ const JoinInfoPage = () => {
         setLoading({ ...loading, show: true });
         const res = await api.post(`/${name}/join/auth`, { authId });
         setLoading({ ...loading, show: false });
-        console.log(res);
         if (res.data.status === 200) {
             msgHandler(true, 'green', res.data.message, name);
         } else {

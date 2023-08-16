@@ -33,7 +33,6 @@ const AccountConfigPage = () => {
 
     const fetchAccounts = async () => {
         const resp = await api.get(`/pay/accounts/${user.userId}`);
-        console.log(resp.data);
         if (resp.data.status === 200) {
             const sortedAccounts = resp.data.data.accounts.sort((a, b) => {
                 // 'Y'가 맨 위로, 'N'이 그 다음으로 정렬
@@ -68,10 +67,7 @@ const AccountConfigPage = () => {
                 title: '계좌 해지',
                 content: '해당 계좌의 연결을 해지하시겠습니까?',
                 confirmHandler: async () => {
-                    console.log(account);
-                    console.log(bankCode);
                     await setTransferData({ ...transferData, accountNum: account, bankCode: bankCode });
-                    console.log(transferData);
                     const response = await api.post(`/pay/accounts/delete/${account}`, {
                         accountNum: account,
                         bankCode: bankCode,

@@ -47,7 +47,6 @@ const AccountAddAuthPage = () => {
             payId: user.userId,
             authCode,
         });
-        console.log(resp.data);
 
         // 등록에 성공하면 페이지를 이동합니다.
         if (resp.data.status === 201) {
@@ -72,9 +71,6 @@ const AccountAddAuthPage = () => {
         }
     };
 
-    useEffect(() => {
-        console.log(inputAlpha);
-    }, [inputAlpha]);
     return (
         <div
             style={{
